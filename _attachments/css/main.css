@@ -226,6 +226,18 @@ span {
 }
 
 
+#addObjectForm {
+	background:rgb(227,187,227);
+	position:absolute;
+	width:350px;
+	height:600px;
+	top:100px;
+	left:10px;
+	padding:10px;
+    line-height:180%;
+	display:none;
+}
+
 
 #addMappingForm {
 	background:rgb(187,187,227);
