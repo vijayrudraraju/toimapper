@@ -54,9 +54,7 @@
 //	src_name
 //	dest_name
 
-var globalP;
-var isAbouting = false;
-var isHelping = false;
+var gP;
 $(document).ready(function() {
         $(document).evently({
             keypress: function(e) {
@@ -84,13 +82,13 @@ $(document).ready(function() {
             }
         });
 
-		globalP = new Processing($('#globalCanvas')[0],globalP);
+		gP = new Processing($('#globalCanvas')[0],gP);
         $('#globalCanvas').evently({
             redraw: function() {
                 gUpdateGraph = true;
-                globalP.redraw();
+                gP.redraw();
                 gUpdateGraph = true;
-                globalP.redraw();
+                gP.redraw();
                 console.log('redraw triggered');
             },
             tab: function() {
@@ -233,13 +231,13 @@ var centerY1 = 45+(760/2);
 var centerX2 = screenWidth-550;
 var centerY2 = 45+(760/2);
 
-var mouseX = globalP.mouseX;
-var mouseY = globalP.mouseY;
+var mouseX = gP.mouseX;
+var mouseY = gP.mouseY;
 
 var drawCounter = 0;
 var gUpdateGraph = true;
 
-function globalP(p) {
+function gP(p) {
 	p.mouseMoved = function() {
 		mouseX = p.mouseX;
 		mouseY = p.mouseY;
@@ -323,7 +321,7 @@ function globalP(p) {
 
         }
 
-        globalP.noLoop();
+        gP.noLoop();
 	};
 }
 

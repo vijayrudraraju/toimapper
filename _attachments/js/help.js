@@ -1,5 +1,4 @@
 function addHelpHandlers() {
-
     $('span').evently({
         mouseenter: function() {
             $(this).toggleClass('normalHelp',false);
@@ -71,9 +70,12 @@ function addHelpHandlers() {
     });
 
     $('#aboutSwitch').evently({
+        _init: function() {
+            $(this).data('isAbouting',false);
+        },
         click: function() {
-            isAbouting = !isAbouting;
-            if (isAbouting) {
+            $(this).data('isAbouting',!$(this).data('isAbouting'));
+            if($(this).data('isAbouting')) {
                 $(this).trigger('activateabout');
             } else {
                 $(this).trigger('deactivateabout');
@@ -97,10 +99,14 @@ function addHelpHandlers() {
             $('#helpSwitch').toggle(true);
         }
     });
+
     $('#helpSwitch').evently({
+        _init: function() {
+            $(this).data('isHelping',false);
+        },
         click: function() {
-            isHelping = !isHelping;
-            if (isHelping) {
+            $(this).data('isHelping',!$(this).data('isHelping'));
+            if($(this).data('isHelping')) {
                 $(this).trigger('activatehelp');
             } else {
                 $(this).trigger('deactivatehelp');
