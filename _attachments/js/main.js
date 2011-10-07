@@ -94,10 +94,12 @@ $(document).ready(function() {
                 console.log('redraw triggered');
             },
             tab: function() {
-                if(!$(this).data('viewEnabled')) {
+                if(!$(this).data('currentTab')==0) {
                     $('#globalCanvas').trigger('enableview');
-                } else {
+                } else if(!$(this).data('currentTab')==1) {
                     $('#globalCanvas').trigger('enableedit');
+                } else {
+
                 }
             },
             enter: function() {
@@ -108,27 +110,48 @@ $(document).ready(function() {
                 }
             },
             enableview: function() {
-                $(this).data('viewEnabled',!$(this).data('viewEnabled'));    
-                $('#addObjectForm').toggle(false);
+                $(this).data('currentTab',0);    
 
-                $('#globalCanvas').toggle(true);
+                $('#filterForm').toggle(false);
+                $('#addObjectForm').toggle(false);
 
                 $('#viewTab').toggleClass('active',true);
                 $('#viewTab').toggleClass('inactive',false);
                 $('#editTab').toggleClass('active',false);
                 $('#editTab').toggleClass('inactive',true);
+                $('#filterTab').toggleClass('active',false);
+                $('#filterTab').toggleClass('inactive',true);
+
                 $('#globalCanvas').trigger("redraw");
             },
             enableedit: function() {
-                $(this).data('viewEnabled',!$(this).data('viewEnabled'));    
-                $('#addObjectForm').toggle(true);
+                $(this).data('currentTab',1);    
 
-                $('#globalCanvas').toggle(true);
+                $('#filterForm').toggle(false);
+                $('#addObjectForm').toggle(true);
 
                 $('#viewTab').toggleClass('active',false);
                 $('#viewTab').toggleClass('inactive',true);
                 $('#editTab').toggleClass('active',true);
                 $('#editTab').toggleClass('inactive',false);
+                $('#filterTab').toggleClass('active',false);
+                $('#filterTab').toggleClass('inactive',true);
+
+                $('#globalCanvas').trigger("redraw");
+            },
+            enablefilter: function() {
+                $(this).data('currentTab',2);
+
+                $('#filterForm').toggle(true);
+                $('#addObjectForm').toggle(false);
+
+                $('#viewTab').toggleClass('active',false);
+                $('#viewTab').toggleClass('inactive',true);
+                $('#editTab').toggleClass('active',false);
+                $('#editTab').toggleClass('inactive',true);
+                $('#filterTab').toggleClass('active',true);
+                $('#filterTab').toggleClass('inactive',false);
+
                 $('#globalCanvas').trigger("redraw");
             }
         });
@@ -169,6 +192,11 @@ $(document).ready(function() {
                 $('#globalCanvas').trigger('enableedit');
             }
 		});
+		$('#filterTab').evently({
+            click: function() {
+                $('#globalCanvas').trigger('enablefilter');
+            }
+		});
 
 		$('#filterInput').evently({
             click: function(event) {
@@ -194,6 +222,9 @@ var selectedRemoveInput = "";
 var xs = [];
 var ys = [];
 
+//var screenWidth = 1280;
+//var screenHeight = 800;
+
 var screenWidth = 1280;
 var screenHeight = 800;
 
@@ -216,12 +247,13 @@ function globalP(p) {
 	};
 
 	p.mouseClicked = function() {
-		if ($('#globalCanvas').data('viewEnabled')) {
+		if($('#globalCanvas').data('currentTab')==0) {
             detectNodeClick(false);
             detectTraversalClick();
-		} else {
+		} else if($('#globalCanvas').data('currentTab')==1) {
             detectNodeClick(true);
             detectEdgeClick();
+        } else {
         }
         $('#globalCanvas').trigger("redraw");
 	};
@@ -236,18 +268,19 @@ function globalP(p) {
 
 	p.draw = function() {
 
-        if (gUpdateGraph) {
+        if(gUpdateGraph) {
             clearConnectionForm();
             updateActiveFilter();
             updateSignalMatches();
             updateLevelStructure();
 
-            if ($('#globalCanvas').data('viewEnabled')) {
+            if($('#globalCanvas').data('currentTab')==0) {
+                updateNodeGlyphMap(false);
+                updateEdgeGlyphMap(false);
+            } else if($('#globalCanvas').data('currentTab')==1) {
                 updateNodeGlyphMap(false);
                 updateEdgeGlyphMap(false);
             } else {
-                updateNodeGlyphMap(false);
-                updateEdgeGlyphMap(false);
             }
 
             if (gUpdateGraph == 2) {
@@ -259,7 +292,7 @@ function globalP(p) {
             }
         }
 
-        if ($('#globalCanvas').data('viewEnabled')) {
+        if($('#globalCanvas').data('currentTab')==0) {
             $('html').toggleClass('viewColor',true);
             $('html').toggleClass('editColor',false);
             $('html').toggleClass('rawColor',false);
@@ -275,8 +308,7 @@ function globalP(p) {
             drawEdges();
             drawListGlyphs();
             drawTraversalGlyphs();
-
-        } else {
+        } else if($('#globalCanvas').data('currentTab')==1) {
             $('html').toggleClass('viewColor',false);
             $('html').toggleClass('editColor',true);
             $('html').toggleClass('rawColor',false);
@@ -287,6 +319,7 @@ function globalP(p) {
             updateEdgeMouseState();
             drawNodes();
             drawEdges();
+        } else {
 
         }
 

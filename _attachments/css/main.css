@@ -40,7 +40,7 @@ span {
 }
 
 .aboutClosed {
-	left:1200px;
+	left:1120px;
 	width:60px;
 	height:40px;
 	padding:10px;
@@ -75,7 +75,6 @@ span {
 
 
 .helpClosed {
-	top:60px;
 	left:1200px;
 	width:60px;
 	height:40px;
@@ -173,7 +172,7 @@ span {
 	z-index:3;
 	position:absolute;
 	left:0px;
-	width:100px;
+	width:80px;
 	height:40px;
 	padding:10px;
 	font-size:20px;
@@ -182,8 +181,18 @@ span {
 #editTab {
 	z-index:3;
 	position:absolute;
-	left:120px;
-	width:100px;
+	left:100px;
+	width:80px;
+	height:40px;
+	padding:10px;
+	font-size:20px;
+	font-family:monospace;
+}
+#filterTab {
+	z-index:3;
+	position:absolute;
+	left:200px;
+	width:80px;
 	height:40px;
 	padding:10px;
 	font-size:20px;
@@ -191,7 +200,18 @@ span {
 }
 
 
-
+#filterForm {
+	background:rgb(227,187,227);
+	position:absolute;
+	width:350px;
+	height:600px;
+	top:100px;
+	left:10px;
+	padding:10px;
+    line-height:180%;
+	display:none;
+}
+/*
 #filterInput {
 	z-index:2;
 	color:rgba(0,0,0,255);
@@ -228,6 +248,7 @@ span {
     padding-top:8px;
     padding-left:2px;
 }
+    */
 
 
 #addObjectForm {

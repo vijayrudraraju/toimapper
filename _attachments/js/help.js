@@ -1,102 +1,127 @@
 function addHelpHandlers() {
 
-    $('span').hover(function() {
+    $('span').evently({
+        mouseenter: function() {
             $(this).toggleClass('normalHelp',false);
             $(this).toggleClass('hoverHelp',true);
-            globalP.redraw();
-            }, function() {
+            $('#globalCanvas').trigger("redraw");
+        }, 
+        mouseleave: function() {
             $(this).toggleClass('normalHelp',true);
             $(this).toggleClass('hoverHelp',false);
-            globalP.redraw();
-            });
-    $('#viewHelpTrigger').click(function() {
-            deactivateHelpMode();
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
+    $('#viewHelpTrigger').evently({
+        click: function() {
+            $('#helpSwitch').trigger('deactivatehelp');
             $('#viewHelp').toggle(true);
-            globalP.redraw();
-            });
-    $('#signalHelpTrigger').click(function() {
-            deactivateHelpMode();
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
+    $('#signalHelpTrigger').evently({
+        click: function() {
+            $('#helpSwitch').trigger('deactivatehelp');
             $('#signalHelp').toggle(true);
-            globalP.redraw();
-            });
-    $('#mappingHelpTrigger').click(function() {
-            deactivateHelpMode();
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
+    $('#mappingHelpTrigger').evently({
+        click: function() {
+            $('#helpSwitch').trigger('deactivatehelp');
             $('#mappingHelp').toggle(true);
-            globalP.redraw();
-            });
-    $('#filteringHelpTrigger').click(function() {
-            deactivateHelpMode();
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
+    $('#filteringHelpTrigger').evently({
+        click: function() {
+            $('#helpSwitch').trigger('deactivatehelp');
             $('#filteringHelp').toggle(true);
-            globalP.redraw();
-            });
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
 
-    $('#viewHelp').click(function() {
+    $('#viewHelp').evently({
+        click: function() {
             $('#viewHelp').toggle(false);
-            globalP.redraw();
-            });
-    $('#signalHelp').click(function() {
+            $('#helpSwitch').trigger('activatehelp');
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
+    $('#signalHelp').evently({
+        click: function() {
             $('#signalHelp').toggle(false);
-            globalP.redraw();
-            });
-    $('#mappingHelp').click(function() {
+            $('#helpSwitch').trigger('activatehelp');
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
+    $('#mappingHelp').evently({
+        click: function() {
             $('#mappingHelp').toggle(false);
-            globalP.redraw();
-            });
-    $('#filteringHelp').click(function() {
+            $('#helpSwitch').trigger('activatehelp');
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
+    $('#filteringHelp').evently({
+        click: function() {
             $('#filteringHelp').toggle(false);
-            globalP.redraw();
-            });
+            $('#helpSwitch').trigger('activatehelp');
+            $('#globalCanvas').trigger("redraw");
+        }
+    });
 
-    $('#aboutSwitch').click(function() {
+    $('#aboutSwitch').evently({
+        click: function() {
             isAbouting = !isAbouting;
             if (isAbouting) {
-            activateAboutMode();
+                $(this).trigger('activateabout');
             } else {
-            deactivateAboutMode();
+                $(this).trigger('deactivateabout');
             }
-            globalP.redraw();
-            });
-    $('#helpSwitch').click(function() {
+            $('#globalCanvas').trigger("redraw");
+        },
+        activateabout: function() {
+            $('#aboutSwitch').toggleClass('aboutClosed',false);
+            $('#aboutSwitch').toggleClass('aboutOpen',true);
+            $('#aboutAlterText').toggle(false);
+            $('#aboutText').toggle(true);
+
+            $('#helpSwitch').toggle(false);
+        },
+        deactivateabout: function() {
+            $('#aboutSwitch').toggleClass('aboutClosed',true);
+            $('#aboutSwitch').toggleClass('aboutOpen',false);
+            $('#aboutAlterText').toggle(true);
+            $('#aboutText').toggle(false);
+
+            $('#helpSwitch').toggle(true);
+        }
+    });
+    $('#helpSwitch').evently({
+        click: function() {
             isHelping = !isHelping;
             if (isHelping) {
-            activateHelpMode();
+                $(this).trigger('activatehelp');
             } else {
-            deactivateHelpMode();
+                $(this).trigger('deactivatehelp');
             }
-            globalP.redraw();
-            });
+            $('#globalCanvas').trigger("redraw");
+        },
+        activatehelp: function() {
+            $('#helpSwitch').toggleClass('helpClosed',false);
+            $('#helpSwitch').toggleClass('helpOpen',true);
+            $('#helpAlterText').toggle(false);
+            $('#helpText').toggle(true);
 
-}
+            $('#aboutSwitch').toggle(false);
+        },
+        deactivatehelp: function() {
+            $('#helpSwitch').toggleClass('helpClosed',true);
+            $('#helpSwitch').toggleClass('helpOpen',false);
+            $('#helpAlterText').toggle(true);
+            $('#helpText').toggle(false);
 
-function activateAboutMode() {
-	$('#aboutSwitch').toggleClass('aboutClosed',false);
-	$('#aboutSwitch').toggleClass('aboutOpen',true);
-	$('#aboutAlterText').toggle(false);
-	$('#aboutText').toggle(true);
-
-	$('#helpSwitch').toggle(false);
-}
-function deactivateAboutMode() {
-	$('#aboutSwitch').toggleClass('aboutClosed',true);
-	$('#aboutSwitch').toggleClass('aboutOpen',false);
-	$('#aboutAlterText').toggle(true);
-	$('#aboutText').toggle(false);
-
-	$('#helpSwitch').toggle(true);
-}
-function activateHelpMode() {
-	$('#helpSwitch').toggleClass('helpClosed',false);
-	$('#helpSwitch').toggleClass('helpOpen',true);
-	$('#helpAlterText').toggle(false);
-	$('#helpText').toggle(true);
-
-	$('#aboutSwitch').toggle(false);
-}
-function deactivateHelpMode() {
-	$('#helpSwitch').toggleClass('helpClosed',true);
-	$('#helpSwitch').toggleClass('helpOpen',false);
-	$('#helpAlterText').toggle(true);
-	$('#helpText').toggle(false);
-
-	$('#aboutSwitch').toggle(true);
+            $('#aboutSwitch').toggle(true);
+        }
+    });
 }
