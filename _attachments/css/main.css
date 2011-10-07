@@ -242,14 +242,17 @@ span {
 	display:none;
 }
 .createButton {
-	position:absolute;
+	/*position:absolute;
+    */
 	text-align:center;
 	padding-top:10px;
 	padding-bottom:10px;
 	height:25px;
 	width:200px;
+    /*
 	left:20px;
 	bottom:10px;
+    */
 	background:black;
 	color:white;
 }

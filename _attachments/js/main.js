@@ -58,12 +58,86 @@ var globalP;
 var isAbouting = false;
 var isHelping = false;
 $(document).ready(function() {
+        $(document).evently({
+            keypress: function(e) {
+                //e.preventDefault();
+                //console.log('key press: '+e.which);
+            },
+            keydown: function(e) {
+                if(e.which=='9') {
+                    //e.preventDefault();
+                    //console.log('keydown: '+e.which);
+                    //$('#globalCanvas').trigger("tab");
+                } else if(e.which=='13') {
+                    e.preventDefault();
+                }
+            },
+            keyup: function(e) {
+                if(e.which=='9') {
+                    //e.preventDefault();
+                    //console.log('keyup: '+e.which);
+                } else if(e.which=='13') {
+                    e.preventDefault();
+                    $('#globalCanvas').trigger("enter");
+                }
+                console.log('keyup: '+e.which);
+            }
+        });
+
 		globalP = new Processing($('#globalCanvas')[0],globalP);
+        $('#globalCanvas').evently({
+            redraw: function() {
+                gUpdateGraph = true;
+                globalP.redraw();
+                gUpdateGraph = true;
+                globalP.redraw();
+                console.log('redraw triggered');
+            },
+            tab: function() {
+                if(!$(this).data('viewEnabled')) {
+                    $('#globalCanvas').trigger('enableview');
+                } else {
+                    $('#globalCanvas').trigger('enableedit');
+                }
+            },
+            enter: function() {
+                if($('#objectMenu').val()==0) {
+                    $('#createSourceButton').trigger('click');
+                } else if($('#objectMenu').val()==1) {
+                    $('#createSinkButton').trigger('click');
+                }
+            },
+            enableview: function() {
+                $(this).data('viewEnabled',!$(this).data('viewEnabled'));    
+                $('#addObjectForm').toggle(false);
+
+                $('#globalCanvas').toggle(true);
+
+                $('#viewTab').toggleClass('active',true);
+                $('#viewTab').toggleClass('inactive',false);
+                $('#editTab').toggleClass('active',false);
+                $('#editTab').toggleClass('inactive',true);
+                $('#globalCanvas').trigger("redraw");
+            },
+            enableedit: function() {
+                $(this).data('viewEnabled',!$(this).data('viewEnabled'));    
+                $('#addObjectForm').toggle(true);
+
+                $('#globalCanvas').toggle(true);
+
+                $('#viewTab').toggleClass('active',false);
+                $('#viewTab').toggleClass('inactive',true);
+                $('#editTab').toggleClass('active',true);
+                $('#editTab').toggleClass('inactive',false);
+                $('#globalCanvas').trigger("redraw");
+            }
+        });
 
         addHelpHandlers();
         addEditObjectHandlers();
 
-        $('#updateConnection').click(function() {
+        $('#updateConnection').evently({
+            click: function() {
                 if (selectedSource != "none" &&
                     selectedDestination != "none") {
                     if (selectedEdge == null) {
@@ -72,40 +146,38 @@ $(document).ready(function() {
                         doModifyConnection();
                     }
                 }
-                globalP.redraw();
+                $('#globalCanvas').trigger("redraw");
+            }
         });
-        $('#removeConnection').click(function() {
+        $('#removeConnection').evently({
+            click: function() {
                 if (selectedSource != "none" &&
                     selectedDestination != "none") {
                     doDisconnect();
                 }
-                globalP.redraw();
+                $('#globalCanvas').trigger("redraw");
+            }
         });
 
-		$('#viewTab').click(function() {
-			activateViewMode();
-            updateGraph = true;
-            globalP.redraw();
-            updateGraph = true;
-            globalP.redraw();
+		$('#viewTab').evently({
+            click: function() {
+                $('#globalCanvas').trigger('enableview');
+            }
 		});
-		$('#editTab').click(function() {
-			activateEditMode();
-            updateGraph = true;
-            globalP.redraw();
-            updateGraph = true;
-            globalP.redraw();
+		$('#editTab').evently({
+            click: function() {
+                $('#globalCanvas').trigger('enableedit');
+            }
 		});
 
-		$('#filterInput').keyup(function(event) {
-			event.preventDefault();
-			//updateActiveFilter();
-            updateGraph = true;
-            globalP.redraw();
+		$('#filterInput').evently({
+            click: function(event) {
+                event.preventDefault();
+                $('#globalCanvas').trigger("redraw");
+            }
 		});
 
-        activateViewMode();
-        globalP.redraw();
+        $('#globalCanvas').trigger('enableview');
 });
 
 // output labels, input labels
@@ -134,24 +206,24 @@ var mouseX = globalP.mouseX;
 var mouseY = globalP.mouseY;
 
 var drawCounter = 0;
-var updateGraph = true;
+var gUpdateGraph = true;
 
 function globalP(p) {
 	p.mouseMoved = function() {
 		mouseX = p.mouseX;
 		mouseY = p.mouseY;
-        p.redraw();
+        $('#globalCanvas').trigger("redraw");
 	};
 
 	p.mouseClicked = function() {
-		if ($('#viewTab').hasClass('active')) {
+		if ($('#globalCanvas').data('viewEnabled')) {
             detectNodeClick(false);
             detectTraversalClick();
-		} else if ($('#editTab').hasClass('active')) {
+		} else {
             detectNodeClick(true);
             detectEdgeClick();
         }
-        p.redraw();
+        $('#globalCanvas').trigger("redraw");
 	};
 
 	p.setup = function() {
@@ -164,30 +236,30 @@ function globalP(p) {
 
 	p.draw = function() {
 
-        if (updateGraph) {
+        if (gUpdateGraph) {
             clearConnectionForm();
             updateActiveFilter();
             updateSignalMatches();
             updateLevelStructure();
 
-            if ($('#viewTab').hasClass('active')) {
+            if ($('#globalCanvas').data('viewEnabled')) {
                 updateNodeGlyphMap(false);
                 updateEdgeGlyphMap(false);
             } else {
-                updateNodeGlyphMap(true);
-                updateEdgeGlyphMap(true);
+                updateNodeGlyphMap(false);
+                updateEdgeGlyphMap(false);
             }
 
-            if (updateGraph == 2) {
-                updateGraph = false;
+            if (gUpdateGraph == 2) {
+                gUpdateGraph = false;
                 p.redraw();
             } else {
-                updateGraph = 2;
+                gUpdateGraph = 2;
                 p.redraw();
             }
         }
 
-        if ($('#viewTab').hasClass('active')) {
+        if ($('#globalCanvas').data('viewEnabled')) {
             $('html').toggleClass('viewColor',true);
             $('html').toggleClass('editColor',false);
             $('html').toggleClass('rawColor',false);
@@ -237,33 +309,6 @@ function clearConnectionForm() {
     $('#mappingDestMaxInput').val("");
 }
 
-function activateViewMode() {
-    //$('#addMappingForm').toggle(false);
-    $('#addObjectForm').toggle(false);
-
-	$('#globalCanvas').toggle(true);
-
-	$('#viewTab').toggleClass('active',true);
-	$('#viewTab').toggleClass('inactive',false);
-	$('#editTab').toggleClass('active',false);
-	$('#editTab').toggleClass('inactive',true);
-
-    updateGraph = true;
-}
-function activateEditMode() {
-    //$('#addMappingForm').toggle(true);
-    $('#addObjectForm').toggle(true);
-
-	$('#globalCanvas').toggle(true);
-
-	$('#viewTab').toggleClass('active',false);
-	$('#viewTab').toggleClass('inactive',true);
-	$('#editTab').toggleClass('active',true);
-	$('#editTab').toggleClass('inactive',false);
-
-    updateGraph = true;
-}
-
 function doConnect() {
     var sourceDevice = selectedSource.split("/");
     var destinationDevice = selectedDestination.split("/");
@@ -293,7 +338,7 @@ function doModifyConnection() {
 }
 
 //FIXME all structures seem to have a last element of undefined
-devices = new Assoc();
+/*devices = new Assoc();
 signals = new Assoc();
 links = new Assoc();
 connections = new Assoc();
@@ -303,3 +348,4 @@ connectionModeCommands = {"Byp": 'bypass',
                           "Line": 'linear',
                           "Calib": 'calibrate',
                           "Expr": 'expression'};
+                          */

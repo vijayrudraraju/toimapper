@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="graphColor">
 <head>
-<title>webmapper</title>
+<title>toimapper</title>
 
 <link rel="stylesheet" href="css/reset.css" type="text/css">
 <link rel="stylesheet" href="css/main.css" type="text/css">
@@ -36,19 +36,25 @@
     <div id="addObjectForm">
         <p>node type</p>
         <select id="objectMenu">
-            <option value="0">audio sink node</option>
-            <option value="1">control source node</option>
+            <option value="0">control source node</option>
+            <option value="1">audio sink node</option>
             <option value="2">group</option>
             <option value="3">connection</option>
         </select>
         <div id="audioSinkNodeForm">
-            <p>new audio sink node</p>
+            <p>new audio sink node name</p>
             <input id="audioSinkName"/>
+            <p>audio frequency</p>
+            <input id="audioSinkFreq"/>
+            <p>audio amplitude</p>
+            <input id="audioSinkAmp"/>
             <div id="createSinkButton" class="createButton">CREATE SINK</div>
         </div>
         <div id="controlSourceNodeForm">
             <p>new control source node</p>
             <input id="controlSourceName"/>
+            <p>control equation</p>
+            <input id="controlSourceEq"/>
             <div id="createSourceButton" class="createButton">CREATE SOURCE</div>
         </div>
         <div id="groupForm">
@@ -57,6 +63,8 @@
         </div>
         <div id="connectionForm">
             <p>new connection</p>
+        </div>
+        <div id="validationFeedback">
         </div>
     </div>
 

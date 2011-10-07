@@ -1,18 +1,3 @@
-/* global audio processing */
-var gA;
-var gNode;
-var gWaveBank;
-
-/* global node data */
-sinkNodes = new Assoc();
-connections = new Assoc();
-
-/* global audio initialization */
-gA = new webkitAudioContext();
-gWaveBank = new WaveBank(gA,sinkNodes);
-//gWaveBank.play();
-
-
 /*
 var gCircleVel0 = 0.2;
 var osc0a = new Oscillator(DSP.SINE, 220, 0.1, 2048, 44100);
@@ -29,127 +14,208 @@ osc0b.addEnvelope(env0b);
 osc0c.addEnvelope(env0c);
 */
 
+var EquationBank = function(list) {
+    var myself = this;
+
+    this.user = list;
+
+    this.equationBank= [];
+    this.size = function() {
+        return this.equationBank.length;
+    };
+
+};
+
 var WaveBank = function(context,list) {
-    var that = this;
+    var myself = this;
 
     this.context = context;
-    this.assocList = list;
+    this.user = list;
 
     this.sampleRate = this.context.sampleRate;
 
     this.waveBank = [];
     this.signalBank = [];
-    this.length = function() {
+    this.size = function() {
         return this.waveBank.length;
     };
 
     this.node = context.createJavaScriptNode(2048,1,1);
     this.node.onaudioprocess = function(e) { 
-        that.process(e)
+        myself.process(e)
     };
-};
-WaveBank.prototype.setBankSize = function(num) {
-    if(num > that.waveBank.length) {
-        for(var i=that.waveBank.length;i<num;i++) {
-            that.waveBank[i] = new Oscillator(DSP.SINE, 220, 0.1, 2048, 44100);
-            that.signalBank[i] = that.waveBank[i].signal;
-        }
-    } else if(num < that.waveBank.length) {
-        for(var i=num;i<that.waveBank.length;i++) {
-            that.waveBank.pop(); 
-            that.signalBank.pop();
-        }
-    }
-};
-WaveBank.prototype.setFreq = function() {
-    assert(that.length == that.assocList.length(),
-            "more waves in bank than audio nodes in system");
 
-    var keys = that.assocList.keys();
-
-    for(var i=0;i<keys.length;i++) {
-        that.waveBank[i].setFreq(that.assocList.get(keys[i]).freq); 
-    }
-};
-WaveBank.prototype.setAmp = function() {
-    assert(that.length == that.assocList.length(),
-            "more waves in bank than audio nodes in system");
-
-    var keys = that.assocList.keys();
-
-    for(var i=0;i<keys.length;i++) {
-        that.waveBank[i].setAmp(that.assocList.get(keys[i]).amp); 
-    }
-};
-WaveBank.prototype.generate = function() {
-    for(var i=0;i<that.waveBank.length;i++) {
-        that.waveBank[i].generate();
-    }
-};
-WaveBank.prototype.process = function(e) {
-    var data0 = e.outputBuffer.getChannelData(0);
-    var data1 = e.outputBuffer.getChannelData(1);
-
-    assert(that.length == that.assocList.length(),
-            "more waves in bank than audio nodes in system");
-
-    for(var i=0;i<that.signalBank.length;i++) {
-        for(var j=0;j<data0.length;j++) {
-            if(i==0) {
-                data0[j] = 0;
+    this.setBankSize = function(num) {
+        if(num > myself.waveBank.size) {
+            for(var i=myself.waveBank.size;i<num;i++) {
+                myself.waveBank[i] = new Oscillator(DSP.SINE, 220, 0.1, 2048, 44100);
+                myself.signalBank[i] = myself.waveBank[i].signal;
             }
-            data0[j] += that.signalBank[i][j];
+        } else if(num < myself.waveBank.size) {
+            for(var i=num;i<myself.waveBank.size;i++) {
+                myself.waveBank.pop(); 
+                myself.signalBank.pop();
+            }
         }
-    }
+    };
 
-    for(var j=0;j<data1.length;j++) {
-        data1[j] = data0[j];
-    }
-};
-WaveBank.prototype.play = function() {
-    that.node.connect(that.context.destination);
-};
-WaveBank.prototype.pause = function() {
-    that.node.disconnect();
+    this.setFreq = function() {
+        assert(myself.length == myself.user.length(),
+        "more waves in bank than audio nodes in system");
+
+        var keys = myself.user.keys();
+
+        for(var i=0;i<keys.length;i++) {
+            myself.waveBank[i].setFreq(myself.user.get(keys[i]).freq); 
+        }
+    };
+
+    this.setAmp = function() {
+        assert(myself.size == myself.user.length(),
+        "more waves in bank than audio nodes in system");
+
+        var keys = myself.user.keys();
+
+        for(var i=0;i<keys.length;i++) {
+            myself.waveBank[i].setAmp(myself.user.get(keys[i]).amp); 
+        }
+    };
+
+    this.generate = function() {
+        for(var i=0;i<myself.waveBank.size;i++) {
+            myself.waveBank[i].generate();
+        }
+    };
+
+    this.process = function(e) {
+        var data0 = e.outputBuffer.getChannelData(0);
+        var data1 = e.outputBuffer.getChannelData(1);
+
+        assert(myself.size == myself.user.length(),
+        "more waves in bank than audio nodes in system");
+
+        for(var i=0;i<myself.signalBank.size;i++) {
+            for(var j=0;j<data0.length;j++) {
+                if(i==0) {
+                    data0[j] = 0;
+                }
+                data0[j] += myself.signalBank[i][j];
+            }
+        }
+
+        for(var j=0;j<data1.length;j++) {
+            data1[j] = data0[j];
+        }
+    };
+
+    this.play = function() {
+        myself.node.connect(myself.context.destination);
+    };
+
+    this.pause = function() {
+        myself.node.disconnect();
+    };
+
 };
 
+/* global node data */
+var gSinkBank = new Assoc();
+var gSourceBank = new Assoc();
+var connections = new Assoc();
 
-function addSinkNode(key,value) {
-    sinkNodes.add(key,value); 
-    gWaveBank.setBankSize(sinkNodes.length());
-}
+/* global sink audio initialization */
+var gA = new webkitAudioContext();
+var gWaveBank = new WaveBank(gA,gSinkBank);
+
+/* global source equation initialization */
+var gEquationBank = new EquationBank(gSourceBank);
+//gWaveBank.play();
+
+
 
 function addEditObjectHandlers() {
-    $('#audioSinkNodeForm').toggle(true);
-    $('#controlSourceNodeForm').toggle(false);
+    $('#controlSourceNodeForm').toggle(true);
+    $('#audioSinkNodeForm').toggle(false);
     $('#groupForm').toggle(false);
     $('#connectionForm').toggle(false);
 
-    $('#objectMenu').change(function() {
-        if($(this).val() == 0) {
-            $('#audioSinkNodeForm').toggle(true);
-            $('#controlSourceNodeForm').toggle(false);
-            $('#groupForm').toggle(false);
-            $('#connectionForm').toggle(false);
-        } else if($(this).val() == 1) {
-            $('#audioSinkNodeForm').toggle(false);
-            $('#controlSourceNodeForm').toggle(true);
-            $('#groupForm').toggle(false);
-            $('#connectionForm').toggle(false);
-        } else if($(this).val() == 2) {
-            $('#audioSinkNodeForm').toggle(false);
-            $('#controlSourceNodeForm').toggle(false);
-            $('#groupForm').toggle(true);
-            $('#connectionForm').toggle(false);
-        } else if($(this).val() == 3) {
-            $('#audioSinkNodeForm').toggle(false);
-            $('#controlSourceNodeForm').toggle(false);
-            $('#groupForm').toggle(false);
-            $('#connectionForm').toggle(true);
+    $('#objectMenu').evently({
+        change: function() {
+            if($(this).val() == 0) {
+                $('#controlSourceNodeForm').toggle(true);
+                $('#audioSinkNodeForm').toggle(false);
+                $('#groupForm').toggle(false);
+                $('#connectionForm').toggle(false);
+            } else if($(this).val() == 1) {
+                $('#controlSourceNodeForm').toggle(false);
+                $('#audioSinkNodeForm').toggle(true);
+                $('#groupForm').toggle(false);
+                $('#connectionForm').toggle(false);
+            } else if($(this).val() == 2) {
+                $('#controlSourceNodeForm').toggle(false);
+                $('#audioSinkNodeForm').toggle(false);
+                $('#groupForm').toggle(true);
+                $('#connectionForm').toggle(false);
+            } else if($(this).val() == 3) {
+                $('#controlSourceNodeForm').toggle(false);
+                $('#audioSinkNodeForm').toggle(false);
+                $('#groupForm').toggle(false);
+                $('#connectionForm').toggle(true);
+            }
         }
     });
 
-    $('createSourceButton').click(function() {
-        
+
+    $('#createSourceButton').evently({
+        click: function() {
+            $('#validationFeedback').trigger("newsourcefeedback");
+        }
+    });
+    $('#createSinkButton').evently({
+        click: function() {
+            $('#validationFeedback').trigger("newsinkfeedback");
+        }
+    });
+
+    $('#validationFeedback').evently({
+        newsourcefeedback: {
+            mustache: '<p>validation: {{feedback}}</p>',
+            data: function() {
+                var equation = $('#controlSourceEq').val();
+                var answer = 'err';
+                if(equation.match(/^[0-9+\-*/(). ]*$/)) {
+                    try {
+                        answer = equation != '' ? eval(equation) : '0';
+
+                        gSourceBank.add($('#controlSourceName').val(),
+                        {
+                            'device_name': "legacy",
+                            'name': $('#controlSourceName').val(),
+                            'eq': $('#controlSourceEq').val()
+                        }); 
+                        $('#globalCanvas').trigger("redraw");
+                    } catch(e) {
+                    }
+                }
+                return {
+                    feedback: answer
+                };
+            }
+        },
+        newsinkfeedback: {
+            mustache: '<p>validation: {{feedback}}</p>',
+            data: function() {
+                var answer = 'err';
+                gSinkBank.add($('#audioSinkName').val(),
+                {
+                    'device_name': "legacy",
+                    'name': $('#audioSinkName').val(),
+                    'freq': parseFloat($('#audioSinkFreq').val()),
+                    'amp': parseFloat($('#audioSinkAmp').val())
+                }); 
+                gWaveBank.setBankSize(gSinkBank.length());
+                $('#globalCanvas').trigger("redraw");
+            }
+        }
     });
 }

@@ -8,9 +8,13 @@ function updateLevelStructure() {
         levels[0].push([filterMatches[0][i][0]]);  
 
 		var splitArray = filterMatches[0][i][1].split("/");
-		for (var j=1;j<splitArray.length;j++) {
-            levels[0][levels[0].length-1].push(splitArray[j]);
-		}
+        if (splitArray.length == 1) { 
+            levels[0][levels[0].length-1].push(splitArray[0]);
+        } else {
+            for (var j=1;j<splitArray.length;j++) {
+                levels[0][levels[0].length-1].push(splitArray[j]);
+            }
+        }
 	}
     levels[0] = clusterSignals(levels[0], 0);
 
@@ -21,9 +25,13 @@ function updateLevelStructure() {
         levels[1].push([filterMatches[1][i][0]]);
 
 		var splitArray = filterMatches[1][i][1].split("/");
-		for (var j=1;j<splitArray.length;j++) {
-            levels[1][levels[1].length-1].push(splitArray[j]);
-		}
+        if (splitArray.length == 1) { 
+            levels[1][levels[1].length-1].push(splitArray[0]);
+        } else {
+            for (var j=1;j<splitArray.length;j++) {
+                levels[1][levels[1].length-1].push(splitArray[j]);
+            }
+        }
 	}
     levels[1] = clusterSignals(levels[1], 0);
 }

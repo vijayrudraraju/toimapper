@@ -23,7 +23,7 @@ function updateActiveFilter() {
 function updateSignalMatches() {
 	filterMatches = [[],[],[]];
 
-    var keys = signals.keys();
+    var keys = gSourceBank.keys();
     for (var i=0;i<keys.length;i++) {
 		o: for (var j=0;j<latestQuery.length;j++) {
                //namespace matching
@@ -31,13 +31,21 @@ function updateSignalMatches() {
                    continue o;
                }
 
-               if (signals.get(keys[i]).direction  == 1) {	
-                   filterMatches[0].push([signals.get(keys[i]).device_name,signals.get(keys[i]).name]);
-                   break;
-               } else if (signals.get(keys[i]).direction == 0) {	
-                   filterMatches[1].push([signals.get(keys[i]).device_name,signals.get(keys[i]).name]);
-                   break;
-               }
+               filterMatches[0].push([gSourceBank.get(keys[i]).device_name,gSourceBank.get(keys[i]).name]);
+               break;
+        }
+    }
+
+    var keys = gSinkBank.keys();
+    for (var i=0;i<keys.length;i++) {
+		o: for (var j=0;j<latestQuery.length;j++) {
+            //namespace matching
+            if (keys[i].match(new RegExp(latestQuery[j],"ig")) == null) {
+                continue o;
+            }
+
+            filterMatches[1].push([gSinkBank.get(keys[i]).device_name,gSinkBank.get(keys[i]).name]);
+            break;
         }
     }
 }
