@@ -24,7 +24,7 @@ function updateNodeMouseState() {
             thisRadius = nodeGlyphMap.outputs.get(keys[i]).symbolWidth/2;
 
             // is the mouse within the bounds of the node glyph?
-            if (Math.pow(mouseX-thisX,2)+Math.pow(mouseY-thisY,2) < Math.pow(thisRadius,2)) {
+            if (Math.pow(gP.mouseX-thisX,2)+Math.pow(gP.mouseY-thisY,2) < Math.pow(thisRadius,2)) {
                 nodeGlyphMap.outputs.get(keys[i]).mouseOver = true;
                 mousedSource = sourcePaths[i];
             } else {
@@ -44,7 +44,7 @@ function updateNodeMouseState() {
             thisRadius = nodeGlyphMap.inputs.get(keys[i]).symbolWidth/2;
 
             // is the mouse within the bounds of the node glyph?
-            if (Math.pow(mouseX-thisX,2)+Math.pow(mouseY-thisY,2) < Math.pow(thisRadius,2)) {
+            if (Math.pow(gP.mouseX-thisX,2)+Math.pow(gP.mouseY-thisY,2) < Math.pow(thisRadius,2)) {
                 nodeGlyphMap.inputs.get(keys[i]).mouseOver = true;
                 mousedDestination = destinationPaths[i];
             } else {
@@ -90,8 +90,8 @@ function updateEdgeMouseState() {
         xs.sort(function(a,b){return a-b;});
         ys.sort(function(a,b){return a-b;});
 
-        if (mouseX<xs[3] && mouseX>xs[0] &&
-                mouseY<ys[3] && mouseY>ys[0]) {
+        if (gP.mouseX<xs[3] && gP.mouseX>xs[0] &&
+                gP.mouseY<ys[3] && gP.mouseY>ys[0]) {
             var xLength = Math.abs(Math.round(x1-x2));
             for (var j=0;j<xLength;j++) {
                 var t = j/xLength;
@@ -104,8 +104,8 @@ function updateEdgeMouseState() {
                     (3*Math.pow(1-t,2)*t*cy1) +
                     (3*(1-t)*Math.pow(t,2)*cy2) +
                     (Math.pow(t,3)*y2);
-                if (mouseX<microX+4 && mouseX>microX-4 &&
-                        mouseY<microY+4 && mouseY>microY-4) {
+                if (gP.mouseX<microX+4 && gP.mouseX>microX-4 &&
+                        gP.mouseY<microY+4 && gP.mouseY>microY-4) {
                     edgeGlyphMap.get(keys[i]).mouseOver = true;
                     break;
                 }
@@ -134,7 +134,7 @@ function updateListGlyphMouseState() {
     for (var i=0;i<outputSet.length;i++) {
         thisX = 0;
         thisY = 150+(i*32);
-        if (mouseX > thisX && mouseX < thisX+thisWidth && mouseY > thisY && mouseY < thisY+thisHeight) {
+        if (gP.mouseX > thisX && gP.mouseX < thisX+thisWidth && gP.mouseY > thisY && gP.mouseY < thisY+thisHeight) {
             nodeGlyphMap.outputs.get(keys[i]).mouseOver = true;
         } else {
             nodeGlyphMap.outputs.get(keys[i]).mouseOver = false;
@@ -145,7 +145,7 @@ function updateListGlyphMouseState() {
     for (var i=0;i<inputSet.length;i++) {
         thisX = screenWidth-200;
         thisY = 150+(i*32);
-        if (mouseX > thisX && mouseX < thisX+thisWidth && mouseY > thisY && mouseY < thisY+thisHeight) {
+        if (gP.mouseX > thisX && gP.mouseX < thisX+thisWidth && gP.mouseY > thisY && gP.mouseY < thisY+thisHeight) {
             nodeGlyphMap.inputs.get(keys[i]).mouseOver = true;
         } else {
             nodeGlyphMap.inputs.get(keys[i]).mouseOver = false;

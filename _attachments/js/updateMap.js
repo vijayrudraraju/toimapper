@@ -35,8 +35,8 @@ function updateNodeGlyphMap(signalsOnly) {
     for (var i=0;i<count;i++) {
         layoutAngle = (3*Math.PI/2) - i*separationAngle;
 
-        layoutX = centerX1 + (layoutRadius*Math.cos(layoutAngle));
-        layoutY = centerY1 + (layoutRadius*Math.sin(layoutAngle));
+        layoutX = $('#globalCanvas').data('centerX1') + (layoutRadius*Math.cos(layoutAngle));
+        layoutY = $('#globalCanvas').data('centerY1') + (layoutRadius*Math.sin(layoutAngle));
 
         var count2 = outputChildSet[i].length;
 
@@ -93,8 +93,8 @@ function updateNodeGlyphMap(signalsOnly) {
     for (var i=0;i<count;i++) {
         layoutAngle = i*separationAngle + (3*Math.PI/2);
 
-        layoutX = centerX2 + (layoutRadius*Math.cos(layoutAngle));
-        layoutY = centerY2 + (layoutRadius*Math.sin(layoutAngle));
+        layoutX = $('#globalCanvas').data('centerX2') + (layoutRadius*Math.cos(layoutAngle));
+        layoutY = $('#globalCanvas').data('centerY2') + (layoutRadius*Math.sin(layoutAngle));
 
         var count2 = inputChildSet[i].length;
 
@@ -243,8 +243,8 @@ function updateEdgeGlyphMap(signalsOnly) {
             edgeGlyphMap.get(keys[i]).x2 = x2;
             edgeGlyphMap.get(keys[i]).y2 = y2;
 
-            if (y1 < centerY1) {
-                if (y2 < centerY2) {
+            if (y1 < $('#globalCanvas').data('centerY1')) {
+                if (y2 < $('#globalCanvas').data('centerY2')) {
                     cx1 = x1+50;
                     cy1 = y1+80;
                     cx2 = x2-50;
@@ -256,7 +256,7 @@ function updateEdgeGlyphMap(signalsOnly) {
                     cy2 = y2+80;
                 }
             } else {
-                if (y2 < centerY2) {
+                if (y2 < $('#globalCanvas').data('centerY2')) {
                     cx1 = x1+50;
                     cy1 = y1+80;
                     cx2 = x2-50;

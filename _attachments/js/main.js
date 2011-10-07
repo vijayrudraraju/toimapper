@@ -84,20 +84,53 @@ $(document).ready(function() {
 
 		gP = new Processing($('#globalCanvas')[0],gP);
         $('#globalCanvas').evently({
+            updatebackground: function() {
+                if ($('#globalCanvas').data('currentTab')=='view') {
+                    $(this).data('centerX1',550);
+                    $(this).data('centerY1',45+(760/2));
+                    $(this).data('centerX2',screenWidth-550);
+                    $(this).data('centerY2',45+(760/2));
+                } else if ($('#globalCanvas').data('currentTab')=='edit') {
+                    $(this).data('centerX1',550+190);
+                    $(this).data('centerY1',45+(760/2));
+                    $(this).data('centerX2',screenWidth-550+190);
+                    $(this).data('centerY2',45+(760/2));
+                } else if ($('#globalCanvas').data('currentTab')=='filter') {
+                    $(this).data('centerX1',550+190);
+                    $(this).data('centerY1',45+(760/2));
+                    $(this).data('centerX2',screenWidth-550+190);
+                    $(this).data('centerY2',45+(760/2));
+                }
+            },
+            updategraph: function() {
+                clearConnectionForm();
+                updateActiveFilter();
+                updateSignalMatches();
+                updateLevelStructure();
+
+                if($('#globalCanvas').data('currentTab')=='view') {
+                    updateNodeGlyphMap(false);
+                    updateEdgeGlyphMap(false);
+                } else if($('#globalCanvas').data('currentTab')=='edit') {
+                    updateNodeGlyphMap(false);
+                    updateEdgeGlyphMap(false);
+                } else if($('#globalCanvas').data('currentTab')=='filter') {
+                    updateNodeGlyphMap(false);
+                    updateEdgeGlyphMap(false);
+                }
+            },
             redraw: function() {
-                gUpdateGraph = true;
                 gP.redraw();
-                gUpdateGraph = true;
                 gP.redraw();
                 console.log('redraw triggered');
             },
             tab: function() {
-                if(!$(this).data('currentTab')==0) {
+                if(!$(this).data('currentTab')=='view') {
                     $('#globalCanvas').trigger('enableview');
-                } else if(!$(this).data('currentTab')==1) {
+                } else if(!$(this).data('currentTab')=='edit') {
                     $('#globalCanvas').trigger('enableedit');
-                } else {
-
+                } else if(!$(this).data('currentTab')=='filter') {
+                    $('#globalCanvas').trigger('enablefilter');
                 }
             },
             enter: function() {
@@ -108,7 +141,7 @@ $(document).ready(function() {
                 }
             },
             enableview: function() {
-                $(this).data('currentTab',0);    
+                $(this).data('currentTab','view');    
 
                 $('#filterForm').toggle(false);
                 $('#addObjectForm').toggle(false);
@@ -120,10 +153,12 @@ $(document).ready(function() {
                 $('#filterTab').toggleClass('active',false);
                 $('#filterTab').toggleClass('inactive',true);
 
-                $('#globalCanvas').trigger("redraw");
+                $('#globalCanvas').trigger('updatebackground');
+                $('#globalCanvas').trigger('updategraph');
+                $('#globalCanvas').trigger('redraw');
             },
             enableedit: function() {
-                $(this).data('currentTab',1);    
+                $(this).data('currentTab','edit');    
 
                 $('#filterForm').toggle(false);
                 $('#addObjectForm').toggle(true);
@@ -135,10 +170,12 @@ $(document).ready(function() {
                 $('#filterTab').toggleClass('active',false);
                 $('#filterTab').toggleClass('inactive',true);
 
-                $('#globalCanvas').trigger("redraw");
+                $('#globalCanvas').trigger('updatebackground');
+                $('#globalCanvas').trigger('updategraph');
+                $('#globalCanvas').trigger('redraw');
             },
             enablefilter: function() {
-                $(this).data('currentTab',2);
+                $(this).data('currentTab','filter');
 
                 $('#filterForm').toggle(true);
                 $('#addObjectForm').toggle(false);
@@ -150,7 +187,9 @@ $(document).ready(function() {
                 $('#filterTab').toggleClass('active',true);
                 $('#filterTab').toggleClass('inactive',false);
 
-                $('#globalCanvas').trigger("redraw");
+                $('#globalCanvas').trigger('updatebackground');
+                $('#globalCanvas').trigger('updategraph');
+                $('#globalCanvas').trigger('redraw');
             }
         });
 
@@ -207,7 +246,7 @@ $(document).ready(function() {
 });
 
 // output labels, input labels
-var listGlyphMap = [[],[]];
+//var listGlyphMap = [[],[]];
 var traversalGlyphMap = [[],[]];
 
 var selectedSource = "none";
@@ -217,8 +256,8 @@ var selectedEdge;
 var selectedRemoveOutput = "";
 var selectedRemoveInput = "";
 
-var xs = [];
-var ys = [];
+//var xs = [];
+//var ys = [];
 
 //var screenWidth = 1280;
 //var screenHeight = 800;
@@ -226,34 +265,29 @@ var ys = [];
 var screenWidth = 1280;
 var screenHeight = 800;
 
-var centerX1 = 550;
-var centerY1 = 45+(760/2);
-var centerX2 = screenWidth-550;
-var centerY2 = 45+(760/2);
+//var mouseX = gP.mouseX;
+//var mouseY = gP.mouseY;
 
-var mouseX = gP.mouseX;
-var mouseY = gP.mouseY;
-
-var drawCounter = 0;
-var gUpdateGraph = true;
+//var drawCounter = 0;
+//var gUpdateGraph = true;
 
 function gP(p) {
 	p.mouseMoved = function() {
-		mouseX = p.mouseX;
-		mouseY = p.mouseY;
-        $('#globalCanvas').trigger("redraw");
+		//mouseX = p.mouseX;
+		//mouseY = p.mouseY;
+        $('#globalCanvas').trigger('redraw');
 	};
 
 	p.mouseClicked = function() {
-		if($('#globalCanvas').data('currentTab')==0) {
+		if($('#globalCanvas').data('currentTab')=='view') {
             detectNodeClick(false);
             detectTraversalClick();
-		} else if($('#globalCanvas').data('currentTab')==1) {
+		} else if($('#globalCanvas').data('currentTab')=='edit') {
             detectNodeClick(true);
             detectEdgeClick();
-        } else {
+		} else if($('#globalCanvas').data('currentTab')=='filter') {
         }
-        $('#globalCanvas').trigger("redraw");
+        $('#globalCanvas').trigger('redraw');
 	};
 
 	p.setup = function() {
@@ -265,37 +299,11 @@ function gP(p) {
 	};
 
 	p.draw = function() {
-
-        if(gUpdateGraph) {
-            clearConnectionForm();
-            updateActiveFilter();
-            updateSignalMatches();
-            updateLevelStructure();
-
-            if($('#globalCanvas').data('currentTab')==0) {
-                updateNodeGlyphMap(false);
-                updateEdgeGlyphMap(false);
-            } else if($('#globalCanvas').data('currentTab')==1) {
-                updateNodeGlyphMap(false);
-                updateEdgeGlyphMap(false);
-            } else {
-            }
-
-            if (gUpdateGraph == 2) {
-                gUpdateGraph = false;
-                p.redraw();
-            } else {
-                gUpdateGraph = 2;
-                p.redraw();
-            }
-        }
-
-        if($('#globalCanvas').data('currentTab')==0) {
+        if($('#globalCanvas').data('currentTab')=='view') {
             $('html').toggleClass('viewColor',true);
             $('html').toggleClass('editColor',false);
-            $('html').toggleClass('rawColor',false);
 
-            p.background(230);
+            p.background(11*16+11,10*16+9,12*16+11);
             drawBackground();
             if (mouseX < 200 || mouseX > screenWidth-200) {
                 updateListGlyphMouseState();
@@ -306,19 +314,26 @@ function gP(p) {
             drawEdges();
             drawListGlyphs();
             drawTraversalGlyphs();
-        } else if($('#globalCanvas').data('currentTab')==1) {
+        } else if($('#globalCanvas').data('currentTab')=='edit') {
             $('html').toggleClass('viewColor',false);
             $('html').toggleClass('editColor',true);
-            $('html').toggleClass('rawColor',false);
 
-            p.background(230);
+            p.background(11*16+11,10*16+9,12*16+11);
             drawBackground();
             updateNodeMouseState();
             updateEdgeMouseState();
             drawNodes();
             drawEdges();
-        } else {
+        } else if($('#globalCanvas').data('currentTab')=='filter') {
+            $('html').toggleClass('viewColor',false);
+            $('html').toggleClass('editColor',true);
 
+            p.background(11*16+11,10*16+9,12*16+11);
+            drawBackground();
+            updateNodeMouseState();
+            updateEdgeMouseState();
+            drawNodes();
+            drawEdges();
         }
 
         gP.noLoop();

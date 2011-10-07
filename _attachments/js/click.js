@@ -122,8 +122,8 @@ function detectTraversalClick() {
         thisY = traversalGlyphMap[0][i][0][1];
         thisWidth = traversalGlyphMap[0][i][0][2];
         thisHeight = traversalGlyphMap[0][i][0][3];
-        if (mouseX<thisX+thisWidth && mouseX>thisX &&
-                mouseY<thisY+thisHeight && mouseY>thisY) {
+        if (gP.mouseX<thisX+thisWidth && gP.mouseX>thisX &&
+                gP.mouseY<thisY+thisHeight && gP.mouseY>thisY) {
             climbOutputTree(i);
         }
     }
@@ -132,8 +132,8 @@ function detectTraversalClick() {
         thisY = traversalGlyphMap[1][i][0][1];
         thisWidth = traversalGlyphMap[1][i][0][2];
         thisHeight = traversalGlyphMap[1][i][0][3];
-        if (mouseX<thisX+thisWidth && mouseX>thisX &&
-                mouseY<thisY+thisHeight && mouseY>thisY) {
+        if (gP.mouseX<thisX+thisWidth && gP.mouseX>thisX &&
+                gP.mouseY<thisY+thisHeight && gP.mouseY>thisY) {
             climbInputTree(i);
         }
     }

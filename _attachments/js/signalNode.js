@@ -193,6 +193,7 @@ function addEditObjectHandlers() {
                             'name': $('#controlSourceName').val(),
                             'eq': $('#controlSourceEq').val()
                         }); 
+                        $('#globalCanvas').trigger('updategraph');
                         $('#globalCanvas').trigger("redraw");
                     } catch(e) {
                     }
@@ -214,7 +215,11 @@ function addEditObjectHandlers() {
                     'amp': parseFloat($('#audioSinkAmp').val())
                 }); 
                 gWaveBank.setBankSize(gSinkBank.length());
+                $('#globalCanvas').trigger('updategraph');
                 $('#globalCanvas').trigger("redraw");
+                return {
+                    feedback: answer
+                };
             }
         }
     });

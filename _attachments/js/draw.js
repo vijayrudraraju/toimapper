@@ -2,12 +2,7 @@ function drawBackground() {
 
     var backgroundWidth = 700;
 
-    if ($('#viewTab').hasClass('active')) {
-        centerX1 = 550;
-        centerY1 = 45+(760/2);
-        centerX2 = screenWidth-550;
-        centerY2 = 45+(760/2);
-
+    if ($('#globalCanvas').data('currentTab')=='view') {
         gP.noStroke();
         gP.fill(215);
         gP.rect(10,150,180,screenHeight+150);
@@ -15,25 +10,20 @@ function drawBackground() {
         gP.noStroke();
         gP.fill(215);
         gP.rect(screenWidth-190,150,180,screenHeight+150);
-    } else if ($('#editTab').hasClass('active')) {
-        centerX1 = 550+190;
-        centerY1 = 45+(760/2);
-        centerX2 = screenWidth-550+190;
-        centerY2 = 45+(760/2);
     }
 
     gP.strokeWeight(1);
     gP.stroke(0,255,0);
     gP.noFill();
-    gP.arc(centerX1,centerY1,
+    gP.arc($('#globalCanvas').data('centerX1'),$('#globalCanvas').data('centerY1'),
             backgroundWidth,backgroundWidth,Math.PI/2,3*Math.PI/2);
 
     gP.strokeWeight(1);
     gP.stroke(255,255,0);
     gP.noFill();
-    gP.arc(centerX2,centerY2,
+    gP.arc($('#globalCanvas').data('centerX2'),$('#globalCanvas').data('centerY2'),
             backgroundWidth,backgroundWidth,0,Math.PI/2);
-    gP.arc(centerX2,centerY2,
+    gP.arc($('#globalCanvas').data('centerX2'),$('#globalCanvas').data('centerY2'),
             backgroundWidth,backgroundWidth,3*Math.PI/2,2*Math.PI);
 
 }
@@ -74,21 +64,21 @@ function drawTraversalGlyphs() {
     gP.noStroke();
     for (var i=0;i<outputLabelTrace.length;i++) {
         gP.fill(0,230,0,230);
-        gP.rect(centerX1+80-200,centerY1-120+(i*32),200,28);
+        gP.rect($('#globalCanvas').data('centerX1')+80-200,$('#globalCanvas').data('centerY1')-120+(i*32),200,28);
         gP.fill(0);
         gP.text(outputLabelTrace[i],
-                centerX1+90-200,centerY1-100+(i*32));
-        traversalGlyphMap[0].push([[centerX1+80-200,centerY1-120+(i*32),200,28],
+                $('#globalCanvas').data('centerX1')+90-200,$('#globalCanvas').data('centerY1')-100+(i*32));
+        traversalGlyphMap[0].push([[$('#globalCanvas').data('centerX1')+80-200,$('#globalCanvas').data('centerY1')-120+(i*32),200,28],
                 outputLabelTrace[i]]);
     }
 
     for (var i=0;i<inputLabelTrace.length;i++) {
         gP.fill(230,230,0,230);
-        gP.rect(centerX2-80,centerY2-120+(i*32),200,28);
+        gP.rect($('#globalCanvas').data('centerX2')-80,$('#globalCanvas').data('centerY2')-120+(i*32),200,28);
         gP.fill(0);
         gP.text(inputLabelTrace[i],
-                centerX2-70,centerY2-100+(i*32));
-        traversalGlyphMap[1].push([[centerX2-80,centerY2-120+(i*32),200,28],
+                $('#globalCanvas').data('centerX2')-70,$('#globalCanvas').data('centerY2')-100+(i*32));
+        traversalGlyphMap[1].push([[$('#globalCanvas').data('centerX2')-80,$('#globalCanvas').data('centerY2')-120+(i*32),200,28],
             inputLabelTrace[i]]);
     }
 
