@@ -246,7 +246,6 @@ $(document).ready(function() {
 });
 
 // output labels, input labels
-//var listGlyphMap = [[],[]];
 var traversalGlyphMap = [[],[]];
 
 var selectedSource = "none";
@@ -256,20 +255,8 @@ var selectedEdge;
 var selectedRemoveOutput = "";
 var selectedRemoveInput = "";
 
-//var xs = [];
-//var ys = [];
-
-//var screenWidth = 1280;
-//var screenHeight = 800;
-
 var screenWidth = 1280;
 var screenHeight = 800;
-
-//var mouseX = gP.mouseX;
-//var mouseY = gP.mouseY;
-
-//var drawCounter = 0;
-//var gUpdateGraph = true;
 
 function gP(p) {
 	p.mouseMoved = function() {
@@ -287,6 +274,7 @@ function gP(p) {
             detectEdgeClick();
 		} else if($('#globalCanvas').data('currentTab')=='filter') {
         }
+        $('#globalCanvas').trigger('updategraph');
         $('#globalCanvas').trigger('redraw');
 	};
 
@@ -305,7 +293,7 @@ function gP(p) {
 
             p.background(11*16+11,10*16+9,12*16+11);
             drawBackground();
-            if (mouseX < 200 || mouseX > screenWidth-200) {
+            if (gP.mouseX < 200 || gP.mouseX > screenWidth-200) {
                 updateListGlyphMouseState();
             } else {
                 updateNodeMouseState();
@@ -339,59 +327,3 @@ function gP(p) {
         gP.noLoop();
 	};
 }
-
-function clearConnectionForm() {
-    selectedDestination = "none";
-    selectedSource = "none";
-    selectedEdge = null;
-
-    $('#selectedSource').text(selectedSource);
-    $('#selectedDestination').text(selectedDestination);
-    $('#modeMenu').val(0);
-    $('#exprInput').val("");
-    $('#mappingSourceMinInput').val("");
-    $('#mappingSourceMaxInput').val("");
-    $('#mappingDestMinInput').val("");
-    $('#mappingDestMaxInput').val("");
-}
-
-function doConnect() {
-    var sourceDevice = selectedSource.split("/");
-    var destinationDevice = selectedDestination.split("/");
-    command.send('link', ["/"+sourceDevice[1],"/"+destinationDevice[1]]);
-    command.send('connect', [selectedSource,selectedDestination]);
-
-}
-function doDisconnect() {
-    var sourceDevice = selectedSource.split("/");
-    var destinationDevice = selectedDestination.split("/");
-    // TODO: check and unlink if no more connection
-    //command.send('unlink', ["/"+sourceDevice[1],"/"+destinationDevice[1]]);
-    command.send('disconnect', [selectedSource,selectedDestination]);
-}
-function doModifyConnection() {
-    var argCopy = $.extend(true,{},connections.get(selectedEdge));
-    argCopy['expression'] = encodeURIComponent($('#exprInput').val());
-    argCopy['range'][0] = parseFloat($('#mappingSourceMinInput').val());
-    ankrgCopy['range'][1] = parseFloat($('#mappingSourceMaxInput').val());
-    argCopy['range'][2] = parseFloat($('#mappingDestMinInput').val());
-    argCopy['range'][3] = parseFloat($('#mappingDestMaxInput').val());
-    argCopy['mode'] = connectionModeCommands[connectionModes[parseInt($('#modeMenu').val())]];
-
-    command.send('set_connection',argCopy);
-
-    return argCopy;
-}
-
-//FIXME all structures seem to have a last element of undefined
-/*devices = new Assoc();
-signals = new Assoc();
-links = new Assoc();
-connections = new Assoc();
-
-connectionModes = ["None", "Byp", "Line", "Expr", "Calib"];
-connectionModeCommands = {"Byp": 'bypass',
-                          "Line": 'linear',
-                          "Calib": 'calibrate',
-                          "Expr": 'expression'};
-                          */

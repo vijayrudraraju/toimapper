@@ -2,7 +2,7 @@
 /* An object to provide command services by sending asynchronous
  * requests to the server.  It maintains a given number of connections
  * at all times. */
-command = {
+var command = {
     requests: new Bucket(),
     num_requests: 5,
     request_id: 0,
