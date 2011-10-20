@@ -10,7 +10,7 @@ function resetToRootLevel() {
     inputLabelTrace = ["input signals"];
 }
 
-function isOutputLeafNode?(index) {
+function isOutputLeafNode(index) {
     var keys = nodeGlyphMap.outputs.keys();
     if (nodeGlyphMap.outputs.get(keys[index]).subNodes.length() == 0) {
         return true;

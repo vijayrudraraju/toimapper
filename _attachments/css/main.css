@@ -40,15 +40,15 @@ span {
 }
 
 .aboutClosed {
-	left:1120px;
+	left:540px;
 	width:60px;
 	height:40px;
 	padding:10px;
-	background:rgb(30,30,255);
+	background:rgb(80,80,80);
 	color:white;
 }
 .aboutOpen {
-	left:860px;
+	left:280px;
 	width:400px;
 	height:400px;
 	padding:10px;
@@ -60,7 +60,7 @@ span {
 	font-size:20px;
 }
 #aboutText {
-	left:860px;
+	left:280px;
 	width:400px;
 	height:400px;
 	display:none;
@@ -75,16 +75,15 @@ span {
 
 
 .helpClosed {
-	left:1200px;
+	left:620px;
 	width:60px;
 	height:40px;
 	padding:10px;
-	background:rgb(255,30,30);
+	background:rgb(20,20,20);
 	color:white;
 }
 .helpOpen {
-	top:0px;
-	left:860px;
+	left:280px;
 	width:400px;
 	height:400px;
 	padding:10px;
@@ -96,7 +95,7 @@ span {
 	font-size:20px;
 }
 #helpText {
-	left:860px;
+	left:280px;
 	width:400px;
 	height:400px;
 	display:none;
@@ -119,8 +118,8 @@ span {
 
 .topicHelp {
 	top:0px;
-	left:760px;
-	width:500px;
+	left:200px;
+	width:480px;
 	height:400px;
 	padding:10px;
 	font-size:10px;
@@ -129,9 +128,9 @@ span {
 }
 .bigTopicHelp {
 	top:0px;
-	left:460px;
-	width:800px;
-	height:500px;
+	left:0px;
+	width:680px;
+	height:600px;
 	padding:10px;
 	font-size:10px;
 	background:gray;	
@@ -263,17 +262,13 @@ span {
 	display:none;
 }
 .createButton {
-	/*position:absolute;
-    */
 	text-align:center;
 	padding-top:10px;
 	padding-bottom:10px;
 	height:25px;
 	width:200px;
-    /*
 	left:20px;
 	bottom:10px;
-    */
 	background:black;
 	color:white;
 }

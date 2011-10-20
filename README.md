@@ -1,9 +1,16 @@
+## Signal
+
+signal nodes (start, end, breakpoint1, breakpoint2)
+signal edges (linear, sinusoidal)
+frequency
+amplitude
+
 ## Philosophy
-If an interaction is interesting, someone might be interested.
-If someone is interested, they might be attentive.
-If someone is attentive, they might play.
-If someone plays, they might build.
-If someone builds, then this might work.
+If something is interesting, someone might be interested.
+If someone is interested, someone might be engaged.
+If someone is engaged, someone might play.
+If someone plays, someone might build.
+If someone builds, then something might change.
 
 ## User Tasks
 - finding

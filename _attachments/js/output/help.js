@@ -74,15 +74,16 @@ function addHelpHandlers() {
             $(this).data('isAbouting',false);
         },
         click: function() {
-            $(this).data('isAbouting',!$(this).data('isAbouting'));
             if($(this).data('isAbouting')) {
-                $(this).trigger('activateabout');
-            } else {
                 $(this).trigger('deactivateabout');
+            } else {
+                $(this).trigger('activateabout');
             }
             $('#globalCanvas').trigger("redraw");
         },
         activateabout: function() {
+            $(this).data('isAbouting',true);
+
             $('#aboutSwitch').toggleClass('aboutClosed',false);
             $('#aboutSwitch').toggleClass('aboutOpen',true);
             $('#aboutAlterText').toggle(false);
@@ -91,6 +92,8 @@ function addHelpHandlers() {
             $('#helpSwitch').toggle(false);
         },
         deactivateabout: function() {
+            $(this).data('isAbouting',false);
+
             $('#aboutSwitch').toggleClass('aboutClosed',true);
             $('#aboutSwitch').toggleClass('aboutOpen',false);
             $('#aboutAlterText').toggle(true);
@@ -105,15 +108,18 @@ function addHelpHandlers() {
             $(this).data('isHelping',false);
         },
         click: function() {
-            $(this).data('isHelping',!$(this).data('isHelping'));
             if($(this).data('isHelping')) {
-                $(this).trigger('activatehelp');
-            } else {
+                console.log('deactivatehelp');
                 $(this).trigger('deactivatehelp');
+            } else {
+                console.log('activatehelp');
+                $(this).trigger('activatehelp');
             }
             $('#globalCanvas').trigger("redraw");
         },
         activatehelp: function() {
+            $(this).data('isHelping',true);
+
             $('#helpSwitch').toggleClass('helpClosed',false);
             $('#helpSwitch').toggleClass('helpOpen',true);
             $('#helpAlterText').toggle(false);
@@ -122,6 +128,8 @@ function addHelpHandlers() {
             $('#aboutSwitch').toggle(false);
         },
         deactivatehelp: function() {
+            $(this).data('isHelping',false);
+
             $('#helpSwitch').toggleClass('helpClosed',true);
             $('#helpSwitch').toggleClass('helpOpen',false);
             $('#helpAlterText').toggle(true);

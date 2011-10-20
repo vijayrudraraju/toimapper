@@ -1,86 +1,58 @@
-function drawBackground() {
+function drawAddNodeButton() {
 
-    var backgroundWidth = 700;
+    gP.noStroke();
+    gP.fill(0,255,0);
+    gP.triangle(0,0,150,0,0,150);
 
-    if ($('#globalCanvas').data('currentTab')=='view') {
-        gP.noStroke();
-        gP.fill(215);
-        gP.rect(10,150,180,screenHeight+150);
-
-        gP.noStroke();
-        gP.fill(215);
-        gP.rect(screenWidth-190,150,180,screenHeight+150);
-    }
-
-    gP.strokeWeight(1);
-    gP.stroke(0,255,0);
-    gP.noFill();
-    gP.arc($('#globalCanvas').data('centerX1'),$('#globalCanvas').data('centerY1'),
-            backgroundWidth,backgroundWidth,Math.PI/2,3*Math.PI/2);
-
-    gP.strokeWeight(1);
-    gP.stroke(255,255,0);
-    gP.noFill();
-    gP.arc($('#globalCanvas').data('centerX2'),$('#globalCanvas').data('centerY2'),
-            backgroundWidth,backgroundWidth,0,Math.PI/2);
-    gP.arc($('#globalCanvas').data('centerX2'),$('#globalCanvas').data('centerY2'),
-            backgroundWidth,backgroundWidth,3*Math.PI/2,2*Math.PI);
+    gP.strokeWeight(3);
+    gP.stroke(255,255,255);
+    gP.line(20,40,60,40);
+    gP.line(40,20,40,60);
 
 }
 
-function drawListGlyphs() {
+function drawRemoveNodeButton() {
 
-    var outputSet = getCurrentOutputLevelSet();
-    var inputSet = getCurrentInputLevelSet();
-
-    gP.textAlign(gP.LEFT);
-    gP.textSize(12);
     gP.noStroke();
-    for (var i=0;i<outputSet.length;i++) {
-        gP.fill(0,200,130,230);
-        if (nodeGlyphMap.outputs.get(outputSet[i]).mouseOver) {
-            gP.rect(0,150+(i*32),200,28);
-        }
-        gP.fill(0);
-        gP.text(outputSet[i],10,170+(i*32));
-    }
-    for (var i=0;i<inputSet.length;i++) {
-        gP.fill(180,180,100,230);
-        if (nodeGlyphMap.inputs.get(inputSet[i]).mouseOver) {
-            gP.rect(screenWidth-200,150+(i*32),200,28);
-        }
-        gP.fill(0);
-        gP.text(inputSet[i],screenWidth+10-200,170+(i*32));
-    }
+    gP.fill(255,0,0);
+    gP.triangle(0,700,0,550,150,700);
+
+    gP.strokeWeight(3);
+    gP.stroke(255,255,255);
+    //gP.line(20,660,60,660);
+    gP.line(25,640,55,680);
+    gP.line(55,640,25,680);
 
 }
 
-function drawTraversalGlyphs() {
+function drawAddSubscriptionButton() {
 
-    traversalGlyphMap = [[],[]];
-
-    gP.textAlign(gP.LEFT);
-    gP.textSize(16);
     gP.noStroke();
-    for (var i=0;i<outputLabelTrace.length;i++) {
-        gP.fill(0,230,0,230);
-        gP.rect($('#globalCanvas').data('centerX1')+80-200,$('#globalCanvas').data('centerY1')-120+(i*32),200,28);
-        gP.fill(0);
-        gP.text(outputLabelTrace[i],
-                $('#globalCanvas').data('centerX1')+90-200,$('#globalCanvas').data('centerY1')-100+(i*32));
-        traversalGlyphMap[0].push([[$('#globalCanvas').data('centerX1')+80-200,$('#globalCanvas').data('centerY1')-120+(i*32),200,28],
-                outputLabelTrace[i]]);
-    }
+    gP.fill(0,0,255);
+    gP.triangle(700,700,550,700,700,550);
 
-    for (var i=0;i<inputLabelTrace.length;i++) {
-        gP.fill(230,230,0,230);
-        gP.rect($('#globalCanvas').data('centerX2')-80,$('#globalCanvas').data('centerY2')-120+(i*32),200,28);
-        gP.fill(0);
-        gP.text(inputLabelTrace[i],
-                $('#globalCanvas').data('centerX2')-70,$('#globalCanvas').data('centerY2')-100+(i*32));
-        traversalGlyphMap[1].push([[$('#globalCanvas').data('centerX2')-80,$('#globalCanvas').data('centerY2')-120+(i*32),200,28],
-            inputLabelTrace[i]]);
-    }
+    gP.strokeWeight(3);
+    gP.stroke(255,255,255);
+    gP.line(640,670,680,650);
+
+    gP.noFill();
+    gP.strokeWeight(8);
+    gP.stroke(160,160,160);
+    gP.ellipse(660,660,20,40);
+
+    gP.strokeWeight(3);
+    gP.stroke(255,255,255);
+    gP.line(640,670,660,660);
+
+}
+
+function drawGraphBackground() {
+
+    gP.strokeWeight(1);
+    gP.stroke(255,255,255);
+    gP.noFill();
+    gP.arc($('#globalCanvas').data('graphCenterX'),$('#globalCanvas').data('graphCenterY'),
+        $('#globalCanvas').data('graphWidth'),$('#globalCanvas').data('graphHeight'),0,2*Math.PI);
 
 }
 
@@ -206,6 +178,76 @@ function drawEdges() {
             }
             gP.bezier(x1,y1,cx1,cy1,cx2,cy2,x2,y2);
         }
+    }
+
+}
+
+function drawListBackground() {
+
+    if ($('#globalCanvas').data('currentTab')=='view') {
+        gP.noStroke();
+        gP.fill(215);
+        gP.rect(10,150,180,$('#globalCanvas').data('canvasHeight')+150);
+
+        gP.noStroke();
+        gP.fill(215);
+        gP.rect($('#globalCanvas').data('canvasWidth')-190,150,180,$('#globalCanvas').data('canvasHeight')+150);
+    }
+
+}
+
+function drawListGlyphs() {
+
+    var outputSet = getCurrentOutputLevelSet();
+    var inputSet = getCurrentInputLevelSet();
+
+    gP.textAlign(gP.LEFT);
+    gP.textSize(12);
+    gP.noStroke();
+    for (var i=0;i<outputSet.length;i++) {
+        gP.fill(0,200,130,230);
+        if (nodeGlyphMap.outputs.get(outputSet[i]).mouseOver) {
+            gP.rect(0,150+(i*32),200,28);
+        }
+        gP.fill(0);
+        gP.text(outputSet[i],10,170+(i*32));
+    }
+    for (var i=0;i<inputSet.length;i++) {
+        gP.fill(180,180,100,230);
+        if (nodeGlyphMap.inputs.get(inputSet[i]).mouseOver) {
+            gP.rect($('#globalCanvas').data('canvasWidth')-200,150+(i*32),200,28);
+        }
+        gP.fill(0);
+        gP.text(inputSet[i],$('#globalCanvas').data('canvasWidth')+10-200,170+(i*32));
+    }
+
+}
+
+function drawTraversalGlyphs() {
+
+    traversalGlyphMap = [[],[]];
+
+    gP.textAlign(gP.LEFT);
+    gP.textSize(16);
+    gP.noStroke();
+    for (var i=0;i<outputLabelTrace.length;i++) {
+        gP.fill(0,230,0,230);
+        gP.rect($('#globalCanvas').data('centerX1')+80-200,$('#globalCanvas').data('centerY1')-120+(i*32),200,28);
+        gP.fill(0);
+        gP.text(outputLabelTrace[i],
+                $('#globalCanvas').data('centerX1')+90-200,$('#globalCanvas').data('centerY1')-100+(i*32));
+        traversalGlyphMap[0].push([[$('#globalCanvas').data('centerX1')+80-200,$('#globalCanvas').data('centerY1')-120+(i*32),200,28],
+                outputLabelTrace[i]]);
+    }
+
+    for (var i=0;i<inputLabelTrace.length;i++) {
+        gP.fill(230,230,0,230);
+        gP.rect($('#globalCanvas').data('centerX2')-80,$('#globalCanvas').data('centerY2')-120+(i*32),200,28);
+        gP.fill(0);
+        gP.text(inputLabelTrace[i],
+                $('#globalCanvas').data('centerX2')-70,$('#globalCanvas').data('centerY2')-100+(i*32));
+        traversalGlyphMap[1].push([[$('#globalCanvas').data('centerX2')-80,$('#globalCanvas').data('centerY2')-120+(i*32),200,28],
+            inputLabelTrace[i]]);
     }
 
 }

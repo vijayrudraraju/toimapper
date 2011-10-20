@@ -57,6 +57,11 @@
 var gP;
 $(document).ready(function() {
         $(document).evently({
+            _init: function() {
+                $('#viewTab').toggle(false);
+                $('#editTab').toggle(false);
+                $('#filterTab').toggle(false);
+            },
             keypress: function(e) {
                 //e.preventDefault();
                 //console.log('key press: '+e.which);
@@ -82,39 +87,49 @@ $(document).ready(function() {
             }
         });
 
-		gP = new Processing($('#globalCanvas')[0],gP);
         $('#globalCanvas').evently({
+            _init: function() {
+                $(this).data('canvasWidth',700);
+                $(this).data('canvasHeight',700);
+                $(this).data('graphWidth',680);
+                $(this).data('graphHeight',680);
+                $(this).data('graphCenterX',350);
+                $(this).data('graphCenterY',350);
+
+                gP = new Processing($('#globalCanvas')[0],gP);
+            },
             updatebackground: function() {
-                if ($('#globalCanvas').data('currentTab')=='view') {
+            /*
+                if ($(this).data('currentTab')=='view') {
                     $(this).data('centerX1',550);
                     $(this).data('centerY1',45+(760/2));
-                    $(this).data('centerX2',screenWidth-550);
+                    $(this).data('centerX2',$(this).data('canvasWidth')-550);
                     $(this).data('centerY2',45+(760/2));
-                } else if ($('#globalCanvas').data('currentTab')=='edit') {
+                } else if ($(this).data('currentTab')=='edit') {
                     $(this).data('centerX1',550+190);
                     $(this).data('centerY1',45+(760/2));
-                    $(this).data('centerX2',screenWidth-550+190);
+                    $(this).data('centerX2',$(this).data('canvasWidth')-550+190);
                     $(this).data('centerY2',45+(760/2));
-                } else if ($('#globalCanvas').data('currentTab')=='filter') {
+                } else if ($(this).data('currentTab')=='filter') {
                     $(this).data('centerX1',550+190);
                     $(this).data('centerY1',45+(760/2));
-                    $(this).data('centerX2',screenWidth-550+190);
+                    $(this).data('centerX2',$(this).data('canvasWidth')-550+190);
                     $(this).data('centerY2',45+(760/2));
                 }
+                */
             },
             updategraph: function() {
-                clearConnectionForm();
                 updateActiveFilter();
                 updateSignalMatches();
                 updateLevelStructure();
 
-                if($('#globalCanvas').data('currentTab')=='view') {
+                if($(this).data('currentTab')=='view') {
                     updateNodeGlyphMap(false);
                     updateEdgeGlyphMap(false);
-                } else if($('#globalCanvas').data('currentTab')=='edit') {
+                } else if($(this).data('currentTab')=='edit') {
                     updateNodeGlyphMap(false);
                     updateEdgeGlyphMap(false);
-                } else if($('#globalCanvas').data('currentTab')=='filter') {
+                } else if($(this).data('currentTab')=='filter') {
                     updateNodeGlyphMap(false);
                     updateEdgeGlyphMap(false);
                 }
@@ -126,11 +141,11 @@ $(document).ready(function() {
             },
             tab: function() {
                 if(!$(this).data('currentTab')=='view') {
-                    $('#globalCanvas').trigger('enableview');
+                    $(this).trigger('enableview');
                 } else if(!$(this).data('currentTab')=='edit') {
-                    $('#globalCanvas').trigger('enableedit');
+                    $(this).trigger('enableedit');
                 } else if(!$(this).data('currentTab')=='filter') {
-                    $('#globalCanvas').trigger('enablefilter');
+                    $(this).trigger('enablefilter');
                 }
             },
             enter: function() {
@@ -153,9 +168,9 @@ $(document).ready(function() {
                 $('#filterTab').toggleClass('active',false);
                 $('#filterTab').toggleClass('inactive',true);
 
-                $('#globalCanvas').trigger('updatebackground');
-                $('#globalCanvas').trigger('updategraph');
-                $('#globalCanvas').trigger('redraw');
+                $(this).trigger('updatebackground');
+                $(this).trigger('updategraph');
+                $(this).trigger('redraw');
             },
             enableedit: function() {
                 $(this).data('currentTab','edit');    
@@ -170,9 +185,9 @@ $(document).ready(function() {
                 $('#filterTab').toggleClass('active',false);
                 $('#filterTab').toggleClass('inactive',true);
 
-                $('#globalCanvas').trigger('updatebackground');
-                $('#globalCanvas').trigger('updategraph');
-                $('#globalCanvas').trigger('redraw');
+                $(this).trigger('updatebackground');
+                $(this).trigger('updategraph');
+                $(this).trigger('redraw');
             },
             enablefilter: function() {
                 $(this).data('currentTab','filter');
@@ -187,14 +202,11 @@ $(document).ready(function() {
                 $('#filterTab').toggleClass('active',true);
                 $('#filterTab').toggleClass('inactive',false);
 
-                $('#globalCanvas').trigger('updatebackground');
-                $('#globalCanvas').trigger('updategraph');
-                $('#globalCanvas').trigger('redraw');
+                $(this).trigger('updatebackground');
+                $(this).trigger('updategraph');
+                $(this).trigger('redraw');
             }
         });
-
-        addHelpHandlers();
-        addEditObjectHandlers();
 
         $('#updateConnection').evently({
             click: function() {
@@ -242,6 +254,8 @@ $(document).ready(function() {
             }
 		});
 
+        addHelpHandlers();
+        addEditObjectHandlers();
         $('#globalCanvas').trigger('enableview');
 });
 
@@ -255,13 +269,8 @@ var selectedEdge;
 var selectedRemoveOutput = "";
 var selectedRemoveInput = "";
 
-var screenWidth = 1280;
-var screenHeight = 800;
-
 function gP(p) {
 	p.mouseMoved = function() {
-		//mouseX = p.mouseX;
-		//mouseY = p.mouseY;
         $('#globalCanvas').trigger('redraw');
 	};
 
@@ -281,33 +290,47 @@ function gP(p) {
 	p.setup = function() {
 		//p.println(p.PFont.list());
 
-		p.size(screenWidth,screenHeight);
+		p.size($('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight'));
 		var font = p.loadFont("monospace");
 		p.textFont(font);
+		p.textSize(16);
 	};
 
 	p.draw = function() {
+        $('html').toggleClass('viewColor',true);
+        $('html').toggleClass('editColor',false);
+
+        p.background(11*16+11,10*16+9,12*16+11);
+        drawGraphBackground();
+        updateNodeMouseState();
+        drawNodes();
+        drawEdges();
+        drawAddNodeButton();
+        drawRemoveNodeButton();
+        drawAddSubscriptionButton();
+        /*
         if($('#globalCanvas').data('currentTab')=='view') {
             $('html').toggleClass('viewColor',true);
             $('html').toggleClass('editColor',false);
 
             p.background(11*16+11,10*16+9,12*16+11);
-            drawBackground();
-            if (gP.mouseX < 200 || gP.mouseX > screenWidth-200) {
-                updateListGlyphMouseState();
+            drawGraphBackground();
+            if (gP.mouseX < 200 || gP.mouseX > $(this).data('canvasWidth')-200) {
+                //updateListGlyphMouseState();
             } else {
                 updateNodeMouseState();
             }
             drawNodes();
             drawEdges();
-            drawListGlyphs();
+            //drawListBackground();
+            //drawListGlyphs();
             drawTraversalGlyphs();
         } else if($('#globalCanvas').data('currentTab')=='edit') {
             $('html').toggleClass('viewColor',false);
             $('html').toggleClass('editColor',true);
 
             p.background(11*16+11,10*16+9,12*16+11);
-            drawBackground();
+            drawGraphBackground();
             updateNodeMouseState();
             updateEdgeMouseState();
             drawNodes();
@@ -317,12 +340,13 @@ function gP(p) {
             $('html').toggleClass('editColor',true);
 
             p.background(11*16+11,10*16+9,12*16+11);
-            drawBackground();
+            drawGraphBackground();
             updateNodeMouseState();
             updateEdgeMouseState();
             drawNodes();
             drawEdges();
         }
+        */
 
         gP.noLoop();
 	};
