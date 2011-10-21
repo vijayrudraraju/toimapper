@@ -1,3 +1,26 @@
+function drawAboutButton() {
+
+    gP.noStroke();
+    gP.fill(255,255,255);
+    gP.rect($('#globalCanvas').data('canvasWidth')-162,0,
+    80,40);
+
+    gP.fill(0);
+    gP.text('about',$('#globalCanvas').data('canvasWidth')-148,25)
+}
+
+function drawHelpButton() {
+
+    gP.noStroke();
+    gP.fill(255,255,255);
+    gP.rect($('#globalCanvas').data('canvasWidth')-80,0,
+    80,40);
+
+    gP.fill(0);
+    gP.text('help',$('#globalCanvas').data('canvasWidth')-62,25)
+
+}
+
 function drawAddNodeButton() {
 
     gP.noStroke();
@@ -15,13 +38,16 @@ function drawRemoveNodeButton() {
 
     gP.noStroke();
     gP.fill(255,0,0);
-    gP.triangle(0,700,0,550,150,700);
+    gP.triangle(0,$('#globalCanvas').data('canvasHeight'),
+    0,$('#globalCanvas').data('canvasHeight')-150,
+    150,$('#globalCanvas').data('canvasHeight'));
 
     gP.strokeWeight(3);
     gP.stroke(255,255,255);
-    //gP.line(20,660,60,660);
-    gP.line(25,640,55,680);
-    gP.line(55,640,25,680);
+    gP.line(25,$('#globalCanvas').data('canvasHeight')-60,
+    55,$('#globalCanvas').data('canvasHeight')-20);
+    gP.line(55,$('#globalCanvas').data('canvasHeight')-60,
+    25,$('#globalCanvas').data('canvasHeight')-20);
 
 }
 
@@ -29,20 +55,25 @@ function drawAddSubscriptionButton() {
 
     gP.noStroke();
     gP.fill(0,0,255);
-    gP.triangle(700,700,550,700,700,550);
+    gP.triangle($('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight'),
+    $('#globalCanvas').data('canvasWidth')-150,$('#globalCanvas').data('canvasHeight'),
+    $('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight')-150);
 
     gP.strokeWeight(3);
     gP.stroke(255,255,255);
-    gP.line(640,670,680,650);
+    gP.line($('#globalCanvas').data('canvasWidth')-60,$('#globalCanvas').data('canvasHeight')-30,
+    $('#globalCanvas').data('canvasWidth')-20,$('#globalCanvas').data('canvasHeight')-50);
 
     gP.noFill();
     gP.strokeWeight(8);
     gP.stroke(160,160,160);
-    gP.ellipse(660,660,20,40);
+    gP.ellipse($('#globalCanvas').data('canvasWidth')-40,$('#globalCanvas').data('canvasHeight')-40,
+    20,40);
 
     gP.strokeWeight(3);
     gP.stroke(255,255,255);
-    gP.line(640,670,660,660);
+    gP.line($('#globalCanvas').data('canvasWidth')-60,$('#globalCanvas').data('canvasHeight')-30,
+    $('#globalCanvas').data('canvasWidth')-40,$('#globalCanvas').data('canvasHeight')-40);
 
 }
 
@@ -50,9 +81,11 @@ function drawGraphBackground() {
 
     gP.strokeWeight(1);
     gP.stroke(255,255,255);
-    gP.noFill();
+    gP.fill(255,255,255);
     gP.arc($('#globalCanvas').data('graphCenterX'),$('#globalCanvas').data('graphCenterY'),
         $('#globalCanvas').data('graphWidth'),$('#globalCanvas').data('graphHeight'),0,2*Math.PI);
+    gP.arc($('#globalCanvas').data('graphCenterX'),$('#globalCanvas').data('graphCenterY'),
+        $('#globalCanvas').data('graphWidth'),$('#globalCanvas').data('graphHeight'),-Math.PI,Math.PI);
 
 }
 

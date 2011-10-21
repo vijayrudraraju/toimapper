@@ -1,10 +1,10 @@
 html {
 	position:static;
-	background:rgb(220,220,220);
+	background:rgb(255,255,255);
 }
 body {
 	position:static;
-	background:rgb(105,0,0);
+	background:rgb(255,255,0);
 }
 canvas {
 	position:absolute;
@@ -40,27 +40,27 @@ span {
 }
 
 .aboutClosed {
-	left:540px;
+	left:480px;
 	width:60px;
-	height:40px;
+	height:30px;
 	padding:10px;
-	background:rgb(80,80,80);
+	background:rgb(128,128,128);
 	color:white;
 }
 .aboutOpen {
-	left:280px;
+	left:220px;
 	width:400px;
 	height:400px;
 	padding:10px;
 	font-size:10px;
-	background:gray;	
+	background:white;	
 	color:black;
 }
 #aboutAlterText {
 	font-size:20px;
 }
 #aboutText {
-	left:280px;
+	left:220px;
 	width:400px;
 	height:400px;
 	display:none;
@@ -75,27 +75,27 @@ span {
 
 
 .helpClosed {
-	left:620px;
+	left:560px;
 	width:60px;
 	height:40px;
 	padding:10px;
-	background:rgb(20,20,20);
+	background:rgb(0,0,0);
 	color:white;
 }
 .helpOpen {
-	left:280px;
+	left:220px;
 	width:400px;
 	height:400px;
 	padding:10px;
 	font-size:10px;
-	background:gray;	
+	background:white;	
 	color:black;
 }
 #helpAlterText{
 	font-size:20px;
 }
 #helpText {
-	left:280px;
+	left:220px;
 	width:400px;
 	height:400px;
 	display:none;
@@ -118,22 +118,22 @@ span {
 
 .topicHelp {
 	top:0px;
-	left:200px;
+	left:140px;
 	width:480px;
 	height:400px;
 	padding:10px;
 	font-size:10px;
-	background:gray;	
+	background:white;	
 	color:black;
 }
 .bigTopicHelp {
 	top:0px;
 	left:0px;
-	width:680px;
-	height:600px;
+	width:620px;
+	height:580px;
 	padding:10px;
 	font-size:10px;
-	background:gray;	
+	background:white;	
 	color:black;
 }
 #viewHelp {

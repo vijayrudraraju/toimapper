@@ -89,50 +89,23 @@ $(document).ready(function() {
 
         $('#globalCanvas').evently({
             _init: function() {
-                $(this).data('canvasWidth',700);
-                $(this).data('canvasHeight',700);
-                $(this).data('graphWidth',680);
-                $(this).data('graphHeight',680);
-                $(this).data('graphCenterX',350);
-                $(this).data('graphCenterY',350);
+                $(this).data('canvasWidth',640);
+                $(this).data('canvasHeight',640);
+                $(this).data('graphWidth',600);
+                $(this).data('graphHeight',600);
+                $(this).data('graphCenterX',320);
+                $(this).data('graphCenterY',320);
 
                 gP = new Processing($('#globalCanvas')[0],gP);
             },
             updatebackground: function() {
-            /*
-                if ($(this).data('currentTab')=='view') {
-                    $(this).data('centerX1',550);
-                    $(this).data('centerY1',45+(760/2));
-                    $(this).data('centerX2',$(this).data('canvasWidth')-550);
-                    $(this).data('centerY2',45+(760/2));
-                } else if ($(this).data('currentTab')=='edit') {
-                    $(this).data('centerX1',550+190);
-                    $(this).data('centerY1',45+(760/2));
-                    $(this).data('centerX2',$(this).data('canvasWidth')-550+190);
-                    $(this).data('centerY2',45+(760/2));
-                } else if ($(this).data('currentTab')=='filter') {
-                    $(this).data('centerX1',550+190);
-                    $(this).data('centerY1',45+(760/2));
-                    $(this).data('centerX2',$(this).data('canvasWidth')-550+190);
-                    $(this).data('centerY2',45+(760/2));
-                }
-                */
             },
             updategraph: function() {
                 updateActiveFilter();
                 updateSignalMatches();
                 updateLevelStructure();
-
-                if($(this).data('currentTab')=='view') {
-                    updateNodeGlyphMap(false);
-                    updateEdgeGlyphMap(false);
-                } else if($(this).data('currentTab')=='edit') {
-                    updateNodeGlyphMap(false);
-                    updateEdgeGlyphMap(false);
-                } else if($(this).data('currentTab')=='filter') {
-                    updateNodeGlyphMap(false);
-                    updateEdgeGlyphMap(false);
-                }
+                updateNodeGlyphMap(false);
+                updateEdgeGlyphMap(false);
             },
             redraw: function() {
                 gP.redraw();
@@ -140,13 +113,6 @@ $(document).ready(function() {
                 console.log('redraw triggered');
             },
             tab: function() {
-                if(!$(this).data('currentTab')=='view') {
-                    $(this).trigger('enableview');
-                } else if(!$(this).data('currentTab')=='edit') {
-                    $(this).trigger('enableedit');
-                } else if(!$(this).data('currentTab')=='filter') {
-                    $(this).trigger('enablefilter');
-                }
             },
             enter: function() {
                 if($('#objectMenu').val()==0) {
@@ -231,22 +197,6 @@ $(document).ready(function() {
             }
         });
 
-		$('#viewTab').evently({
-            click: function() {
-                $('#globalCanvas').trigger('enableview');
-            }
-		});
-		$('#editTab').evently({
-            click: function() {
-                $('#globalCanvas').trigger('enableedit');
-            }
-		});
-		$('#filterTab').evently({
-            click: function() {
-                $('#globalCanvas').trigger('enablefilter');
-            }
-		});
-
 		$('#filterInput').evently({
             click: function(event) {
                 event.preventDefault();
@@ -262,12 +212,12 @@ $(document).ready(function() {
 // output labels, input labels
 var traversalGlyphMap = [[],[]];
 
-var selectedSource = "none";
-var selectedDestination = "none";
-var selectedEdge;
+//var selectedSource = "none";
+//var selectedDestination = "none";
+//var selectedEdge;
 
-var selectedRemoveOutput = "";
-var selectedRemoveInput = "";
+//var selectedRemoveOutput = "";
+//var selectedRemoveInput = "";
 
 function gP(p) {
 	p.mouseMoved = function() {
@@ -297,56 +247,16 @@ function gP(p) {
 	};
 
 	p.draw = function() {
-        $('html').toggleClass('viewColor',true);
-        $('html').toggleClass('editColor',false);
-
-        p.background(11*16+11,10*16+9,12*16+11);
+        p.background(0*16+11,0*16+9,0*16+11);
         drawGraphBackground();
         updateNodeMouseState();
         drawNodes();
         drawEdges();
+        drawAboutButton();
+        drawHelpButton();
         drawAddNodeButton();
         drawRemoveNodeButton();
         drawAddSubscriptionButton();
-        /*
-        if($('#globalCanvas').data('currentTab')=='view') {
-            $('html').toggleClass('viewColor',true);
-            $('html').toggleClass('editColor',false);
-
-            p.background(11*16+11,10*16+9,12*16+11);
-            drawGraphBackground();
-            if (gP.mouseX < 200 || gP.mouseX > $(this).data('canvasWidth')-200) {
-                //updateListGlyphMouseState();
-            } else {
-                updateNodeMouseState();
-            }
-            drawNodes();
-            drawEdges();
-            //drawListBackground();
-            //drawListGlyphs();
-            drawTraversalGlyphs();
-        } else if($('#globalCanvas').data('currentTab')=='edit') {
-            $('html').toggleClass('viewColor',false);
-            $('html').toggleClass('editColor',true);
-
-            p.background(11*16+11,10*16+9,12*16+11);
-            drawGraphBackground();
-            updateNodeMouseState();
-            updateEdgeMouseState();
-            drawNodes();
-            drawEdges();
-        } else if($('#globalCanvas').data('currentTab')=='filter') {
-            $('html').toggleClass('viewColor',false);
-            $('html').toggleClass('editColor',true);
-
-            p.background(11*16+11,10*16+9,12*16+11);
-            drawGraphBackground();
-            updateNodeMouseState();
-            updateEdgeMouseState();
-            drawNodes();
-            drawEdges();
-        }
-        */
 
         gP.noLoop();
 	};

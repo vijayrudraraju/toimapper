@@ -71,6 +71,7 @@ function addHelpHandlers() {
 
     $('#aboutSwitch').evently({
         _init: function() {
+            $(this).toggle(false);
             $(this).data('isAbouting',false);
         },
         click: function() {
@@ -105,6 +106,7 @@ function addHelpHandlers() {
 
     $('#helpSwitch').evently({
         _init: function() {
+            $(this).toggle(false);
             $(this).data('isHelping',false);
         },
         click: function() {
@@ -125,7 +127,7 @@ function addHelpHandlers() {
             $('#helpAlterText').toggle(false);
             $('#helpText').toggle(true);
 
-            $('#aboutSwitch').toggle(false);
+            //$('#aboutSwitch').toggle(false);
         },
         deactivatehelp: function() {
             $(this).data('isHelping',false);
@@ -135,7 +137,7 @@ function addHelpHandlers() {
             $('#helpAlterText').toggle(true);
             $('#helpText').toggle(false);
 
-            $('#aboutSwitch').toggle(true);
+            //$('#aboutSwitch').toggle(true);
         }
     });
 }
