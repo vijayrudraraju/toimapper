@@ -106,6 +106,7 @@ $(document).ready(function() {
                 updateLevelStructure();
                 updateNodeGlyphMap(false);
                 updateEdgeGlyphMap(false);
+                console.log('updategraph triggered');
             },
             redraw: function() {
                 gP.redraw();
@@ -225,16 +226,10 @@ function gP(p) {
 	};
 
 	p.mouseClicked = function() {
-		if($('#globalCanvas').data('currentTab')=='view') {
-            detectNodeClick(false);
-            detectTraversalClick();
-		} else if($('#globalCanvas').data('currentTab')=='edit') {
-            detectNodeClick(true);
-            detectEdgeClick();
-		} else if($('#globalCanvas').data('currentTab')=='filter') {
-        }
         $('#globalCanvas').trigger('updategraph');
         $('#globalCanvas').trigger('redraw');
+        detectAboutButtonClick();
+        detectHelpButtonClick();
 	};
 
 	p.setup = function() {
@@ -243,20 +238,27 @@ function gP(p) {
 		p.size($('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight'));
 		var font = p.loadFont("monospace");
 		p.textFont(font);
-		p.textSize(16);
+		p.textSize(20);
 	};
 
 	p.draw = function() {
         p.background(0*16+11,0*16+9,0*16+11);
+
         drawGraphBackground();
+        drawCalibrationNodes();
+
         updateNodeMouseState();
         drawNodes();
         drawEdges();
-        drawAboutButton();
-        drawHelpButton();
         drawAddNodeButton();
         drawRemoveNodeButton();
         drawAddSubscriptionButton();
+
+        updateAboutButtonMouseState();
+        updateHelpButtonMouseState();
+
+        drawAboutButton();
+        drawHelpButton();
 
         gP.noLoop();
 	};

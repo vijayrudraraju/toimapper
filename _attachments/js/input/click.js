@@ -1,3 +1,28 @@
+function detectAboutButtonClick() {
+    if ($('#aboutSwitch').data('moused')) {
+        console.log('aboutSwitch moused');
+        if ($('#aboutSwitch').data('isAbouting')) {
+            console.log('aboutSwitch deactivated');
+            $('#aboutSwitch').trigger('deactivateabout');
+        } else {
+            console.log('aboutSwitch activated');
+            $('#aboutSwitch').trigger('activateabout');
+        }
+    }
+}
+function detectHelpButtonClick() {
+    if ($('#helpSwitch').data('moused')) {
+        console.log('helpSwitch moused');
+        if ($('#helpSwitch').data('isHelping')) {
+            console.log('helpSwitch deactivated');
+            $('#helpSwitch').trigger('deactivatehelp');
+        } else {
+            console.log('helpSwitch activated');
+            $('#helpSwitch').trigger('activatehelp');
+        }
+    }
+}
+
 function detectNodeClick(selectionEnabled) {
     var sourcePaths = getCurrentOutputPathsFromNodes();
     var destinationPaths = getCurrentInputPathsFromNodes();

@@ -8,7 +8,6 @@ function drawAboutButton() {
     gP.fill(0);
     gP.text('about',$('#globalCanvas').data('canvasWidth')-148,25)
 }
-
 function drawHelpButton() {
 
     gP.noStroke();
@@ -20,6 +19,7 @@ function drawHelpButton() {
     gP.text('help',$('#globalCanvas').data('canvasWidth')-62,25)
 
 }
+
 
 function drawAddNodeButton() {
 
@@ -33,7 +33,6 @@ function drawAddNodeButton() {
     gP.line(40,20,40,60);
 
 }
-
 function drawRemoveNodeButton() {
 
     gP.noStroke();
@@ -50,7 +49,6 @@ function drawRemoveNodeButton() {
     25,$('#globalCanvas').data('canvasHeight')-20);
 
 }
-
 function drawAddSubscriptionButton() {
 
     gP.noStroke();
@@ -77,16 +75,33 @@ function drawAddSubscriptionButton() {
 
 }
 
+
+function drawCalibrationNodes() {
+
+    gP.noStroke();
+    gP.fill(0,0,0);
+    gP.ellipse($('#globalCanvas').data('graphCenterX')-($('#globalCanvas').data('graphWidth')/2)+100,
+    $('#globalCanvas').data('graphCenterY'),
+    200,200);
+
+}
+
+
 function drawGraphBackground() {
 
     gP.strokeWeight(1);
     gP.stroke(255,255,255);
     gP.fill(255,255,255);
+    gP.ellipse($('#globalCanvas').data('graphCenterX'),
+    $('#globalCanvas').data('graphCenterY'),
+    $('#globalCanvas').data('graphWidth'), $('#globalCanvas').data('graphHeight'));
+
+/*
     gP.arc($('#globalCanvas').data('graphCenterX'),$('#globalCanvas').data('graphCenterY'),
         $('#globalCanvas').data('graphWidth'),$('#globalCanvas').data('graphHeight'),0,2*Math.PI);
     gP.arc($('#globalCanvas').data('graphCenterX'),$('#globalCanvas').data('graphCenterY'),
         $('#globalCanvas').data('graphWidth'),$('#globalCanvas').data('graphHeight'),-Math.PI,Math.PI);
-
+*/
 }
 
 function drawNodes() {

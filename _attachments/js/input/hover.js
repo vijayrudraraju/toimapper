@@ -1,6 +1,26 @@
 var mousedSource = "";
 var mousedDestination = "";
 
+function updateAboutButtonMouseState() {
+    if (gP.mouseX > $('#globalCanvas').data('canvasWidth')-160 &&
+    gP.mouseX < $('#globalCanvas').data('canvasWidth')-80 &&
+    gP.mouseY < 40) {
+        $('#aboutSwitch').data('moused',true);
+    } else {
+        $('#aboutSwitch').data('moused',false);
+    }
+}
+
+function updateHelpButtonMouseState() {
+    if (gP.mouseX > $('#globalCanvas').data('canvasWidth')-80 &&
+    gP.mouseY < 40) {
+        $('#helpSwitch').data('moused',true);
+    } else {
+        $('#helpSwitch').data('moused',false);
+    }
+}
+
+
 function updateNodeMouseState() {
 
     mousedSource = "";
