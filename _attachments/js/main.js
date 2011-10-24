@@ -233,19 +233,26 @@ function gP(p) {
 	};
 
 	p.setup = function() {
-		//p.println(p.PFont.list());
+		console.log(p.PFont.list());
 
 		p.size($('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight'));
-		var font = p.loadFont("monospace");
-		p.textFont(font);
-		p.textSize(20);
+		$('#globalCanvas').data('font',p.loadFont('sans-serif'));
+
+        layoutCalibrationNodes();
+        layoutSmallCalibrationNodes();
 	};
 
 	p.draw = function() {
+        p.textSize(24);
+    
         p.background(0*16+11,0*16+9,0*16+11);
 
         drawGraphBackground();
+
         drawCalibrationNodes();
+        drawSmallCalibrationNodes();
+
+        drawDiameterBorder();
 
         updateNodeMouseState();
         drawNodes();
@@ -260,6 +267,6 @@ function gP(p) {
         drawAboutButton();
         drawHelpButton();
 
-        gP.noLoop();
+        p.noLoop();
 	};
 }
