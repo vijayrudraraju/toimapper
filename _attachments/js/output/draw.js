@@ -288,10 +288,20 @@ function drawCalibrationNodes() {
             var pointer = data('nodes')['root'][currentSide];
             with (pointer) { 
                 gP.noStroke();
-                gP.ellipse(data('graphCenterX'),
+                gP.arc(data('graphCenterX'),
                 data('graphCenterY'),
                 data('node0Width'),
-                data('node0Height'));
+                data('node0Height'),
+                2*Math.PI/3-Math.PI/3,
+                2*2*Math.PI/3);
+
+                gP.noStroke();
+                gP.arc(data('graphCenterX'),
+                data('graphCenterY'),
+                data('node0Width'),
+                data('node0Height'),
+                -Math.PI/2-Math.PI/6,
+                Math.PI-2*Math.PI/3);
 
                 for (var currentNode in pointer) {
                     gP.noStroke();
@@ -319,11 +329,23 @@ function drawSmallCalibrationNodes() {
             for (var currentBranch in data('nodes')['root'][currentSide]) {
                 var pointer = data('nodes')['root'][currentSide][currentBranch];
                 with (pointer) {
-                    gP.noStroke();
-                    gP.ellipse(pointer['x'],
-                    pointer['y'],
-                    data('node1Width'),
-                    data('node1Height'));
+                    if (currentSide === 'left') {
+                        gP.noStroke();
+                        gP.arc(pointer['x'],
+                        pointer['y'],
+                        data('node1Width'),
+                        data('node1Height'),
+                        2*Math.PI/3-Math.PI/3,
+                        2*2*Math.PI/3);
+                    } else if (currentSide === 'right') {
+                        gP.noStroke();
+                        gP.arc(pointer['x'],
+                        pointer['y'],
+                        data('node1Width'),
+                        data('node1Height'),
+                        -Math.PI/2-Math.PI/6,
+                        Math.PI-2*Math.PI/3);
+                    }
 
                     for (var currentNode in pointer) {
                         gP.noStroke();
@@ -356,11 +378,23 @@ function drawSmallerCalibrationNodes() {
 
                     var pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
                     with (pointer) {
-                        gP.noStroke();
-                        gP.ellipse(pointer['x'],
-                            pointer['y'],
-                            data('node2Width'),
-                            data('node2Height'));
+                        if (currentSide === 'left') {
+                            gP.noStroke();
+                            gP.arc(pointer['x'],
+                                pointer['y'],
+                                data('node2Width'),
+                                data('node2Height'),
+                                2*Math.PI/3-Math.PI/3,
+                            2*2*Math.PI/3);
+                        } else if (currentSide === 'right') {
+                            gP.noStroke();
+                            gP.arc(pointer['x'],
+                                pointer['y'],
+                                data('node2Width'),
+                                data('node2Height'),
+                                -Math.PI/2-Math.PI/6,
+                            Math.PI-2*Math.PI/3);
+                        }
 
                         for(var currentPoint in pointer) {
                             if (currentPoint === 'x' || currentPoint === 'y') {
