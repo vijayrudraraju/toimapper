@@ -96,6 +96,8 @@ $(document).ready(function() {
                 $(this).data('graphCenterX',320);
                 $(this).data('graphCenterY',320);
 
+                initializeNodesStructure();
+            
                 gP = new Processing($('#globalCanvas')[0],gP);
             },
             updatebackground: function() {
@@ -248,20 +250,19 @@ function gP(p) {
     
         p.background(0*16+11,0*16+9,0*16+11);
 
-        drawGraphBackground();
+        drawBigNode();
 
         drawCalibrationNodes();
         drawSmallCalibrationNodes();
         drawSmallerCalibrationNodes();
 
-        drawDiameterBorder();
-
         updateNodeMouseState();
         drawNodes();
         drawEdges();
-        drawAddNodeButton();
-        drawRemoveNodeButton();
-        drawAddSubscriptionButton();
+
+        drawAscendLevelButton();
+        drawDescendLevelButton();
+        drawSignalButton();
 
         updateAboutButtonMouseState();
         updateHelpButtonMouseState();

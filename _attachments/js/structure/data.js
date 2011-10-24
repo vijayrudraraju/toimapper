@@ -1,3 +1,54 @@
+function initializeNodesStructure() {
+    with ($('#globalCanvas')) {
+        data('nodes',{});
+        data('nodes')['root'] = {};
+        data('nodes')['root']['left'] = {};
+        data('nodes')['root']['right'] = {};
+
+        for (var currentSide in data('nodes')['root']) {
+            if (currentSide === 'main') {
+                continue;
+            }
+
+            var pointer = data('nodes')['root'][currentSide];
+            with (pointer) {
+                pointer['main'] = {color:'none',signal:[0.0]};
+                pointer['top'] = {color:'none',signal:[0.0]};
+                pointer['middle'] = {color:'none',signal:[0.0]};
+                pointer['bottom'] = {color:'none',signal:[0.0]};
+            }
+            for(var currentBranch in data('nodes')['root'][currentSide]) {
+                if (currentBranch === 'x' || currentBranch === 'y' || currentBranch === 'main') {
+                    continue;
+                }
+
+                data('nodes')['root'][currentSide][currentBranch] = {};
+                pointer = data('nodes')['root'][currentSide][currentBranch];
+                with (pointer) { 
+                    pointer['main'] = {color:'none',signal:[0.0]};
+                    pointer['top'] = {color:'none',signal:[0.0]};
+                    pointer['middle'] = {color:'none',signal:[0.0]};
+                    pointer['bottom'] = {color:'none',signal:[0.0]};
+                }
+                for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
+                    if (currentNode === 'x' || currentNode === 'y' || currentNode === 'main') {
+                        continue;
+                    }
+
+                    data('nodes')['root'][currentSide][currentBranch][currentNode] = {};
+                    pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
+                    with (pointer) { 
+                        pointer['main'] = {color:'none',signal:[0.0]};
+                        pointer['top'] = {color:'none',signal:[0.0]};
+                        pointer['middle'] = {color:'none',signal:[0.0]};
+                        pointer['bottom'] = {color:'none',signal:[0.0]};
+                    }
+                }
+            }
+        }
+    }
+}
+
 var outputBranchTrace = [];
 var inputBranchTrace = [];
 var outputLabelTrace = ["output signals"];
