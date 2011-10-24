@@ -86,8 +86,10 @@ function layoutCalibrationNodes() {
 
     with ($('#globalCanvas')) {
 
-        data('node0Width',data('graphWidth')/4-data('graphWidth')/60);
-        data('node0Height',data('graphWidth')/4-data('graphWidth')/60);
+        //data('node0Width',data('graphWidth')/4-data('graphWidth')/60);
+        //data('node0Height',data('graphWidth')/4-data('graphWidth')/60);
+        data('node0Width',data('graphWidth')/3.6);
+        data('node0Height',data('graphHeight')/3.6);
 
         if (data('nodes') === undefined) {
             data('nodes',{});
@@ -107,12 +109,12 @@ function layoutCalibrationNodes() {
                 pointer['top'] = {};
             }
             pointer['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-            pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/7);
+            pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
             if (pointer['middle'] === undefined) {
                 pointer['middle'] = {};
             }
             pointer['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-            pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/7);
+            pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
             if (pointer['bottom'] === undefined) {
                 pointer['bottom'] = {};
             }
@@ -136,12 +138,12 @@ function layoutCalibrationNodes() {
                 pointer['middle'] = {};
             }
             pointer['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-            pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/7);
+            pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
             if (pointer['bottom'] === undefined) {
                 pointer['bottom'] = {};
             }
             pointer['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-            pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/7);
+            pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
 
         }
 
@@ -152,258 +154,229 @@ function layoutSmallCalibrationNodes() {
 
     with ($('#globalCanvas')) {
 
-        data('node1Width',data('node0Width')/4-data('node0Width')/60);
-        data('node1Height',data('node0Width')/4-data('node0Width')/60);
+        data('node1Width',data('node0Width')/3.6);
+        data('node1Height',data('node0Width')/3.6);
 
-        if (data('nodes')['root']['left']['top'] === undefined) {
-            data('nodes')['root']['left']['top'] = {};
-        }
-        var pointer = data('nodes')['root']['left']['top'];
-        with (pointer) { 
-        
-            pointer['top'] = {};
-            pointer['top']['x'] =
-            pointer['x']-
-            data('node0Width')/2+
-                data('node1Width')/2+
-                data('node1Width')/28;
-            pointer['top']['y'] =
-            pointer['y'];
+        for (var currentSide in data('nodes')['root']) {
+            for(var currentNode in data('nodes')['root'][currentSide]) {
 
-            pointer['middle'] = {};
-            pointer['middle']['x'] =
-            pointer['x'];
-            pointer['middle']['y'] =
-            pointer['y'];
+                if (data('nodes')['root'][currentSide][currentNode] === undefined) {
+                    data('nodes')['root'][currentSide][currentNode] = {};
+                }
+                var pointer = data('nodes')['root'][currentSide][currentNode];
+                with (pointer) { 
 
-            pointer['bottom'] = {};
-            pointer['bottom']['x'] =
-            pointer['x'];
-            pointer['bottom']['y'] =
-            pointer['y'];
+                    if (currentSide === 'left') {
 
-        }
+                        pointer['top'] = {};
+                        pointer['top']['x'] =
+                        pointer['x']-
+                        data('node0Width')/2.2+
+                            data('node1Width')/2;
+                        pointer['top']['y'] =
+                        pointer['y']-
+                        data('node0Height')/3+
+                            data('node1Height')/2+
+                            data('node1Height')/10;
 
-        if (data('nodes')['root']['left']['middle'] === undefined) {
-            data('nodes')['root']['left']['middle'] = {};
-        }
-        pointer = data('nodes')['root']['left']['middle'];
-        with (pointer) {
+                        pointer['middle'] = {};
+                        pointer['middle']['x'] =
+                        pointer['x']-
+                        data('node0Width')/2.2+
+                            data('node1Width')/2;
+                        pointer['middle']['y'] =
+                        pointer['y']+
+                            data('node0Height')/3-
+                        data('node1Height')/2-
+                        data('node1Height')/10;
 
-            pointer['top'] = {};
-            pointer['top']['x'] =
-            pointer['x']-
-            data('node0Width')/2+
-                data('node1Width')/2+
-                data('node1Width')/28;
-            pointer['top']['y'] =
-            pointer['y'];
+                        pointer['bottom'] = {};
+                        pointer['bottom']['x'] =
+                        pointer['x'];
+                        pointer['bottom']['y'] =
+                        pointer['y']+
+                            data('node0Height')/2-
+                        data('node1Height')/2;
 
-            pointer['middle'] = {};
-            pointer['middle']['x'] =
-            pointer['x'];
-            pointer['middle']['y'] =
-            pointer['y'];
+                    } else if (currentSide === 'right') {
 
-            pointer['bottom'] = {};
-            pointer['bottom']['x'] =
-            pointer['x'];
-            pointer['bottom']['y'] =
-            pointer['y'];
+                        pointer['top'] = {};
+                        pointer['top']['x'] =
+                        pointer['x'];
+                        pointer['top']['y'] =
+                        pointer['y']-
+                        data('node0Height')/2+
+                            data('node1Height')/2;
 
-        }
+                        pointer['middle'] = {};
+                        pointer['middle']['x'] =
+                        pointer['x']+
+                        data('node0Width')/2.2-
+                            data('node1Width')/2;
+                        pointer['middle']['y'] =
+                        pointer['y']-
+                            data('node0Height')/3+
+                        data('node1Height')/2+
+                        data('node1Height')/10;
 
-        if (data('nodes')['root']['left']['bottom'] === undefined) {
-            data('nodes')['root']['left']['bottom'] = {};
-        }
-        pointer = data('nodes')['root']['left']['bottom'];
-        with (pointer) {
+                        pointer['bottom'] = {};
+                        pointer['bottom']['x'] =
+                        pointer['x']+
+                        data('node0Width')/2.2-
+                        data('node1Width')/2;
+                        pointer['bottom']['y'] =
+                        pointer['y']+
+                            data('node0Height')/3-
+                        data('node1Height')/2-
+                        data('node1Height')/10;
 
-            pointer['top'] = {};
-            pointer['top']['x'] =
-            pointer['x']-
-            data('node0Width')/2+
-                data('node1Width')/2+
-                data('node1Width')/28;
-            pointer['top']['y'] =
-            pointer['y'];
+                    }
 
-            pointer['middle'] = {};
-            pointer['middle']['x'] =
-            pointer['x'];
-            pointer['middle']['y'] =
-            pointer['y'];
-
-            pointer['bottom'] = {};
-            pointer['bottom']['x'] =
-            pointer['x'];
-            pointer['bottom']['y'] =
-            pointer['y'];
-
-        }
-
-        if (data('nodes')['root']['right']['top'] === undefined) {
-            data('nodes')['root']['right']['top'] = {};
-        }
-        pointer = data('nodes')['root']['right']['top'];
-        with (pointer) {
-
-            pointer['top'] = {};
-            pointer['top']['x'] =
-            pointer['x']-
-            data('node0Width')/2+
-                data('node1Width')/2+
-                data('node1Width')/28;
-            pointer['top']['y'] =
-            pointer['y'];
-
-            pointer['middle'] = {};
-            pointer['middle']['x'] =
-            pointer['x'];
-            pointer['middle']['y'] =
-            pointer['y'];
-
-            pointer['bottom'] = {};
-            pointer['bottom']['x'] =
-            pointer['x'];
-            pointer['bottom']['y'] =
-            pointer['y'];
-
-        }
-
-        if (data('nodes')['root']['right']['middle'] === undefined) {
-            data('nodes')['root']['right']['middle'] = {};
-        }
-        pointer = data('nodes')['root']['right']['middle'];
-        with (pointer) {
-
-            pointer['top'] = {};
-            pointer['top']['x'] =
-            pointer['x']-
-            data('node0Width')/2+
-                data('node1Width')/2+
-                data('node1Width')/28;
-            pointer['top']['y'] =
-            pointer['y'];
-
-            pointer['middle'] = {};
-            pointer['middle']['x'] =
-            pointer['x'];
-            pointer['middle']['y'] =
-            pointer['y'];
-
-            pointer['bottom'] = {};
-            pointer['bottom']['x'] =
-            pointer['x'];
-            pointer['bottom']['y'] =
-            pointer['y'];
-
-        }
-
-        if (data('nodes')['root']['right']['bottom'] === undefined) {
-            data('nodes')['root']['right']['bottom'] = {};
-        }
-        pointer = data('nodes')['root']['right']['bottom'];
-        with (pointer) {
-
-            pointer['top'] = {};
-            pointer['top']['x'] =
-            pointer['x']-
-            data('node0Width')/2+
-                data('node1Width')/2+
-                data('node1Width')/28;
-            pointer['top']['y'] =
-            pointer['y'];
-
-            pointer['middle'] = {};
-            pointer['middle']['x'] =
-            pointer['x'];
-            pointer['middle']['y'] =
-            pointer['y'];
-
-            pointer['bottom'] = {};
-            pointer['bottom']['x'] =
-            pointer['x'];
-            pointer['bottom']['y'] =
-            pointer['y'];
-
+                }
+            }
         }
 
     }
 
 }
+function layoutSmallerCalibrationNodes() {
+
+    with ($('#globalCanvas')) {
+
+        data('node2Width',data('node1Width')/3.6);
+        data('node2Height',data('node1Width')/3.6);
+
+        for (var currentSide in data('nodes')['root']) {
+            for(var currentBranch in data('nodes')['root'][currentSide]) {
+                for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
+
+                    if (currentNode === 'x' || currentNode === 'y') {
+                        continue;
+                    }
+
+                    if (data('nodes')['root'][currentSide][currentBranch][currentNode] === undefined) {
+                        data('nodes')['root'][currentSide][currentBranch][currentNode] = {};
+                    }
+                    var pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
+                    with (pointer) { 
+
+                        if (currentSide === 'left') {
+
+                            pointer['top'] = {};
+                            pointer['top']['x'] =
+                            pointer['x']-
+                            data('node1Width')/2.2+
+                                data('node2Width')/2;
+                            pointer['top']['y'] =
+                            pointer['y']-
+                            data('node1Height')/3+
+                                data('node2Height')/2+
+                                data('node2Height')/10;
+
+                            pointer['middle'] = {};
+                            pointer['middle']['x'] =
+                            pointer['x']-
+                            data('node1Width')/2.2+
+                                data('node2Width')/2;
+                            pointer['middle']['y'] =
+                            pointer['y']+
+                                data('node1Height')/3-
+                            data('node2Height')/2-
+                            data('node2Height')/10;
+
+                            pointer['bottom'] = {};
+                            pointer['bottom']['x'] =
+                            pointer['x'];
+                            pointer['bottom']['y'] =
+                            pointer['y']+
+                                data('node1Height')/2-
+                            data('node2Height')/2;
+
+                        } else if (currentSide === 'right') {
+
+                            pointer['top'] = {};
+                            pointer['top']['x'] =
+                            pointer['x'];
+                            pointer['top']['y'] =
+                            pointer['y']-
+                            data('node1Height')/2+
+                                data('node2Height')/2;
+
+                            pointer['middle'] = {};
+                            pointer['middle']['x'] =
+                            pointer['x']+
+                                data('node1Width')/2.2-
+                            data('node2Width')/2;
+                            pointer['middle']['y'] =
+                            pointer['y']-
+                            data('node1Height')/3+
+                                data('node2Height')/2+
+                                data('node2Height')/10;
+
+                            pointer['bottom'] = {};
+                            pointer['bottom']['x'] =
+                            pointer['x']+
+                                data('node1Width')/2.2-
+                            data('node2Width')/2;
+                            pointer['bottom']['y'] =
+                            pointer['y']+
+                                data('node1Height')/3-
+                            data('node2Height')/2-
+                            data('node2Height')/10;
+
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+
 function drawCalibrationNodes() {
 
     gP.strokeWeight(2);
     gP.stroke(255,255,255);
     gP.fill(0,0,0);
-
     with ($('#globalCanvas')) {
 
-        var pointer = data('nodes')['root']['left'];
-        with (pointer) {
+        for (var currentSide in data('nodes')['root']) {
+            var pointer = data('nodes')['root'][currentSide];
+            with (pointer) { 
 
-            gP.ellipse(pointer['top']['x'],
-            pointer['top']['y'],
-            data('node0Width'),
-            data('node0Height'));
-            gP.line(pointer['top']['x']-(data('node0Width')/2/2),
-            pointer['top']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
-            pointer['top']['x']+(data('node0Width')/2/2),
-            pointer['top']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
+                    gP.ellipse(pointer['top']['x'],
+                        pointer['top']['y'],
+                        data('node0Width'),
+                        data('node0Height'));
 
-            gP.ellipse(pointer['middle']['x'],
-            pointer['middle']['y'],
-            data('node0Width'),
-            data('node0Height'));
-            gP.line(pointer['middle']['x']-(data('node0Width')/2/2),
-            pointer['middle']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
-            pointer['middle']['x']+(data('node0Width')/2/2),
-            pointer['middle']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
+                    gP.line(pointer['top']['x']-(data('node0Width')/2/2),
+                    pointer['top']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
+                    pointer['top']['x']+(data('node0Width')/2/2),
+                    pointer['top']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
 
-            gP.ellipse(pointer['bottom']['x'],
-            pointer['bottom']['y'],
-            data('node0Width'),
-            data('node0Height'));
-            gP.line(pointer['bottom']['x']-(data('node0Width')/2/2),
-            pointer['bottom']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
-            pointer['bottom']['x']+(data('node0Width')/2/2),
-            pointer['bottom']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
+                    gP.ellipse(pointer['middle']['x'],
+                        pointer['middle']['y'],
+                        data('node0Width'),
+                        data('node0Height'));
+                    gP.line(pointer['middle']['x']-(data('node0Width')/2/2),
+                    pointer['middle']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
+                    pointer['middle']['x']+(data('node0Width')/2/2),
+                    pointer['middle']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
 
+                    gP.ellipse(pointer['bottom']['x'],
+                        pointer['bottom']['y'],
+                        data('node0Width'),
+                        data('node0Height'));
+                    gP.line(pointer['bottom']['x']-(data('node0Width')/2/2),
+                    pointer['bottom']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
+                    pointer['bottom']['x']+(data('node0Width')/2/2),
+                    pointer['bottom']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
+
+            }
         }
-
-        pointer = data('nodes')['root']['right'];
-        with (pointer) {
-
-            gP.ellipse(pointer['top']['x'],
-            pointer['top']['y'],
-            data('node0Width'),
-            data('node0Height'));
-            gP.line(pointer['top']['x']-(data('node0Width')/2/2),
-            pointer['top']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
-            pointer['top']['x']+(data('node0Width')/2/2),
-            pointer['top']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
-
-            gP.ellipse(pointer['middle']['x'],
-            pointer['middle']['y'],
-            data('node0Width'),
-            data('node0Height'));
-            gP.line(pointer['middle']['x']-(data('node0Width')/2/2),
-            pointer['middle']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
-            pointer['middle']['x']+(data('node0Width')/2/2),
-            pointer['middle']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
-
-            gP.ellipse(pointer['bottom']['x'],
-            pointer['bottom']['y'],
-            data('node0Width'),
-            data('node0Height'));
-            gP.line(pointer['bottom']['x']-(data('node0Width')/2/2),
-            pointer['bottom']['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
-            pointer['bottom']['x']+(data('node0Width')/2/2),
-            pointer['bottom']['y']+(data('node0Height')/2*Math.sqrt(3)/2));
-
-        }
-
     }
 
 }
@@ -414,69 +387,74 @@ function drawSmallCalibrationNodes() {
 
     with ($('#globalCanvas')) {
 
-        var pointer = data('nodes')['root']['left']['top'];
-        with (pointer) { 
-        
-            gP.ellipse(pointer['top']['x'],
-                pointer['top']['y'],
-                data('node1Width'),
-                data('node1Height'));
+        for (var currentSide in data('nodes')['root']) {
+            for(var currentNode in data('nodes')['root'][currentSide]) {
+                var pointer = data('nodes')['root'][currentSide][currentNode];
+                with (pointer) {
 
-        }
+                    gP.ellipse(pointer['top']['x'],
+                        pointer['top']['y'],
+                        data('node1Width'),
+                        data('node1Height'));
 
-        pointer = data('nodes')['root']['left']['middle'];
-        with (pointer) {
+                    gP.ellipse(pointer['middle']['x'],
+                        pointer['middle']['y'],
+                        data('node1Width'),
+                        data('node1Height'));
 
-            gP.ellipse(pointer['top']['x'],
-                pointer['top']['y'],
-                data('node1Width'),
-                data('node1Height'));
+                     gP.ellipse(pointer['bottom']['x'],
+                         pointer['bottom']['y'],
+                         data('node1Width'),
+                         data('node1Height'));
 
-        }
-
-        pointer = data('nodes')['root']['left']['bottom'];
-        with (pointer) {
-
-            gP.ellipse(pointer['top']['x'],
-                pointer['top']['y'],
-                data('node1Width'),
-                data('node1Height'));
-
-        }
-
-        pointer = data('nodes')['root']['right']['top'];
-        with (pointer) {
-
-            gP.ellipse(pointer['top']['x'],
-                pointer['top']['y'],
-                data('node1Width'),
-                data('node1Height'));
-
-        }
-
-        pointer = data('nodes')['root']['right']['middle'];
-        with (pointer) {
-
-            gP.ellipse(pointer['top']['x'],
-                pointer['top']['y'],
-                data('node1Width'),
-                data('node1Height'));
-
-        }
-
-        pointer = data('nodes')['root']['right']['bottom'];
-        with (pointer) {
-
-            gP.ellipse(pointer['top']['x'],
-                pointer['top']['y'],
-                data('node1Width'),
-                data('node1Height'));
-
+                }
+            }
         }
 
     }
-
 }
+function drawSmallerCalibrationNodes() {
+
+    gP.stroke(255,255,255);
+    gP.fill(0,0,0);
+
+    with ($('#globalCanvas')) {
+
+        for (var currentSide in data('nodes')['root']) {
+            for(var currentBranch in data('nodes')['root'][currentSide]) {
+                for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
+
+                    if (currentNode === 'x' || currentNode === 'y') {
+                        continue;
+                    }
+
+                    var pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
+                    with (pointer) {
+
+                        gP.ellipse(pointer['top']['x'],
+                            pointer['top']['y'],
+                            data('node2Width'),
+                            data('node2Height'));
+
+                            gP.ellipse(pointer['middle']['x'],
+                                pointer['middle']['y'],
+                                data('node2Width'),
+                                data('node2Height'));
+
+                                gP.ellipse(pointer['bottom']['x'],
+                                    pointer['bottom']['y'],
+                                    data('node2Width'),
+                                    data('node2Height'));
+
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
 function drawDiameterBorder() {
 
     gP.strokeWeight(3);

@@ -91,8 +91,8 @@ $(document).ready(function() {
             _init: function() {
                 $(this).data('canvasWidth',640);
                 $(this).data('canvasHeight',640);
-                $(this).data('graphWidth',600);
-                $(this).data('graphHeight',600);
+                $(this).data('graphWidth',560);
+                $(this).data('graphHeight',560);
                 $(this).data('graphCenterX',320);
                 $(this).data('graphCenterY',320);
 
@@ -240,6 +240,7 @@ function gP(p) {
 
         layoutCalibrationNodes();
         layoutSmallCalibrationNodes();
+        layoutSmallerCalibrationNodes();
 	};
 
 	p.draw = function() {
@@ -251,6 +252,7 @@ function gP(p) {
 
         drawCalibrationNodes();
         drawSmallCalibrationNodes();
+        drawSmallerCalibrationNodes();
 
         drawDiameterBorder();
 
