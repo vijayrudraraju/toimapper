@@ -66,44 +66,58 @@ function drawSignalButton() {
 function drawCalibrationNodes() {
     gP.strokeWeight(3);
     gP.fill(0,0,0);
-    with ($('#globalCanvas')) {
 
+    with ($('#globalCanvas')) {
         for (var currentSide in data('nodes')['root']) {
             var pointer = data('nodes')['root'][currentSide];
-            with (pointer) { 
-                if (currentSide === 'left') {
+            if (currentSide === 'left') {
+                if (pointer['main']['moused']) {
+                    gP.strokeWeight(6);
+                    gP.stroke(127,127,127);
+                } else {
                     gP.noStroke();
-                    gP.arc(pointer['main']['x'],
+                }
+                gP.arc(pointer['main']['x'],
                     pointer['main']['y'],
                     data('mainNode0Width'),
                     data('mainNode0Height'),
                     2*Math.PI/3-Math.PI/3,
-                    2*2*Math.PI/3);
-                } else if (currentSide === 'right') {
+                2*2*Math.PI/3);
+            } else if (currentSide === 'right') {
+                if (pointer['main']['moused']) {
+                    gP.strokeWeight(6);
+                    gP.stroke(127,127,127);
+                } else {
                     gP.noStroke();
-                    gP.arc(pointer['main']['x'],
+                }
+                gP.arc(pointer['main']['x'],
                     pointer['main']['y'],
                     data('mainNode0Width'),
                     data('mainNode0Height'),
                     -Math.PI/2-Math.PI/6,
-                    Math.PI-2*Math.PI/3);
-                }
+                Math.PI-2*Math.PI/3);
+            }
 
-                for (var currentNode in pointer) {
-                    if (pointer[currentNode]['terminal'] === undefined || pointer[currentNode]['terminal'] === true) {
-                        continue;
-                    }
+            for (var currentNode in pointer) {
+                if (pointer[currentNode]['terminal'] === undefined || pointer[currentNode]['terminal'] === true) {
+                    continue;
+                }
+                if (pointer[currentNode]['moused']) {
+                    gP.strokeWeight(6);
+                    gP.stroke(127,127,127);
+                } else {
                     gP.noStroke();
-                    gP.ellipse(pointer[currentNode]['x'],
-                        pointer[currentNode]['y'],
-                        data('node0Width'),
-                        data('node0Height'));
+                }
+                gP.ellipse(pointer[currentNode]['x'],
+                    pointer[currentNode]['y'],
+                    data('node0Width'),
+                    data('node0Height'));
+                    gP.strokeWeight(3);
                     gP.stroke(255,255,255);
                     gP.line(pointer[currentNode]['x']-(data('node0Width')/2/2),
                     pointer[currentNode]['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
                     pointer[currentNode]['x']+(data('node0Width')/2/2),
                     pointer[currentNode]['y']+(data('node0Height')/2*Math.sqrt(3)/2));
-                }
             }
         }
     }
@@ -212,12 +226,39 @@ function drawSmallerCalibrationNodes() {
 
 function drawBigNode() {
     with ($('#globalCanvas')) {
+        gP.fill(255,255,255);
+        if (data('nodes')['root']['left']['moused']) {
+            gP.strokeWeight(6);
+            gP.stroke(127,127,127);
+        } else {
+            gP.noStroke();
+        }
+        gP.arc(data('graphCenterX'),
+        data('graphCenterY'),
+        data('graphWidth'),
+        data('graphHeight'),
+        2*Math.PI/3-Math.PI/3,
+        2*2*Math.PI/3);
+        if (data('nodes')['root']['right']['moused']) {
+            gP.strokeWeight(6);
+            gP.stroke(127,127,127);
+        } else {
+            gP.noStroke();
+        }
+        gP.arc(data('graphCenterX'),
+        data('graphCenterY'),
+        data('graphWidth'),
+        data('graphHeight'),
+        -Math.PI/2-Math.PI/6,
+        Math.PI-2*Math.PI/3);
+        /*
         gP.strokeWeight(1);
         gP.stroke(255,255,255);
         gP.fill(255,255,255);
         gP.ellipse(data('graphCenterX'),
         data('graphCenterY'),
         data('graphWidth'), data('graphHeight'));
+        */
 
         gP.strokeWeight(3);
         gP.stroke(0,0,0);

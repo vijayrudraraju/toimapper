@@ -23,6 +23,47 @@ function detectHelpButtonClick() {
     }
 }
 
+function detectNodesClick() {
+    with ($('#globalCanvas')) {
+        for (var currentSide in data('nodes')['root']) {
+            var pointer = data('nodes')['root'][currentSide];
+            if (currentSide === 'left') {
+                if (canonY > canonX*-1*Math.sqrt(3)) {
+                    pointer['moused'] = false;
+                } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('graphWidth')/2,2)) {
+                    pointer['moused'] = false;
+                } else {
+                    //console.log('left');
+                    pointer['moused'] = true;
+                }
+            } else if (currentSide === 'right') {
+                if (canonY < canonX*-1*Math.sqrt(3)) {
+                    pointer['moused'] = false;
+                } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('graphWidth')/2,2)) {
+                    pointer['moused'] = false;
+                } else {
+                    //console.log('right');
+                    pointer['moused'] = true;
+                }
+            }
+
+            for(var currentNode in data('nodes')['root'][currentSide]) {
+                if (currentNode === 'x' || currentNode === 'y' || currentNode === 'main' || currentNode === 'moused' || currentNode === 'active') {
+                    continue;
+                }
+
+                pointer = data('nodes')['root'][currentSide][currentNode];
+                if (Math.pow(gP.mouseX-pointer['x'],2)+Math.pow(pointer['y']-gP.mouseY,2) > Math.pow(data('node0Width')/2,2)) {
+                    pointer['moused'] = false;
+                } else {
+                    //console.log(currentSide+' '+currentNode);
+                    pointer['moused'] = true;
+                }
+            }
+        }
+    }
+}
+
 function detectNodeClick(selectionEnabled) {
     var sourcePaths = getCurrentOutputPathsFromNodes();
     var destinationPaths = getCurrentInputPathsFromNodes();

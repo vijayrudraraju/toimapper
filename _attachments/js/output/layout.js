@@ -7,34 +7,30 @@ function layoutCalibrationNodes() {
 
         for (var currentSide in data('nodes')['root']) {
             var pointer = data('nodes')['root'][currentSide];
-            //with (pointer) {
-                pointer['main']['x'] = data('graphCenterX');
-                pointer['main']['y'] = data('graphCenterY');
+            pointer['main']['x'] = data('graphCenterX');
+            pointer['main']['y'] = data('graphCenterY');
 
-                pointer['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-                pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
+            pointer['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
+            pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
 
-                pointer['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-                pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
+            pointer['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
+            pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
 
-                pointer['bottom']['x'] = data('graphCenterX');
-                pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/2)-(data('node0Height')/2);
-            //}
+            pointer['bottom']['x'] = data('graphCenterX');
+            pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/2)-(data('node0Height')/2);
 
             pointer = data('nodes')['root']['right'];
-            //with (pointer) {
-                pointer['main']['x'] = data('graphCenterX');
-                pointer['main']['y'] = data('graphCenterY');
+            pointer['main']['x'] = data('graphCenterX');
+            pointer['main']['y'] = data('graphCenterY');
 
-                pointer['top']['x'] = data('graphCenterX');
-                pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/2)+(data('node0Height')/2);
+            pointer['top']['x'] = data('graphCenterX');
+            pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/2)+(data('node0Height')/2);
 
-                pointer['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-                pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
+            pointer['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
+            pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
 
-                pointer['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-                pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
-            //}
+            pointer['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
+            pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
         }
     }
 }
@@ -52,69 +48,67 @@ function layoutSmallCalibrationNodes() {
                 if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
                     continue;
                 }
-                //with (pointer) { 
-                    if (currentSide === 'left') {
-                        pointer['main']['x'] = pointer['x'];
-                        pointer['main']['y'] = pointer['y'];
+                if (currentSide === 'left') {
+                    pointer['main']['x'] = pointer['x'];
+                    pointer['main']['y'] = pointer['y'];
 
-                        pointer['top']['x'] =
-                        pointer['x']-
-                        data('node0Width')/2.2+
-                            data('node1Width')/2;
-                        pointer['top']['y'] =
-                        pointer['y']-
-                        data('node0Height')/3+
-                            data('node1Height')/2+
-                            data('node1Height')/10;
-
-                        pointer['middle']['x'] =
-                        pointer['x']-
-                        data('node0Width')/2.2+
-                            data('node1Width')/2;
-                        pointer['middle']['y'] =
-                        pointer['y']+
-                            data('node0Height')/3-
-                        data('node1Height')/2-
-                        data('node1Height')/10;
-
-                        pointer['bottom']['x'] =
-                        pointer['x'];
-                        pointer['bottom']['y'] =
-                        pointer['y']+
-                            data('node0Height')/2-
-                        data('node1Height')/2;
-                    } else if (currentSide === 'right') {
-                        pointer['main']['x'] = pointer['x'];
-                        pointer['main']['y'] = pointer['y'];
-
-                        pointer['top']['x'] =
-                        pointer['x'];
-                        pointer['top']['y'] =
-                        pointer['y']-
-                        data('node0Height')/2+
-                            data('node1Height')/2;
-
-                        pointer['middle']['x'] =
-                        pointer['x']+
-                        data('node0Width')/2.2-
-                            data('node1Width')/2;
-                        pointer['middle']['y'] =
-                        pointer['y']-
-                            data('node0Height')/3+
+                    pointer['top']['x'] =
+                    pointer['x']-
+                    data('node0Width')/2.2+
+                        data('node1Width')/2;
+                    pointer['top']['y'] =
+                    pointer['y']-
+                    data('node0Height')/3+
                         data('node1Height')/2+
                         data('node1Height')/10;
 
-                        pointer['bottom']['x'] =
-                        pointer['x']+
-                        data('node0Width')/2.2-
+                    pointer['middle']['x'] =
+                    pointer['x']-
+                    data('node0Width')/2.2+
                         data('node1Width')/2;
-                        pointer['bottom']['y'] =
-                        pointer['y']+
-                            data('node0Height')/3-
-                        data('node1Height')/2-
+                    pointer['middle']['y'] =
+                    pointer['y']+
+                        data('node0Height')/3-
+                    data('node1Height')/2-
+                    data('node1Height')/10;
+
+                    pointer['bottom']['x'] =
+                    pointer['x'];
+                    pointer['bottom']['y'] =
+                    pointer['y']+
+                        data('node0Height')/2-
+                    data('node1Height')/2;
+                } else if (currentSide === 'right') {
+                    pointer['main']['x'] = pointer['x'];
+                    pointer['main']['y'] = pointer['y'];
+
+                    pointer['top']['x'] =
+                    pointer['x'];
+                    pointer['top']['y'] =
+                    pointer['y']-
+                    data('node0Height')/2+
+                        data('node1Height')/2;
+
+                    pointer['middle']['x'] =
+                    pointer['x']+
+                        data('node0Width')/2.2-
+                    data('node1Width')/2;
+                    pointer['middle']['y'] =
+                    pointer['y']-
+                    data('node0Height')/3+
+                        data('node1Height')/2+
                         data('node1Height')/10;
-                    }
-                //}
+
+                    pointer['bottom']['x'] =
+                    pointer['x']+
+                        data('node0Width')/2.2-
+                    data('node1Width')/2;
+                    pointer['bottom']['y'] =
+                    pointer['y']+
+                        data('node0Height')/3-
+                    data('node1Height')/2-
+                    data('node1Height')/10;
+                }
             }
         }
     }
@@ -138,71 +132,68 @@ function layoutSmallerCalibrationNodes() {
                     if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
                         continue;
                     }
-                    //console.log(currentSide+' '+currentBranch+' '+currentNode);
-                    //with (pointer) { 
-                        if (currentSide === 'left') {
-                            pointer['main']['x'] = pointer['x'];
-                            pointer['main']['y'] = pointer['y'];
+                    if (currentSide === 'left') {
+                        pointer['main']['x'] = pointer['x'];
+                        pointer['main']['y'] = pointer['y'];
 
-                            pointer['top']['x'] =
-                            pointer['x']-
-                            data('node1Width')/2.2+
-                                data('node2Width')/2;
-                            pointer['top']['y'] =
-                            pointer['y']-
-                            data('node1Height')/3+
-                                data('node2Height')/2+
-                                data('node2Height')/10;
-
-                            pointer['middle']['x'] =
-                            pointer['x']-
-                            data('node1Width')/2.2+
-                                data('node2Width')/2;
-                            pointer['middle']['y'] =
-                            pointer['y']+
-                                data('node1Height')/3-
-                            data('node2Height')/2-
+                        pointer['top']['x'] =
+                        pointer['x']-
+                        data('node1Width')/2.2+
+                            data('node2Width')/2;
+                        pointer['top']['y'] =
+                        pointer['y']-
+                        data('node1Height')/3+
+                            data('node2Height')/2+
                             data('node2Height')/10;
 
-                            pointer['bottom']['x'] =
-                            pointer['x'];
-                            pointer['bottom']['y'] =
-                            pointer['y']+
-                                data('node1Height')/2-
+                        pointer['middle']['x'] =
+                        pointer['x']-
+                        data('node1Width')/2.2+
+                            data('node2Width')/2;
+                        pointer['middle']['y'] =
+                        pointer['y']+
+                            data('node1Height')/3-
+                        data('node2Height')/2-
+                        data('node2Height')/10;
+
+                        pointer['bottom']['x'] =
+                        pointer['x'];
+                        pointer['bottom']['y'] =
+                        pointer['y']+
+                            data('node1Height')/2-
+                        data('node2Height')/2;
+
+                    } else if (currentSide === 'right') {
+                        pointer['main']['x'] = pointer['x'];
+                        pointer['main']['y'] = pointer['y'];
+
+                        pointer['top']['x'] =
+                        pointer['x'];
+                        pointer['top']['y'] =
+                        pointer['y']-
+                        data('node1Height')/2+
                             data('node2Height')/2;
 
-                        } else if (currentSide === 'right') {
-                            pointer['main']['x'] = pointer['x'];
-                            pointer['main']['y'] = pointer['y'];
-
-                            pointer['top']['x'] =
-                            pointer['x'];
-                            pointer['top']['y'] =
-                            pointer['y']-
-                            data('node1Height')/2+
-                                data('node2Height')/2;
-
-                            pointer['middle']['x'] =
-                            pointer['x']+
-                                data('node1Width')/2.2-
-                            data('node2Width')/2;
-                            pointer['middle']['y'] =
-                            pointer['y']-
-                            data('node1Height')/3+
-                                data('node2Height')/2+
-                                data('node2Height')/10;
-
-                            pointer['bottom']['x'] =
-                            pointer['x']+
-                                data('node1Width')/2.2-
-                            data('node2Width')/2;
-                            pointer['bottom']['y'] =
-                            pointer['y']+
-                                data('node1Height')/3-
-                            data('node2Height')/2-
+                        pointer['middle']['x'] =
+                        pointer['x']+
+                            data('node1Width')/2.2-
+                        data('node2Width')/2;
+                        pointer['middle']['y'] =
+                        pointer['y']-
+                        data('node1Height')/3+
+                            data('node2Height')/2+
                             data('node2Height')/10;
-                        }
-                    //}
+
+                        pointer['bottom']['x'] =
+                        pointer['x']+
+                            data('node1Width')/2.2-
+                        data('node2Width')/2;
+                        pointer['bottom']['y'] =
+                        pointer['y']+
+                            data('node1Height')/3-
+                        data('node2Height')/2-
+                        data('node2Height')/10;
+                    }
                 }
             }
         }
