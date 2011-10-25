@@ -1,48 +1,37 @@
-function initializeNodesStructure() {
+function initializeNodeStructures() {
     with ($('#globalCanvas')) {
         data('nodes',{});
         data('nodes')['root'] = {};
-        data('nodes')['root']['left'] = {};
-        data('nodes')['root']['right'] = {};
+        data('nodes')['root']['left'] = {active:false,moused:false,terminal:false};
+        data('nodes')['root']['right'] = {active:false,moused:false,terminal:false};
 
         for (var currentSide in data('nodes')['root']) {
-            if (currentSide === 'main') {
-                continue;
-            }
-
             var pointer = data('nodes')['root'][currentSide];
-            with (pointer) {
-                pointer['main'] = {color:'none',signal:[0.0]};
-                pointer['top'] = {color:'none',signal:[0.0]};
-                pointer['middle'] = {color:'none',signal:[0.0]};
-                pointer['bottom'] = {color:'none',signal:[0.0]};
-            }
+            pointer['main'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:true};
+            pointer['top'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+            pointer['middle'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+            pointer['bottom'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+
             for(var currentBranch in data('nodes')['root'][currentSide]) {
-                if (currentBranch === 'x' || currentBranch === 'y' || currentBranch === 'main') {
+                pointer = data('nodes')['root'][currentSide][currentBranch];
+                if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
                     continue;
                 }
+                pointer['main'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:true};
+                pointer['top'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+                pointer['middle'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+                pointer['bottom'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
 
-                data('nodes')['root'][currentSide][currentBranch] = {};
-                pointer = data('nodes')['root'][currentSide][currentBranch];
-                with (pointer) { 
-                    pointer['main'] = {color:'none',signal:[0.0]};
-                    pointer['top'] = {color:'none',signal:[0.0]};
-                    pointer['middle'] = {color:'none',signal:[0.0]};
-                    pointer['bottom'] = {color:'none',signal:[0.0]};
-                }
                 for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
-                    if (currentNode === 'x' || currentNode === 'y' || currentNode === 'main') {
+                    pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
+                    if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
                         continue;
                     }
 
-                    data('nodes')['root'][currentSide][currentBranch][currentNode] = {};
-                    pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
-                    with (pointer) { 
-                        pointer['main'] = {color:'none',signal:[0.0]};
-                        pointer['top'] = {color:'none',signal:[0.0]};
-                        pointer['middle'] = {color:'none',signal:[0.0]};
-                        pointer['bottom'] = {color:'none',signal:[0.0]};
-                    }
+                    pointer['main'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:true};
+                    pointer['top'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+                    pointer['middle'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+                    pointer['bottom'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
                 }
             }
         }

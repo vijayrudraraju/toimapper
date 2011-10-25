@@ -96,7 +96,7 @@ $(document).ready(function() {
                 $(this).data('graphCenterX',320);
                 $(this).data('graphCenterY',320);
 
-                initializeNodesStructure();
+                initializeNodeStructures();
             
                 gP = new Processing($('#globalCanvas')[0],gP);
             },
@@ -256,9 +256,10 @@ function gP(p) {
         drawSmallCalibrationNodes();
         drawSmallerCalibrationNodes();
 
-        updateNodeMouseState();
-        drawNodes();
-        drawEdges();
+        updateNodeMouseStates();
+        //updateNodeMouseState();
+        //drawNodes();
+        //drawEdges();
 
         drawAscendLevelButton();
         drawDescendLevelButton();
