@@ -64,13 +64,10 @@ $(document).ready(function() {
             },
             keypress: function(e) {
                 //e.preventDefault();
-                //console.log('key press: '+e.which);
             },
             keydown: function(e) {
                 if(e.which=='9') {
                     //e.preventDefault();
-                    //console.log('keydown: '+e.which);
-                    //$('#globalCanvas').trigger("tab");
                 } else if(e.which=='13') {
                     e.preventDefault();
                 }
@@ -78,7 +75,6 @@ $(document).ready(function() {
             keyup: function(e) {
                 if(e.which=='9') {
                     //e.preventDefault();
-                    //console.log('keyup: '+e.which);
                 } else if(e.which=='13') {
                     e.preventDefault();
                     $('#globalCanvas').trigger("enter");
@@ -106,15 +102,9 @@ $(document).ready(function() {
             updatebackground: function() {
             },
             updategraph: function() {
-                //updateActiveFilter();
-                //updateSignalMatches();
-                //updateLevelStructure();
-                //updateNodeGlyphMap(false);
-                //updateEdgeGlyphMap(false);
                 console.log('updategraph triggered');
             },
             redraw: function() {
-                //gP.redraw();
                 gP.redraw();
                 console.log('redraw triggered');
             },
@@ -255,10 +245,6 @@ function gP(p) {
         drawSmallCalibrationNodes();
         drawSmallerCalibrationNodes();
         drawBigBisect();
-
-        //updateNodeMouseState();
-        //drawNodes();
-        //drawEdges();
 
         drawAscendLevelButton();
         drawDescendLevelButton();
