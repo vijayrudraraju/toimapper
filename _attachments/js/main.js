@@ -97,21 +97,24 @@ $(document).ready(function() {
                 $(this).data('graphCenterY',320);
 
                 initializeNodeStructures();
+                initializeLayoutStructures();
             
                 gP = new Processing($('#globalCanvas')[0],gP);
+                $(this).trigger('redraw');
+                gP.noLoop();
             },
             updatebackground: function() {
             },
             updategraph: function() {
-                updateActiveFilter();
-                updateSignalMatches();
-                updateLevelStructure();
-                updateNodeGlyphMap(false);
-                updateEdgeGlyphMap(false);
+                //updateActiveFilter();
+                //updateSignalMatches();
+                //updateLevelStructure();
+                //updateNodeGlyphMap(false);
+                //updateEdgeGlyphMap(false);
                 console.log('updategraph triggered');
             },
             redraw: function() {
-                gP.redraw();
+                //gP.redraw();
                 gP.redraw();
                 console.log('redraw triggered');
             },
@@ -215,23 +218,20 @@ $(document).ready(function() {
 // output labels, input labels
 var traversalGlyphMap = [[],[]];
 
-//var selectedSource = "none";
-//var selectedDestination = "none";
-//var selectedEdge;
-
-//var selectedRemoveOutput = "";
-//var selectedRemoveInput = "";
-
 function gP(p) {
 	p.mouseMoved = function() {
+        updateNodeMouseStates();
+        updateAboutButtonMouseState();
+        updateHelpButtonMouseState();
         $('#globalCanvas').trigger('redraw');
 	};
 
 	p.mouseClicked = function() {
-        $('#globalCanvas').trigger('updategraph');
-        $('#globalCanvas').trigger('redraw');
+        detectNodesClick();
         detectAboutButtonClick();
         detectHelpButtonClick();
+        $('#globalCanvas').trigger('updategraph');
+        $('#globalCanvas').trigger('redraw');
 	};
 
 	p.setup = function() {
@@ -251,12 +251,11 @@ function gP(p) {
         p.background(0*16+11,0*16+9,0*16+11);
 
         drawBigNode();
-
         drawCalibrationNodes();
         drawSmallCalibrationNodes();
         drawSmallerCalibrationNodes();
+        drawBigBisect();
 
-        updateNodeMouseStates();
         //updateNodeMouseState();
         //drawNodes();
         //drawEdges();
@@ -265,12 +264,7 @@ function gP(p) {
         drawDescendLevelButton();
         drawSignalButton();
 
-        updateAboutButtonMouseState();
-        updateHelpButtonMouseState();
-
         drawAboutButton();
         drawHelpButton();
-
-        p.noLoop();
 	};
 }

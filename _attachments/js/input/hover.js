@@ -22,13 +22,14 @@ function updateHelpButtonMouseState() {
 
 function updateNodeMouseStates() {
     with ($('#globalCanvas')) {
-        //console.log('mouse '+gP.mouseX+' '+gP.mouseY);
-        //console.log('canon '+canonX+' '+canonY);
-
-        for (var currentSide in data('nodes')['root']) {
-            var canonX = gP.mouseX-data('graphCenterX');
-            var canonY = data('graphCenterY')-gP.mouseY;
-            var pointer = data('nodes')['root'][currentSide];
+        var pointer;
+        var canonX;
+        var canonY;
+        for (var currentSide in data('layouts')['root']) {
+            canonX = gP.mouseX-data('graphCenterX');
+            canonY = data('graphCenterY')-gP.mouseY;
+            // set 0 pointer
+            pointer = data('layouts')['root'][currentSide];
             if (currentSide === 'left') {
                 if (canonY > canonX*-1*Math.sqrt(3)) {
                     pointer['moused'] = false;
@@ -47,9 +48,11 @@ function updateNodeMouseStates() {
                 }
             }
 
-            for(var currentNode in data('nodes')['root'][currentSide]) {
-                pointer = data('nodes')['root'][currentSide][currentNode];
-                if (pointer['terminal'] === undefined) {
+            for(var currentNode in data('layouts')['root'][currentSide]) {
+                // set 1 pointer
+                pointer = data('layouts')['root'][currentSide][currentNode];
+                // skip simple nodes
+                if (pointer['complex'] === undefined) {
                     continue;
                 }
 

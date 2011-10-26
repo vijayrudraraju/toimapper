@@ -5,33 +5,35 @@ function layoutCalibrationNodes() {
         data('mainNode0Width',data('node0Width')*1.4);
         data('mainNode0Height',data('node0Height')*1.4);
 
-        for (var currentSide in data('nodes')['root']) {
-            var pointer = data('nodes')['root'][currentSide];
-            pointer['main']['x'] = data('graphCenterX');
-            pointer['main']['y'] = data('graphCenterY');
+        var pointer;
 
-            pointer['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-            pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
+        // set 0 pointer to left side
+        pointer = data('layouts')['root']['left'];
+        pointer['main']['x'] = data('graphCenterX');
+        pointer['main']['y'] = data('graphCenterY');
 
-            pointer['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-            pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
+        pointer['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
+        pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
 
-            pointer['bottom']['x'] = data('graphCenterX');
-            pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/2)-(data('node0Height')/2);
+        pointer['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
+        pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
 
-            pointer = data('nodes')['root']['right'];
-            pointer['main']['x'] = data('graphCenterX');
-            pointer['main']['y'] = data('graphCenterY');
+        pointer['bottom']['x'] = data('graphCenterX');
+        pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/2)-(data('node0Height')/2);
 
-            pointer['top']['x'] = data('graphCenterX');
-            pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/2)+(data('node0Height')/2);
+        // set 0 pointer to right side
+        pointer = data('layouts')['root']['right'];
+        pointer['main']['x'] = data('graphCenterX');
+        pointer['main']['y'] = data('graphCenterY');
 
-            pointer['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-            pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
+        pointer['top']['x'] = data('graphCenterX');
+        pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/2)+(data('node0Height')/2);
 
-            pointer['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-            pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
-        }
+        pointer['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
+        pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')/3)+(data('node0Height')/2+data('node0Height')/10);
+
+        pointer['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
+        pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
     }
 }
 function layoutSmallCalibrationNodes() {
@@ -41,11 +43,13 @@ function layoutSmallCalibrationNodes() {
         data('mainNode1Width',data('node1Width')*1.4);
         data('mainNode1Height',data('node1Height')*1.4);
 
-        for (var currentSide in data('nodes')['root']) {
-
-            for(var currentNode in data('nodes')['root'][currentSide]) {
-                var pointer = data('nodes')['root'][currentSide][currentNode];
-                if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
+        var pointer;
+        for (var currentSide in data('layouts')['root']) {
+            for(var currentNode in data('layouts')['root'][currentSide]) {
+                // set 1 pointer
+                pointer = data('layouts')['root'][currentSide][currentNode];
+                // skip simple layouts
+                if (pointer['complex'] === undefined || pointer['complex'] === false) {
                     continue;
                 }
                 if (currentSide === 'left') {
@@ -120,18 +124,24 @@ function layoutSmallerCalibrationNodes() {
         data('mainNode2Width',data('node2Width')*1.4);
         data('mainNode2Height',data('node2Height')*1.4);
 
-        for (var currentSide in data('nodes')['root']) {
-
-            for(var currentBranch in data('nodes')['root'][currentSide]) {
-                if (data('nodes')['root'][currentSide][currentBranch]['terminal'] === undefined || data('nodes')['root'][currentSide][currentBranch]['terminal'] === true) {
+        var pointer;
+        for (var currentSide in data('layouts')['root']) {
+            for(var currentBranch in data('layouts')['root'][currentSide]) {
+                // set 1 pointer
+                pointer = data('layouts')['root'][currentSide][currentBranch];
+                // skip simple layouts
+                if (pointer['complex'] === undefined || pointer['complex'] === false) {
                     continue;
                 }
 
-                for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
-                    var pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
-                    if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
+                for(var currentNode in data('layouts')['root'][currentSide][currentBranch]) {
+                    // set 2 pointer
+                    pointer = data('layouts')['root'][currentSide][currentBranch][currentNode];
+                    // skip simple layouts
+                    if (pointer['complex'] === undefined || pointer['complex'] === false) {
                         continue;
                     }
+
                     if (currentSide === 'left') {
                         pointer['main']['x'] = pointer['x'];
                         pointer['main']['y'] = pointer['y'];

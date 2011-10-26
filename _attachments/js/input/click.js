@@ -25,39 +25,48 @@ function detectHelpButtonClick() {
 
 function detectNodesClick() {
     with ($('#globalCanvas')) {
+        var nodesPointer;
+        var layoutsPointer;
         for (var currentSide in data('nodes')['root']) {
-            var pointer = data('nodes')['root'][currentSide];
+            // set 0 pointer
+            nodesPointer = data('nodes')['root'][currentSide];
+            layoutsPointer = data('layouts')['root'][currentSide];
+
             if (currentSide === 'left') {
-                if (canonY > canonX*-1*Math.sqrt(3)) {
-                    pointer['moused'] = false;
-                } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('graphWidth')/2,2)) {
-                    pointer['moused'] = false;
+                if (layoutsPointer['moused']) {
+                    if (nodesPointer['active']) {
+                        flipNodeColor(nodesPointer);
+                    }
+                    nodesPointer['active'] = true;
                 } else {
-                    //console.log('left');
-                    pointer['moused'] = true;
+                    nodesPointer['active'] = false;
                 }
             } else if (currentSide === 'right') {
-                if (canonY < canonX*-1*Math.sqrt(3)) {
-                    pointer['moused'] = false;
-                } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('graphWidth')/2,2)) {
-                    pointer['moused'] = false;
+                if (layoutsPointer['moused']) {
+                    if (nodesPointer['active']) {
+                        flipNodeColor(nodesPointer);
+                    }
+                    nodesPointer['active'] = true;
                 } else {
-                    //console.log('right');
-                    pointer['moused'] = true;
+                    nodesPointer['active'] = false;
                 }
             }
 
             for(var currentNode in data('nodes')['root'][currentSide]) {
-                if (currentNode === 'x' || currentNode === 'y' || currentNode === 'main' || currentNode === 'moused' || currentNode === 'active') {
+                // set 1 pointer
+                nodesPointer = data('nodes')['root'][currentSide][currentNode];
+                layoutsPointer = data('layouts')['root'][currentSide][currentNode];
+                // skip property nodes
+                if (nodesPointer['complex'] === undefined) {
                     continue;
                 }
-
-                pointer = data('nodes')['root'][currentSide][currentNode];
-                if (Math.pow(gP.mouseX-pointer['x'],2)+Math.pow(pointer['y']-gP.mouseY,2) > Math.pow(data('node0Width')/2,2)) {
-                    pointer['moused'] = false;
+                if (layoutsPointer['moused']) {
+                    if (nodesPointer['active']) {
+                        flipNodeColor(nodesPointer);
+                    }
+                    nodesPointer['active'] = true;
                 } else {
-                    //console.log(currentSide+' '+currentNode);
-                    pointer['moused'] = true;
+                    nodesPointer['active'] = false;
                 }
             }
         }

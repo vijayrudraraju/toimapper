@@ -1,42 +1,120 @@
-function initializeNodeStructures() {
+function initializeLayoutBranches(pointer,terminal) {
+    if (!terminal) { 
+        pointer['main'] = {x:0,y:0,moused:false,complex:false,terminal:true};
+        pointer['top'] = {x:0,y:0,moused:false,complex:true,terminal:false};
+        pointer['middle'] = {x:0,y:0,moused:false,complex:true,terminal:false};
+        pointer['bottom'] = {x:0,y:0,moused:false,complex:true,terminal:false};
+    } else {
+        pointer['main'] = {x:0,y:0,moused:false,complex:false,terminal:true};
+        pointer['top'] = {x:0,y:0,moused:false,complex:true,terminal:true};
+        pointer['middle'] = {x:0,y:0,moused:false,complex:true,terminal:true};
+        pointer['bottom'] = {x:0,y:0,moused:false,complex:true,terminal:true};
+    }
+}
+function initializeNodeBranches(pointer,terminal) {
+    if (!terminal) {
+        pointer['main'] = {active:false,color:'none',signal:[0.0],complex:false,terminal:true};
+        pointer['top'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:false};
+        pointer['middle'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:false};
+        pointer['bottom'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:false};
+    } else {
+        pointer['main'] = {active:false,color:'none',signal:[0.0],complex:false,terminal:true};
+        pointer['top'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:true};
+        pointer['middle'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:true};
+        pointer['bottom'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:true};
+    }
+}
+
+
+function initializeLayoutStructures() {
+    // temp layout data
+
     with ($('#globalCanvas')) {
-        data('nodes',{});
-        data('nodes')['root'] = {};
-        data('nodes')['root']['left'] = {active:false,moused:false,terminal:false};
-        data('nodes')['root']['right'] = {active:false,moused:false,terminal:false};
+        data('layouts',{});
+        data('layouts')['root'] = {};
+        data('layouts')['root']['left'] = {moused:false,complex:true,terminal:false};
+        data('layouts')['root']['right'] = {moused:false,complex:true,terminal:false};
 
-        for (var currentSide in data('nodes')['root']) {
-            var pointer = data('nodes')['root'][currentSide];
-            pointer['main'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:true};
-            pointer['top'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
-            pointer['middle'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
-            pointer['bottom'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+        var pointer;
+        for (var currentSide in data('layouts')['root']) {
+            // set 0 pointer
+            pointer = data('layouts')['root'][currentSide];
+            initializeLayoutBranches(pointer,false);
 
-            for(var currentBranch in data('nodes')['root'][currentSide]) {
-                pointer = data('nodes')['root'][currentSide][currentBranch];
-                if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
+            for(var currentBranch in data('layouts')['root'][currentSide]) {
+                // set 1 pointer
+                pointer = data('layouts')['root'][currentSide][currentBranch];
+                // skip simple layouts
+                if (pointer['complex'] === undefined || pointer['complex'] === false) {
                     continue;
                 }
-                pointer['main'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:true};
-                pointer['top'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
-                pointer['middle'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
-                pointer['bottom'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+                initializeLayoutBranches(pointer,false);
 
-                for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
-                    pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
-                    if (pointer['terminal'] === undefined || pointer['terminal'] === true) {
+                for(var currentNode in data('layouts')['root'][currentSide][currentBranch]) {
+                    pointer = data('layouts')['root'][currentSide][currentBranch][currentNode];
+                    if (pointer['complex'] === undefined || pointer['complex'] === false) {
                         continue;
                     }
-
-                    pointer['main'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:true};
-                    pointer['top'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
-                    pointer['middle'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
-                    pointer['bottom'] = {x:0,y:0,active:false,moused:false,color:'none',signal:[0.0],terminal:false};
+                    initializeLayoutBranches(pointer,true);
                 }
             }
         }
     }
 }
+function initializeNodeStructures() {
+    // persistent data
+
+    with ($('#globalCanvas')) {
+        data('nodes',{});
+        data('nodes')['root'] = {};
+        data('nodes')['root']['left'] = {active:false,complex:true,terminal:false};
+        data('nodes')['root']['right'] = {active:false,complex:true,terminal:false};
+
+        var pointer;
+        for (var currentSide in data('nodes')['root']) {
+            // set 0 pointer
+            pointer = data('nodes')['root'][currentSide];
+            initializeNodeBranches(pointer,false);
+
+            for(var currentBranch in data('nodes')['root'][currentSide]) {
+                // set 1 pointer
+                pointer = data('nodes')['root'][currentSide][currentBranch];
+                // skip simple nodes
+                if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                    continue;
+                }
+                initializeNodeBranches(pointer,false);
+
+                for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
+                    pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
+                    if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                        continue;
+                    }
+                    initializeNodeBranches(pointer,true);
+                }
+            }
+        }
+    }
+}
+
+
+function flipNodeColor(node) {
+    switch (node['color']) {
+        case 'none':
+            node['color'] = 'red';
+            break;
+        case 'red':
+            node['color'] = 'green';
+            break;
+        case 'green':
+            node['color'] = 'blue';
+            break;
+        case 'blue':
+            node['color'] = 'none';
+            break;
+    }
+}
+
 
 var outputBranchTrace = [];
 var inputBranchTrace = [];
