@@ -1,81 +1,162 @@
 function drawAboutButton() {
-    gP.textFont($('#globalCanvas').data('font'),24);
-
-    gP.noStroke();
-    gP.fill(255,255,255);
-    gP.rect($('#globalCanvas').data('canvasWidth')-162,0,
-    80,40);
-
-    gP.fill(0);
-    gP.text('about',$('#globalCanvas').data('canvasWidth')-152,28)
-}
-function drawHelpButton() {
-    gP.textFont($('#globalCanvas').data('font'),24);
-
-    gP.noStroke();
-    gP.fill(255,255,255);
-    gP.rect($('#globalCanvas').data('canvasWidth')-78,0,
-    80,40);
-
-    gP.fill(0);
-    gP.text('help',$('#globalCanvas').data('canvasWidth')-60,28)
-}
-
-
-function drawAscendLevelButton() {
-    gP.noStroke();
-    gP.fill(255,255,255);
-    gP.triangle(0,0,150,0,0,150);
-
-    gP.strokeWeight(3);
-    gP.stroke(0,0,0);
-    gP.line(40,20,40,60);
-    gP.line(40,20,50,30);
-    gP.line(40,20,30,30);
-}
-function drawDescendLevelButton() {
     with ($('#globalCanvas')) {
+        // set pointer
+        var pointer = data('layouts')['root']['buttons']['about'];
+
+        gP.textFont(data('font'),24);
+
         gP.noStroke();
         gP.fill(255,255,255);
-        gP.triangle(0,data('canvasHeight'),
-        0,data('canvasHeight')-150,
-        150,data('canvasHeight'));
+        gP.rect(pointer['x'],pointer['y'],
+        pointer['width'],pointer['height']);
+
+        gP.fill(0);
+        gP.text('about',pointer['x']+10,pointer['y']+28);
+    }
+}
+function drawHelpButton() {
+    with ($('#globalCanvas')) {
+        // set pointer
+        var pointer = data('layouts')['root']['buttons']['help'];
+
+        gP.textFont(data('font'),24);
+
+        gP.noStroke();
+        gP.fill(255,255,255);
+        gP.rect(pointer['x'],pointer['y'],
+        pointer['width'],pointer['height']);
+
+        gP.fill(0);
+        gP.text('help',pointer['x']+18,pointer['y']+28);
+    }
+}
+
+
+function drawAscendButton() {
+    with ($('#globalCanvas')) {
+        // set pointer
+        var pointer = data('layouts')['root']['buttons']['ascend'];
+
+        gP.noStroke();
+        gP.fill(255,255,255);
+        gP.triangle(pointer['x'],pointer['y'],
+            pointer['x']+pointer['width'],pointer['y'],
+        pointer['x'],pointer['y']+pointer['height']);
 
         gP.strokeWeight(3);
         gP.stroke(0,0,0);
-        gP.line(40,data('canvasHeight')-20,40,data('canvasHeight')-60);
-        gP.line(40,data('canvasHeight')-20,50,data('canvasHeight')-30);
-        gP.line(40,data('canvasHeight')-20,30,data('canvasHeight')-30);
+        gP.line(pointer['x']+40,pointer['y']+20,
+        pointer['x']+40,pointer['y']+60);
+        gP.line(pointer['x']+40,pointer['y']+20,pointer['x']+50,pointer['y']+30);
+        gP.line(pointer['x']+40,pointer['y']+20,pointer['x']+30,pointer['y']+30);
+    }
+}
+function drawDescendButton() {
+    with ($('#globalCanvas')) {
+        // set pointer
+        var pointer = data('layouts')['root']['buttons']['descend'];
+
+        gP.noStroke();
+        gP.fill(255,255,255);
+        gP.triangle(pointer['x'],pointer['y']+pointer['height'],
+        pointer['x'],pointer['y'],
+        pointer['x']+pointer['width'],pointer['y']+pointer['height']);
+
+        gP.strokeWeight(3);
+        gP.stroke(0,0,0);
+        gP.line(pointer['x']+40,pointer['y']+130,pointer['x']+40,pointer['y']+90);
+        gP.line(pointer['x']+40,pointer['y']+130,pointer['x']+50,pointer['y']+120);
+        gP.line(pointer['x']+40,pointer['y']+130,pointer['x']+30,pointer['y']+120);
     }
 }
 function drawSignalButton() {
     with ($('#globalCanvas')) {
+        // set pointer
+        var pointer = data('layouts')['root']['buttons']['signal'];
+
         gP.noStroke();
         gP.fill(255,255,255);
-        gP.triangle(data('canvasWidth'),data('canvasHeight'),
-        data('canvasWidth')-150,data('canvasHeight'),
-        data('canvasWidth'),data('canvasHeight')-150);
+        gP.triangle(pointer['x']+pointer['width'],pointer['y']+pointer['height'],
+        pointer['x'],pointer['y']+pointer['height'],
+        pointer['x']+pointer['width'],pointer['y']);
 
         gP.fill(0,0,0);
-        gP.arc(data('canvasWidth')-40,data('canvasHeight')-40,
+        gP.arc(pointer['x']+110,pointer['y']+110,
         60,60,0,2*2*Math.PI/3);
     }
 }
 
 
-function drawCalibrationNodes() {
+
+function drawBigNode() {
+    with ($('#globalCanvas')) {
+
+        // choose fill
+        gP.fill(255,255,255);
+
+        // choose left stroke
+        if (data('layouts')['root']['left']['moused'] || data('nodes')['root']['left']['active']) {
+            gP.strokeWeight(6);
+            gP.stroke(127,127,127);
+        } else {
+            gP.noStroke();
+        }
+
+        // paint left arc
+        gP.arc(data('graphCenterX'),
+        data('graphCenterY'),
+        data('graphWidth'),
+        data('graphHeight'),
+        2*Math.PI/3-Math.PI/3,
+        2*2*Math.PI/3);
+
+        // choose right stroke
+        if (data('layouts')['root']['right']['moused'] || data('nodes')['root']['right']['active']) {
+            gP.strokeWeight(6);
+            gP.stroke(127,127,127);
+        } else {
+            gP.noStroke();
+        }
+
+        // paint right arc
+        gP.arc(data('graphCenterX'),
+        data('graphCenterY'),
+        data('graphWidth'),
+        data('graphHeight'),
+        -Math.PI/2-Math.PI/6,
+        Math.PI-2*Math.PI/3);
+    }
+}
+function drawBigBisect() {
+    with ($('#globalCanvas')) {
+        //paint bisecting line
+        gP.strokeWeight(3);
+        gP.stroke(0,0,0);
+        gP.line(data('graphCenterX')-(data('graphWidth')/2/2),
+        data('graphCenterY')-(data('graphHeight')/2*Math.sqrt(3)/2), 
+        data('graphCenterX')+(data('graphWidth')/2/2),
+        data('graphCenterY')+(data('graphHeight')/2*Math.sqrt(3)/2));
+    }
+}
+function drawNodes() {
     gP.strokeWeight(3);
+    gP.fill(0,0,0);
 
     with ($('#globalCanvas')) {
         var nodesPointer;
         var layoutsPointer;
         for (var currentSide in data('nodes')['root']) {
-            // set 0 pointers
-            nodesPointer = data('nodes')['root'][currentSide];
             layoutsPointer = data('layouts')['root'][currentSide];
+            // skip simple layouts
+            if (layoutsPointer['complex'] === undefined || layoutsPointer['complex'] === false) {
+                continue;
+            }
+            // set 0 pointers
+            nodesPointer = data('nodes')['root'][currentSide]['main'];
+            layoutsPointer = data('layouts')['root'][currentSide]['main'];
 
             // choose stroke
-            if (layoutsPointer['main']['moused'] || nodesPointer['main']['active']) {
+            if (layoutsPointer['moused'] || nodesPointer['active']) {
                 gP.strokeWeight(6);
                 gP.stroke(127,127,127);
             } else {
@@ -83,7 +164,7 @@ function drawCalibrationNodes() {
             }
 
             //choose fill
-            switch (nodesPointer['main']['color']) {
+            switch (nodesPointer['color']) {
                 case 'none':
                     gP.fill(0,0,0);
                     break;
@@ -100,16 +181,16 @@ function drawCalibrationNodes() {
 
             // draw level 0 main arcs
             if (currentSide === 'left') {
-                gP.arc(layoutsPointer['main']['x'],
-                    layoutsPointer['main']['y'],
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
                     data('mainNode0Width'),
                     data('mainNode0Height'),
                     2*Math.PI/3-Math.PI/3,
                     2*2*Math.PI/3
                 );
             } else if (currentSide === 'right') {
-                gP.arc(layoutsPointer['main']['x'],
-                    layoutsPointer['main']['y'],
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
                     data('mainNode0Width'),
                     data('mainNode0Height'),
                     -Math.PI/2-Math.PI/6,
@@ -168,7 +249,7 @@ function drawCalibrationNodes() {
         }
     }
 }
-function drawSmallCalibrationNodes() {
+function drawSmallNodes() {
     gP.strokeWeight(3);
     gP.fill(255,255,255);
 
@@ -179,23 +260,25 @@ function drawSmallCalibrationNodes() {
             for (var currentBranch in data('nodes')['root'][currentSide]) {
                 // set 1 pointers
                 nodesPointer = data('nodes')['root'][currentSide][currentBranch];
-                layoutsPointer = data('layouts')['root'][currentSide][currentBranch];
                 // skip simple nodes
                 if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
                     continue;
                 }
+                layoutsPointer = data('layouts')['root'][currentSide][currentBranch]['main'];
+
+                // paint left and right main nodes
                 if (currentSide === 'left') {
                     gP.noStroke();
-                    gP.arc(layoutsPointer['main']['x'],
-                        layoutsPointer['main']['y'],
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
                         data('mainNode1Width'),
                         data('mainNode1Height'),
                         2*Math.PI/3-Math.PI/3,
                     2*2*Math.PI/3);
                 } else if (currentSide === 'right') {
                     gP.noStroke();
-                    gP.arc(layoutsPointer['main']['x'],
-                        layoutsPointer['main']['y'],
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
                         data('mainNode1Width'),
                         data('mainNode1Height'),
                         -Math.PI/2-Math.PI/6,
@@ -210,12 +293,14 @@ function drawSmallCalibrationNodes() {
                     if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
                         continue;
                     }
+                    // paint node
                     gP.noStroke();
                     gP.ellipse(layoutsPointer['x'],
                         layoutsPointer['y'],
                         data('node1Width'),
                         data('node1Height')
                     );
+                    // paint bisector 
                     gP.stroke(0,0,0);
                     gP.line(layoutsPointer['x']-(data('node1Width')/2/2),
                         layoutsPointer['y']-(data('node1Height')/2*Math.sqrt(3)/2), 
@@ -226,7 +311,7 @@ function drawSmallCalibrationNodes() {
         }
     }
 }
-function drawSmallerCalibrationNodes() {
+function drawSmallerNodes() {
     gP.noStroke();
     gP.fill(0,0,0);
 
@@ -245,23 +330,23 @@ function drawSmallerCalibrationNodes() {
                 for (var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
                     // set 2 pointers
                     nodesPointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
-                    layoutsPointer = data('layouts')['root'][currentSide][currentBranch][currentNode];
                     // skip simple nodes
                     if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
                         continue;
                     }
+                    layoutsPointer = data('layouts')['root'][currentSide][currentBranch][currentNode]['main'];
 
                     // left and right main nodes
                     if (currentSide === 'left') {
-                        gP.arc(layoutsPointer['main']['x'],
-                            layoutsPointer['main']['y'],
+                        gP.arc(layoutsPointer['x'],
+                            layoutsPointer['y'],
                             data('mainNode2Width'),
                             data('mainNode2Height'),
                             2*Math.PI/3-Math.PI/3,
                         2*2*Math.PI/3);
                     } else if (currentSide === 'right') {
-                        gP.arc(layoutsPointer['main']['x'],
-                            layoutsPointer['main']['y'],
+                        gP.arc(layoutsPointer['x'],
+                            layoutsPointer['y'],
                             data('mainNode2Width'),
                             data('mainNode2Height'),
                             -Math.PI/2-Math.PI/6,
@@ -289,60 +374,7 @@ function drawSmallerCalibrationNodes() {
     }
 }
 
-
-function drawBigNode() {
-    with ($('#globalCanvas')) {
-
-        // choose fill
-        gP.fill(255,255,255);
-
-        // choose left stroke
-        if (data('layouts')['root']['left']['moused'] || data('nodes')['root']['left']['active']) {
-            gP.strokeWeight(6);
-            gP.stroke(127,127,127);
-        } else {
-            gP.noStroke();
-        }
-
-        // paint left arc
-        gP.arc(data('graphCenterX'),
-        data('graphCenterY'),
-        data('graphWidth'),
-        data('graphHeight'),
-        2*Math.PI/3-Math.PI/3,
-        2*2*Math.PI/3);
-
-        // choose right stroke
-        if (data('layouts')['root']['right']['moused'] || data('nodes')['root']['right']['active']) {
-            gP.strokeWeight(6);
-            gP.stroke(127,127,127);
-        } else {
-            gP.noStroke();
-        }
-
-        // paint right arc
-        gP.arc(data('graphCenterX'),
-        data('graphCenterY'),
-        data('graphWidth'),
-        data('graphHeight'),
-        -Math.PI/2-Math.PI/6,
-        Math.PI-2*Math.PI/3);
-    }
-}
-function drawBigBisect() {
-    with ($('#globalCanvas')) {
-        //paint bisecting line
-        gP.strokeWeight(3);
-        gP.stroke(0,0,0);
-        gP.line(data('graphCenterX')-(data('graphWidth')/2/2),
-        data('graphCenterY')-(data('graphHeight')/2*Math.sqrt(3)/2), 
-        data('graphCenterX')+(data('graphWidth')/2/2),
-        data('graphCenterY')+(data('graphHeight')/2*Math.sqrt(3)/2));
-    }
-}
-
-
-
+/*
 function drawNodes() {
 
     var keys = nodeGlyphMap.outputs.keys();
@@ -538,3 +570,4 @@ function drawTraversalGlyphs() {
     }
 
 }
+*/

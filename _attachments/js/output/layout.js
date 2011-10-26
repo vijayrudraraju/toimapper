@@ -1,4 +1,35 @@
-function layoutCalibrationNodes() {
+function layoutButtons() {
+    with ($('#globalCanvas')) {
+        var pointer = data('layouts')['root']['buttons']; 
+
+        pointer['about']['x'] = data('canvasWidth')-162;
+        pointer['about']['y'] = 0;
+        pointer['about']['width'] = 80;
+        pointer['about']['height'] = 40;
+
+        pointer['help']['x'] = data('canvasWidth')-80;
+        pointer['help']['y'] = 0;
+        pointer['help']['width'] = 80;
+        pointer['help']['height'] = 40;
+        
+        pointer['ascend']['x'] = 0;
+        pointer['ascend']['y'] = 0;
+        pointer['ascend']['width'] = 150;
+        pointer['ascend']['height'] = 150;
+        
+        pointer['descend']['x'] = 0;
+        pointer['descend']['y'] = data('canvasHeight')-150;
+        pointer['descend']['width'] = 150;
+        pointer['descend']['height'] = 150;
+        
+        pointer['signal']['x'] = data('canvasWidth')-150;
+        pointer['signal']['y'] = data('canvasHeight')-150;
+        pointer['signal']['width'] = 150;
+        pointer['signal']['height'] = 150;
+    }
+}
+
+function layoutNodes() {
     with ($('#globalCanvas')) {
         data('node0Width',data('graphWidth')/3.6);
         data('node0Height',data('graphHeight')/3.6);
@@ -36,7 +67,7 @@ function layoutCalibrationNodes() {
         pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')/3)-(data('node0Height')/2+data('node0Height')/10);
     }
 }
-function layoutSmallCalibrationNodes() {
+function layoutSmallNodes() {
     with ($('#globalCanvas')) {
         data('node1Width',data('node0Width')/3.6);
         data('node1Height',data('node0Width')/3.6);
@@ -45,6 +76,11 @@ function layoutSmallCalibrationNodes() {
 
         var pointer;
         for (var currentSide in data('layouts')['root']) {
+            pointer = data('layouts')['root'][currentSide];
+            // skip simple layouts
+            if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                continue;
+            }
             for(var currentNode in data('layouts')['root'][currentSide]) {
                 // set 1 pointer
                 pointer = data('layouts')['root'][currentSide][currentNode];
@@ -117,7 +153,7 @@ function layoutSmallCalibrationNodes() {
         }
     }
 }
-function layoutSmallerCalibrationNodes() {
+function layoutSmallerNodes() {
     with ($('#globalCanvas')) {
         data('node2Width',data('node1Width')/3.6);
         data('node2Height',data('node1Width')/3.6);
@@ -126,6 +162,11 @@ function layoutSmallerCalibrationNodes() {
 
         var pointer;
         for (var currentSide in data('layouts')['root']) {
+            pointer = data('layouts')['root'][currentSide];
+            // skip simple layouts
+            if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                continue;
+            }
             for(var currentBranch in data('layouts')['root'][currentSide]) {
                 // set 1 pointer
                 pointer = data('layouts')['root'][currentSide][currentBranch];

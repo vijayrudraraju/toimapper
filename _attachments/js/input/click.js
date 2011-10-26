@@ -1,23 +1,18 @@
 function detectAboutButtonClick() {
-    if ($('#aboutSwitch').data('moused')) {
-        console.log('aboutSwitch moused');
+    if ($('#globalCanvas').data('layouts')['root']['buttons']['about']['moused']) {
         if ($('#aboutSwitch').data('isAbouting')) {
             console.log('aboutSwitch deactivated');
             $('#aboutSwitch').trigger('deactivateabout');
         } else {
-            console.log('aboutSwitch activated');
             $('#aboutSwitch').trigger('activateabout');
         }
     }
 }
 function detectHelpButtonClick() {
-    if ($('#helpSwitch').data('moused')) {
-        console.log('helpSwitch moused');
+    if ($('#globalCanvas').data('layouts')['root']['buttons']['help']['moused']) {
         if ($('#helpSwitch').data('isHelping')) {
-            console.log('helpSwitch deactivated');
             $('#helpSwitch').trigger('deactivatehelp');
         } else {
-            console.log('helpSwitch activated');
             $('#helpSwitch').trigger('activatehelp');
         }
     }
@@ -31,6 +26,10 @@ function detectNodesClick() {
             // set 0 pointer
             nodesPointer = data('nodes')['root'][currentSide];
             layoutsPointer = data('layouts')['root'][currentSide];
+            // skip simple layouts
+            if (layoutsPointer['complex'] === undefined || layoutsPointer['complex'] === false) {
+                continue;
+            }
 
             if (currentSide === 'left') {
                 if (layoutsPointer['moused']) {

@@ -211,8 +211,13 @@ var traversalGlyphMap = [[],[]];
 function gP(p) {
 	p.mouseMoved = function() {
         updateNodeMouseStates();
+
         updateAboutButtonMouseState();
         updateHelpButtonMouseState();
+
+        updateAscendButtonMouseStates();
+        updateDescendButtonMouseStates();
+
         $('#globalCanvas').trigger('redraw');
 	};
 
@@ -220,6 +225,7 @@ function gP(p) {
         detectNodesClick();
         detectAboutButtonClick();
         detectHelpButtonClick();
+
         $('#globalCanvas').trigger('updategraph');
         $('#globalCanvas').trigger('redraw');
 	};
@@ -230,9 +236,11 @@ function gP(p) {
 		p.size($('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight'));
 		$('#globalCanvas').data('font',p.loadFont('sans-serif'));
 
-        layoutCalibrationNodes();
-        layoutSmallCalibrationNodes();
-        layoutSmallerCalibrationNodes();
+        layoutButtons(); 
+
+        layoutNodes();
+        layoutSmallNodes();
+        layoutSmallerNodes();
 	};
 
 	p.draw = function() {
@@ -241,13 +249,13 @@ function gP(p) {
         p.background(0*16+11,0*16+9,0*16+11);
 
         drawBigNode();
-        drawCalibrationNodes();
-        drawSmallCalibrationNodes();
-        drawSmallerCalibrationNodes();
+        drawNodes();
+        drawSmallNodes();
+        drawSmallerNodes();
         drawBigBisect();
 
-        drawAscendLevelButton();
-        drawDescendLevelButton();
+        drawAscendButton();
+        drawDescendButton();
         drawSignalButton();
 
         drawAboutButton();

@@ -32,6 +32,14 @@ function initializeLayoutStructures() {
     with ($('#globalCanvas')) {
         data('layouts',{});
         data('layouts')['root'] = {};
+
+        data('layouts')['root']['buttons'] = {};
+        data('layouts')['root']['buttons']['about'] = {x:0,y:0,width:0,height:0,moused:false};
+        data('layouts')['root']['buttons']['help'] = {x:0,y:0,width:0,height:0,moused:false};
+        data('layouts')['root']['buttons']['ascend'] = {x:0,y:0,width:0,height:0,moused:false};
+        data('layouts')['root']['buttons']['descend'] = {x:0,y:0,width:0,height:0,moused:false};
+        data('layouts')['root']['buttons']['signal'] = {x:0,y:0,width:0,height:0,moused:false};
+
         data('layouts')['root']['left'] = {moused:false,complex:true,terminal:false};
         data('layouts')['root']['right'] = {moused:false,complex:true,terminal:false};
 
@@ -39,6 +47,10 @@ function initializeLayoutStructures() {
         for (var currentSide in data('layouts')['root']) {
             // set 0 pointer
             pointer = data('layouts')['root'][currentSide];
+            // skip simple layouts
+            if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                continue;
+            }
             initializeLayoutBranches(pointer,false);
 
             for(var currentBranch in data('layouts')['root'][currentSide]) {

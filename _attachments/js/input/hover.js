@@ -1,24 +1,60 @@
-var mousedSource = "";
-var mousedDestination = "";
-
 function updateAboutButtonMouseState() {
-    if (gP.mouseX > $('#globalCanvas').data('canvasWidth')-160 &&
-    gP.mouseX < $('#globalCanvas').data('canvasWidth')-80 &&
-    gP.mouseY < 40) {
-        $('#aboutSwitch').data('moused',true);
-    } else {
-        $('#aboutSwitch').data('moused',false);
+    with ($('#globalCanvas')) {
+        // set pointer
+        var pointer = data('layouts')['root']['buttons']['about'];
+
+        if (gP.mouseX > pointer['x'] &&
+            gP.mouseX < pointer['x']+pointer['width'] &&
+        gP.mouseY < pointer['y']+pointer['height']) {
+            pointer['moused'] = true;
+        } else {
+            pointer['moused'] = false;
+        }
+    }
+}
+function updateHelpButtonMouseState() {
+    with ($('#globalCanvas')) {
+        // set pointer
+        var pointer = data('layouts')['root']['buttons']['help'];
+
+        if (gP.mouseX > pointer['x'] &&
+            gP.mouseX < pointer['x']+pointer['width'] &&
+        gP.mouseY < pointer['y']+pointer['height']) {
+            pointer['moused'] = true;
+        } else {
+            pointer['moused'] = false;
+        }
+    }
+}
+function updateAscendButtonMouseStates() {
+    with ($('#globalCanvas')) {
+        var pointer = data('layouts')['root']['buttons']['ascend'];
+        var canonX = gP.mouseX-pointer['x'];
+        var canonY = pointer['y']+pointer['height']-gP.mouseY;
+
+        if (canonY < canonX) {
+            pointer['moused'] = false;
+        } else {
+            console.log('ascend button moused');
+            pointer['moused'] = true;
+        }
+    }
+}
+function updateDescendButtonMouseStates() {
+    with ($('#globalCanvas')) {
+        var pointer = data('layouts')['root']['buttons']['descend'];
+        var canonX = gP.mouseX-pointer['x'];
+        var canonY = pointer['y']-gP.mouseY;
+
+        if (canonY > canonX*-1) {
+            pointer['moused'] = false;
+        } else {
+            console.log('descend button moused');
+            pointer['moused'] = true;
+        }
     }
 }
 
-function updateHelpButtonMouseState() {
-    if (gP.mouseX > $('#globalCanvas').data('canvasWidth')-80 &&
-    gP.mouseY < 40) {
-        $('#helpSwitch').data('moused',true);
-    } else {
-        $('#helpSwitch').data('moused',false);
-    }
-}
 
 function updateNodeMouseStates() {
     with ($('#globalCanvas')) {
