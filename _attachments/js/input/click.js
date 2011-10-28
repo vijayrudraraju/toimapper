@@ -78,6 +78,98 @@ function detectNodesClick() {
                         flipNodeColor(nodesPointer);
                     }
                     nodesPointer['active'] = true;
+                    switch (currentSide) {
+                        case 'left':
+                            switch (currentNode) {
+                                case 'main':
+                                    console.log('left');
+                                    data('views')['root']['left']['main']['active'] = true;
+                                    data('views')['root']['left']['top']['active'] = false;
+                                    data('views')['root']['left']['middle']['active'] = false;
+                                    data('views')['root']['left']['bottom']['active'] = false;
+                                    data('views')['root']['right']['main']['active'] = false;
+                                    data('views')['root']['right']['top']['active'] = false;
+                                    data('views')['root']['right']['middle']['active'] = false;
+                                    data('views')['root']['right']['bottom']['active'] = false;
+                                    break;
+                                case 'top':
+                                    data('views')['root']['left']['main']['active'] = false;
+                                    data('views')['root']['left']['top']['active'] = true;
+                                    data('views')['root']['left']['middle']['active'] = false;
+                                    data('views')['root']['left']['bottom']['active'] = false;
+                                    data('views')['root']['right']['main']['active'] = false;
+                                    data('views')['root']['right']['top']['active'] = false;
+                                    data('views')['root']['right']['middle']['active'] = false;
+                                    data('views')['root']['right']['bottom']['active'] = false;
+                                    break;
+                                case 'middle':
+                                    data('views')['root']['left']['main']['active'] = false;
+                                    data('views')['root']['left']['top']['active'] = false;
+                                    data('views')['root']['left']['middle']['active'] = true;
+                                    data('views')['root']['left']['bottom']['active'] = false;
+                                    data('views')['root']['right']['main']['active'] = false;
+                                    data('views')['root']['right']['top']['active'] = false;
+                                    data('views')['root']['right']['middle']['active'] = false;
+                                    data('views')['root']['right']['bottom']['active'] = false;
+                                    break;
+                                case 'bottom':
+                                    data('views')['root']['left']['main']['active'] = false;
+                                    data('views')['root']['left']['top']['active'] = false;
+                                    data('views')['root']['left']['middle']['active'] = false;
+                                    data('views')['root']['left']['bottom']['active'] = true;
+                                    data('views')['root']['right']['main']['active'] = false;
+                                    data('views')['root']['right']['top']['active'] = false;
+                                    data('views')['root']['right']['middle']['active'] = false;
+                                    data('views')['root']['right']['bottom']['active'] = false;
+                                    break;
+                            }
+                            break;
+                        case 'right':
+                            switch (currentNode) {
+                                case 'main':
+                                    console.log('right');
+                                    data('views')['root']['left']['main']['active'] = false;
+                                    data('views')['root']['left']['top']['active'] = false;
+                                    data('views')['root']['left']['middle']['active'] = false;
+                                    data('views')['root']['left']['bottom']['active'] = false;
+                                    data('views')['root']['right']['main']['active'] = true;
+                                    data('views')['root']['right']['top']['active'] = false;
+                                    data('views')['root']['right']['middle']['active'] = false;
+                                    data('views')['root']['right']['bottom']['active'] = false;
+                                    break;
+                                case 'top':
+                                    data('views')['root']['left']['main']['active'] = false;
+                                    data('views')['root']['left']['top']['active'] = false;
+                                    data('views')['root']['left']['middle']['active'] = false;
+                                    data('views')['root']['left']['bottom']['active'] = false;
+                                    data('views')['root']['right']['main']['active'] = false;
+                                    data('views')['root']['right']['top']['active'] = true;
+                                    data('views')['root']['right']['middle']['active'] = false;
+                                    data('views')['root']['right']['bottom']['active'] = false;
+                                    break;
+                                case 'middle':
+                                    data('views')['root']['left']['main']['active'] = false;
+                                    data('views')['root']['left']['top']['active'] = false;
+                                    data('views')['root']['left']['middle']['active'] = false;
+                                    data('views')['root']['left']['bottom']['active'] = false;
+                                    data('views')['root']['right']['main']['active'] = false;
+                                    data('views')['root']['right']['top']['active'] = false;
+                                    data('views')['root']['right']['middle']['active'] = true;
+                                    data('views')['root']['right']['bottom']['active'] = false;
+                                    break;
+                                case 'bottom':
+                                    data('views')['root']['left']['main']['active'] = false;
+                                    data('views')['root']['left']['top']['active'] = false;
+                                    data('views')['root']['left']['middle']['active'] = false;
+                                    data('views')['root']['left']['bottom']['active'] = false;
+                                    data('views')['root']['right']['main']['active'] = false;
+                                    data('views')['root']['right']['top']['active'] = false;
+                                    data('views')['root']['right']['middle']['active'] = false;
+                                    data('views')['root']['right']['bottom']['active'] = true;
+                                    break;
+                            }
+                            break;
+                    }
                 } else {
                     nodesPointer['active'] = false;
                 }

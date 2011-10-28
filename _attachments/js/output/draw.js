@@ -180,9 +180,15 @@ function drawBigNode() {
         gP.fill(255,255,255);
 
         // choose left stroke
-        if (data('layouts')['root']['left']['moused'] || data('nodes')['root']['left']['active']) {
+        /*
+        if (data('layouts')['root']['left']['moused']) {
             gP.strokeWeight(6);
             gP.stroke(127,127,127);
+        } 
+        */
+        gP.strokeWeight(6);
+        if (data('views')['root']['left']['active']) {
+            gP.stroke(127,0,0);
         } else {
             gP.noStroke();
         }
@@ -196,9 +202,14 @@ function drawBigNode() {
         2*2*Math.PI/3);
 
         // choose right stroke
-        if (data('layouts')['root']['right']['moused'] || data('nodes')['root']['right']['active']) {
+        /*
+        if (data('layouts')['root']['right']['moused']) {
             gP.strokeWeight(6);
             gP.stroke(127,127,127);
+        } 
+        */
+        if (data('views')['root']['right']['active']) {
+            gP.stroke(127,0,0);
         } else {
             gP.noStroke();
         }
@@ -241,8 +252,10 @@ function drawNodes() {
             layoutsPointer = data('layouts')['root'][currentSide]['main'];
 
             // choose stroke
-            if (layoutsPointer['moused'] || nodesPointer['active']) {
-                gP.strokeWeight(6);
+            gP.strokeWeight(6);
+            if (data('views')['root'][currentSide]['main']['active']) {
+                gP.stroke(127,0,0);
+            } else if (layoutsPointer['moused']) {
                 gP.stroke(127,127,127);
             } else {
                 gP.noStroke();
@@ -293,12 +306,15 @@ function drawNodes() {
                 }
 
                 // choose stroke
-                if (layoutsPointer['moused'] || nodesPointer['active']) {
-                    gP.strokeWeight(6);
+                gP.strokeWeight(6);
+                if (data('views')['root'][currentSide][currentNode]['active']) {
+                    gP.stroke(127,0,0);
+                } else if (layoutsPointer['moused']) {
                     gP.stroke(127,127,127);
                 } else {
                     gP.noStroke();
                 }
+
 
                 // choose fill
                 switch (nodesPointer['color']) {

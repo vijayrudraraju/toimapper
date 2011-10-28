@@ -36,10 +36,28 @@ function initializeViewStructures() {
         data('views')['root']['left'] = {};
         data('views')['root']['left']['position'] = 1;
         data('views')['root']['left']['active'] = true;
-        
+
+        data('views')['root']['left']['main'] = {};
+        data('views')['root']['left']['main']['active'] = true; 
+        data('views')['root']['left']['top'] = {};
+        data('views')['root']['left']['top']['active'] = false; 
+        data('views')['root']['left']['middle'] = {};
+        data('views')['root']['left']['middle']['active'] = false; 
+        data('views')['root']['left']['bottom'] = {};
+        data('views')['root']['left']['bottom']['active'] = false; 
+
         data('views')['root']['right'] = {};
         data('views')['root']['right']['position'] = 1;
         data('views')['root']['right']['active'] = false;
+
+        data('views')['root']['right']['main'] = {};
+        data('views')['root']['right']['main']['active'] = false; 
+        data('views')['root']['right']['top'] = {};
+        data('views')['root']['right']['top']['active'] = false; 
+        data('views')['root']['right']['middle'] = {};
+        data('views')['root']['right']['middle']['active'] = false; 
+        data('views')['root']['right']['bottom'] = {};
+        data('views')['root']['right']['bottom']['active'] = false; 
     }
 }
 function initializeLayoutStructures() {
