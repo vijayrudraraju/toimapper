@@ -248,6 +248,8 @@ function gP(p) {
     
         p.background(0*16+11,0*16+9,0*16+11);
 
+        drawLogo();
+
         drawBigNode();
         drawNodes();
         drawSmallNodes();

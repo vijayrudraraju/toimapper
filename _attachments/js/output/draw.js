@@ -1,3 +1,49 @@
+function drawLogo() {
+    with ($('#globalCanvas')) {
+        gP.fill(102,85,119);
+        gP.textFont(data('font'),24);
+        gP.text('toimawb',data('canvasWidth')-120,74);
+
+        var x = data('canvasWidth')-50;
+        var y = 120;
+
+        var width = 70;
+        var smallWidth = 13;
+
+        gP.fill(102,85,119);
+        gP.noStroke();
+        gP.ellipse(x,y,width,width);
+
+        // eyes
+        gP.fill(0,0,0);
+        gP.ellipse(x-16,y-12,smallWidth,smallWidth);
+        gP.ellipse(x+16,y-12,smallWidth,smallWidth);
+
+        gP.fill(102,85,119);
+        gP.ellipse(x-16,y-8,smallWidth-3,smallWidth-3);
+        gP.ellipse(x+16,y-8,smallWidth-3,smallWidth-3);
+
+        // third eye
+        gP.fill(0,0,0);
+        gP.ellipse(x,y-21,smallWidth,smallWidth);
+
+        gP.fill(102,85,119);
+        gP.ellipse(x,y-25,smallWidth-3,smallWidth-3);
+
+        // mouth
+        gP.fill(0,0,0);
+        gP.arc(x,y,width-20,width-20,0,gP.PI);
+        gP.fill(102,85,119);
+        gP.arc(x,y,width-20,width-40,0,gP.PI);
+
+        // teeth
+        gP.stroke(102,85,119);
+        gP.line(x,y+19,x,y+30);
+        gP.line(x-8,y+14,x-8,y+21);
+        gP.line(x+8,y+14,x+8,y+21);
+    }
+}
+
 function drawAboutButton() {
     with ($('#globalCanvas')) {
         // set pointer
