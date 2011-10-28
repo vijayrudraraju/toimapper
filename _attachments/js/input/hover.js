@@ -26,7 +26,7 @@ function updateHelpButtonMouseState() {
         }
     }
 }
-function updateAscendButtonMouseStates() {
+function updateAscendButtonMouseState() {
     with ($('#globalCanvas')) {
         var pointer = data('layouts')['root']['buttons']['ascend'];
         var canonX = gP.mouseX-pointer['x'];
@@ -35,12 +35,11 @@ function updateAscendButtonMouseStates() {
         if (canonY < canonX) {
             pointer['moused'] = false;
         } else {
-            console.log('ascend button moused');
             pointer['moused'] = true;
         }
     }
 }
-function updateDescendButtonMouseStates() {
+function updateDescendButtonMouseState() {
     with ($('#globalCanvas')) {
         var pointer = data('layouts')['root']['buttons']['descend'];
         var canonX = gP.mouseX-pointer['x'];
@@ -49,7 +48,6 @@ function updateDescendButtonMouseStates() {
         if (canonY > canonX*-1) {
             pointer['moused'] = false;
         } else {
-            console.log('descend button moused');
             pointer['moused'] = true;
         }
     }

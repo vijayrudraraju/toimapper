@@ -17,6 +17,16 @@ function detectHelpButtonClick() {
         }
     }
 }
+function detectAscendButtonClick() {
+    if ($('#globalCanvas').data('layouts')['root']['buttons']['ascend']['moused']) {
+        $('#globalCanvas').trigger('ascend');
+    }
+}
+function detectDescendButtonClick() {
+    if ($('#globalCanvas').data('layouts')['root']['buttons']['descend']['moused']) {
+        $('#globalCanvas').trigger('descend');
+    }
+}
 
 function detectNodesClick() {
     with ($('#globalCanvas')) {
@@ -37,6 +47,8 @@ function detectNodesClick() {
                         flipNodeColor(nodesPointer);
                     }
                     nodesPointer['active'] = true;
+                    data('views')['root']['left']['active'] = true;
+                    data('views')['root']['right']['active'] = false;
                 } else {
                     nodesPointer['active'] = false;
                 }
@@ -46,6 +58,8 @@ function detectNodesClick() {
                         flipNodeColor(nodesPointer);
                     }
                     nodesPointer['active'] = true;
+                    data('views')['root']['left']['active'] = false;
+                    data('views')['root']['right']['active'] = true;
                 } else {
                     nodesPointer['active'] = false;
                 }

@@ -26,6 +26,22 @@ function initializeNodeBranches(pointer,terminal) {
 }
 
 
+function initializeViewStructures() {
+    // view data
+
+    with ($('#globalCanvas')) {
+        data('views',{});
+        data('views')['root'] = {};
+
+        data('views')['root']['left'] = {};
+        data('views')['root']['left']['position'] = 1;
+        data('views')['root']['left']['active'] = true;
+        
+        data('views')['root']['right'] = {};
+        data('views')['root']['right']['position'] = 1;
+        data('views')['root']['right']['active'] = false;
+    }
+}
 function initializeLayoutStructures() {
     // temp layout data
 

@@ -94,6 +94,7 @@ $(document).ready(function() {
 
                 initializeNodeStructures();
                 initializeLayoutStructures();
+                initializeViewStructures();
             
                 gP = new Processing($('#globalCanvas')[0],gP);
                 $(this).trigger('redraw');
@@ -167,6 +168,26 @@ $(document).ready(function() {
                 $(this).trigger('updatebackground');
                 $(this).trigger('updategraph');
                 $(this).trigger('redraw');
+            },
+            ascend: function() {
+                console.log('ascend');
+                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['position'] > 1) {
+                    $(this).data('views')['root']['left']['position']--;
+                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['position'] > 1) {
+                    $(this).data('views')['root']['right']['position']--;
+                }
+
+                $('#globalCanvas').trigger('redraw');
+            },
+            descend: function() {
+                console.log('descend');
+                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['position'] < 3) {
+                    $(this).data('views')['root']['left']['position']++;
+                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['position'] < 3) {
+                    $(this).data('views')['root']['right']['position']++;
+                }
+
+                $('#globalCanvas').trigger('redraw');
             }
         });
 
@@ -215,16 +236,20 @@ function gP(p) {
         updateAboutButtonMouseState();
         updateHelpButtonMouseState();
 
-        updateAscendButtonMouseStates();
-        updateDescendButtonMouseStates();
+        updateAscendButtonMouseState();
+        updateDescendButtonMouseState();
 
         $('#globalCanvas').trigger('redraw');
 	};
 
 	p.mouseClicked = function() {
         detectNodesClick();
+
         detectAboutButtonClick();
         detectHelpButtonClick();
+
+        detectAscendButtonClick();
+        detectDescendButtonClick();
 
         $('#globalCanvas').trigger('updategraph');
         $('#globalCanvas').trigger('redraw');

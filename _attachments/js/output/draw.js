@@ -91,10 +91,28 @@ function drawAscendButton() {
 
         gP.strokeWeight(3);
         gP.stroke(0,0,0);
-        gP.line(pointer['x']+40,pointer['y']+20,
-        pointer['x']+40,pointer['y']+60);
-        gP.line(pointer['x']+40,pointer['y']+20,pointer['x']+50,pointer['y']+30);
-        gP.line(pointer['x']+40,pointer['y']+20,pointer['x']+30,pointer['y']+30);
+        gP.line(pointer['x']+50,pointer['y']+10,
+        pointer['x']+50,pointer['y']+60);
+        gP.line(pointer['x']+50,pointer['y']+10,pointer['x']+60,pointer['y']+20);
+        gP.line(pointer['x']+50,pointer['y']+10,pointer['x']+40,pointer['y']+20);
+
+        gP.textFont(data('font'),24);
+
+        gP.fill(0);
+        if (data('views')['root']['left']['active']) {
+            gP.fill(255,0,0);
+        } 
+        if (data('views')['root']['left']['position'] > 1) {
+            gP.text(data('views')['root']['left']['position']-1,pointer['x']+20,pointer['y']+50);
+        }
+
+        gP.fill(0);
+        if (data('views')['root']['right']['active']) {
+            gP.fill(255,0,0);
+        }
+        if (data('views')['root']['right']['position'] > 1) {
+            gP.text(data('views')['root']['right']['position']-1,pointer['x']+70,pointer['y']+50);
+        }
     }
 }
 function drawDescendButton() {
@@ -110,9 +128,30 @@ function drawDescendButton() {
 
         gP.strokeWeight(3);
         gP.stroke(0,0,0);
-        gP.line(pointer['x']+40,pointer['y']+130,pointer['x']+40,pointer['y']+90);
-        gP.line(pointer['x']+40,pointer['y']+130,pointer['x']+50,pointer['y']+120);
-        gP.line(pointer['x']+40,pointer['y']+130,pointer['x']+30,pointer['y']+120);
+        gP.line(pointer['x']+50,pointer['y']+140,
+        pointer['x']+50,pointer['y']+90);
+        gP.line(pointer['x']+50,pointer['y']+140,
+        pointer['x']+60,pointer['y']+130);
+        gP.line(pointer['x']+50,pointer['y']+140,
+        pointer['x']+40,pointer['y']+130);
+
+        gP.textFont(data('font'),24);
+
+        gP.fill(0);
+        if (data('views')['root']['left']['active']) {
+            gP.fill(255,0,0);
+        } 
+        if (data('views')['root']['left']['position'] < 3) {
+            gP.text(data('views')['root']['left']['position']+1,pointer['x']+20,pointer['y']+pointer['height']-30);
+        }
+
+        gP.fill(0);
+        if (data('views')['root']['right']['active']) {
+            gP.fill(255,0,0);
+        }
+        if (data('views')['root']['right']['position'] < 3) {
+            gP.text(data('views')['root']['right']['position']+1,pointer['x']+70,pointer['y']+pointer['height']-30);
+        }
     }
 }
 function drawSignalButton() {
