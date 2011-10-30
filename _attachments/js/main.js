@@ -276,9 +276,30 @@ function gP(p) {
         drawLogo();
 
         drawBigNode();
-        drawNodes();
-        drawSmallNodes();
-        drawSmallerNodes();
+
+        var pointer = $("#globalCanvas").data('views')['root']['left']['position'];
+        if (pointer == 1) {
+            drawNodes('left');
+            drawSmallNodes('left');
+            drawSmallerNodes('left');
+        } else if (pointer == 2) {
+            drawNodes('left');
+            drawSmallNodes('left');
+        } else {
+            drawNodes('left');
+        }
+        pointer = $("#globalCanvas").data('views')['root']['right']['position'];
+        if (pointer == 1) {
+            drawNodes('right');
+            drawSmallNodes('right');
+            drawSmallerNodes('right');
+        } else if (pointer == 2) {
+            drawNodes('right');
+            drawSmallNodes('right');
+        } else {
+            drawNodes('right');
+        }
+
         drawBigBisect();
 
         drawAscendButton();

@@ -32,12 +32,12 @@
 
 	<div id="aboutSwitch" class="aboutClosed">
 		<p id="aboutAlterText">about</p>
-		<p id="aboutText"><b>about</b><br/><br/><b><i>toimapper</i></b> is one of several graphical user interfaces for the <a href="http://www.idmil.org/software/libmapper">libmapper</a> system.<br/><br/><b><i>toimapper</i></b> emphasizes the use of visualization techniques from research literature to reduce the complexity of managing connections between networked devices with a large aggregate number of inputs and outputs.<br/><br/>work on <b><i>toimapper</i></b> began as the primary component of a master's thesis project by Vijay Rudraraju as a member of the Input Devices and Music Interaction Lab (IDMIL) at McGill University.<br/><br/><br/><br/><br/><br/><br/>click to close</p>	
+		<p id="aboutText"><b>about</b><br/><br/><b><i>toimapper</i></b><br/><br/><br/><br/><br/>click to close</p>	
 	</div>
 
 	<div id="helpSwitch" class="helpClosed">
 		<p id="helpAlterText">help</p>
-		<p id="helpText"><b>help</b><br/><br/>usage of <b><i>toimapper</i></b> centers around a few key concepts that may be new to you.<br/><br/><span id="viewHelpTrigger" class="normalHelp">views</span><br/><br/><span id="signalHelpTrigger" class="normalHelp">signals</span><br/><br/><span id="mappingHelpTrigger" class="normalHelp">mappings</span></br/><br/><span id="filteringHelpTrigger" class="normalHelp">text filtering</span><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>click to close</p>
+		<p id="helpText"><b>help</b><br/><br/>usage of <b><i>toimapper</i></b> centers around a few key concepts that may be new to you.<br/><br/><span id="viewHelpTrigger" class="normalHelp">views</span><br/><br/><span id="signalHelpTrigger" class="normalHelp">signals</span><br/><br/><span id="mappingHelpTrigger" class="normalHelp">mappings</span></br/><br/><span id="filteringHelpTrigger" class="normalHelp">text filtering</span><br/><br/><br/><br/><br/><br/><br/><br/><br/>click to close</p>
 	</div>
 
 	<div id="viewHelp" class="bigTopicHelp">
@@ -55,8 +55,9 @@
         <p>the <b>edit</b> mode focuses the display on the signals (not clusters) on the current branch and allows the user to make connections between outputs and inputs by selected an output as the source of a connection by clicking on an output signal. clicking on an input signals selects the input as a destination of a connection. clicking the black <b>update</b> button requests the conneciton to be made.</p>
         <p>clicking on a connection highlights the connection red and displays the functional transformation operating on the connection. modifying the transformation and clicking <b>update</b> modifies the conneciton. clicking <b>remove</b> breaks the connection between the two signals.</p>
 		<br/>
+        <br/>
+        <p>click to close</p>
 	</div>
-
 	<div id="signalHelp" class="topicHelp">
 		<p><b>signals</b></p>
 		<br/><br/>
@@ -66,6 +67,9 @@
 		<br/>
 		<p><i>an example output signal might be a microphone signal that outputs a floating point signal and is named "/microphone/amplitude"</i></p>
 		<p><i>an example input signal might be a speaker signal that accepts a connection from a floating point output signal and is named "/speaker/left/treble"</i></p>
+		<br/>
+        <br/>
+        <p>click to close</p>
 	</div>
 	<div id="mappingHelp" class="topicHelp">
 		<p><b>mappings</b></p>
@@ -73,6 +77,9 @@
 		<p>a mapping is a mathematical expression that defines the transformation that is applied to an output signal by libmapper before it is fed into the input signal that it is connected to.</p>
 		<br/>
 		<p>a mapping (and thus a connection) is created by first clicking on the output signal that one wants to act as the source of data and then clicking on the input signal that one wants to act as the destination of data after it is transformed by the mapping.</p> 
+		<br/>
+        <br/>
+        <p>click to close</p>
 	</div>
 	<div id="filteringHelp" class="topicHelp">
 		<p><b>text filtering</b></p>
@@ -84,6 +91,9 @@
 		<p>one can group the matches of multiple filters together by sepearating multiple filter expressions with a space (" "). this acts functionally as a logical OR.</p>
         <br/>
 		<p>for example, the string "/ear/blob2 /eye /monitor" will filter the set of all signals through each of the 3 expressions and then display the results of each filter together.</p>
+		<br/>
+        <br/>
+        <p>click to close</p>
 	</div>
 </body>
 </html>

@@ -226,7 +226,7 @@ function drawBigNode() {
 function drawBigBisect() {
     with ($('#globalCanvas')) {
         //paint bisecting line
-        gP.strokeWeight(3);
+        gP.strokeWeight(1);
         gP.stroke(0,0,0);
         gP.line(data('graphCenterX')-(data('graphWidth')/2/2),
         data('graphCenterY')-(data('graphHeight')/2*Math.sqrt(3)/2), 
@@ -234,26 +234,117 @@ function drawBigBisect() {
         data('graphCenterY')+(data('graphHeight')/2*Math.sqrt(3)/2));
     }
 }
-function drawNodes() {
-    gP.strokeWeight(3);
+function drawNodes(side) {
+    gP.strokeWeight(1);
     gP.fill(0,0,0);
 
     with ($('#globalCanvas')) {
         var nodesPointer;
         var layoutsPointer;
-        for (var currentSide in data('nodes')['root']) {
-            layoutsPointer = data('layouts')['root'][currentSide];
-            // skip simple layouts
-            if (layoutsPointer['complex'] === undefined || layoutsPointer['complex'] === false) {
+
+        // set 0 pointers
+        nodesPointer = data('nodes')['root'][side]['main'];
+        layoutsPointer = data('layouts')['root'][side]['main'];
+
+        // choose stroke
+        gP.strokeWeight(6);
+        if (data('views')['root'][side]['main']['active']) {
+            gP.stroke(127,0,0);
+        } else if (layoutsPointer['moused']) {
+            gP.stroke(127,127,127);
+        } else {
+            gP.noStroke();
+        }
+
+        //choose fill
+        switch (nodesPointer['color']) {
+            case 'none':
+                gP.fill(0,0,0);
+                break;
+            case 'red':
+                gP.fill(255,0,0);
+                break;
+            case 'green':
+                gP.fill(0,255,0);
+                break;
+            case 'blue':
+                gP.fill(0,0,255);
+                break;
+        }
+
+        // draw level 0 main arcs
+        if (side === 'left') {
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width'),
+                data('mainNode0Height'),
+                (Math.PI/3)+(Math.PI/3/4),
+                (2*Math.PI/3)-(Math.PI/3/4));
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width'),
+                data('mainNode0Height'),
+                (2*Math.PI/3)+(Math.PI/3/4),
+                (3*Math.PI/3)-(Math.PI/3/4));
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width'),
+                data('mainNode0Height'),
+                (3*Math.PI/3)+(Math.PI/3/4),
+                (4*Math.PI/3)-(Math.PI/3/4));
+
+            gP.noStroke();
+            gP.fill(255);
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width')/2,
+                data('mainNode0Height')/2,
+                2*Math.PI/3-Math.PI/3,
+                2*2*Math.PI/3
+            );
+        } else if (side === 'right') {
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width'),
+                data('mainNode0Height'),
+                (4*Math.PI/3)+(Math.PI/3/4),
+                (5*Math.PI/3)-(Math.PI/3/4));
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width'),
+                data('mainNode0Height'),
+                (5*Math.PI/3)+(Math.PI/3/4),
+                (6*Math.PI/3)-(Math.PI/3/4));
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width'),
+                data('mainNode0Height'),
+                (6*Math.PI/3)+(Math.PI/3/4),
+                (7*Math.PI/3)-(Math.PI/3/4));
+
+            gP.noStroke();
+            gP.fill(255);
+            gP.arc(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('mainNode0Width')/2,
+                data('mainNode0Height')/2,
+                -Math.PI/2-Math.PI/6,
+                Math.PI-2*Math.PI/3
+            );
+        }
+
+        for(var currentNode in data('nodes')['root'][side]) {
+            // set 1 pointers
+            nodesPointer = data('nodes')['root'][side][currentNode];
+            layoutsPointer = data('layouts')['root'][side][currentNode];
+            // skip simple nodes
+            if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
                 continue;
             }
-            // set 0 pointers
-            nodesPointer = data('nodes')['root'][currentSide]['main'];
-            layoutsPointer = data('layouts')['root'][currentSide]['main'];
 
             // choose stroke
             gP.strokeWeight(6);
-            if (data('views')['root'][currentSide]['main']['active']) {
+            if (data('views')['root'][side][currentNode]['active']) {
                 gP.stroke(127,0,0);
             } else if (layoutsPointer['moused']) {
                 gP.stroke(127,127,127);
@@ -261,7 +352,8 @@ function drawNodes() {
                 gP.noStroke();
             }
 
-            //choose fill
+
+            // choose fill
             switch (nodesPointer['color']) {
                 case 'none':
                     gP.fill(0,0,0);
@@ -277,201 +369,286 @@ function drawNodes() {
                     break;
             }
 
-            // draw level 0 main arcs
-            if (currentSide === 'left') {
+            // paint node
+            gP.ellipse(layoutsPointer['x'],
+                layoutsPointer['y'],
+                data('node0Width'),
+                data('node0Height')
+            );
+            // half circle
+            if (side == 'left') {
+                gP.fill(255);
                 gP.arc(layoutsPointer['x'],
                     layoutsPointer['y'],
-                    data('mainNode0Width'),
-                    data('mainNode0Height'),
-                    2*Math.PI/3-Math.PI/3,
-                    2*2*Math.PI/3
-                );
-            } else if (currentSide === 'right') {
-                gP.arc(layoutsPointer['x'],
-                    layoutsPointer['y'],
-                    data('mainNode0Width'),
-                    data('mainNode0Height'),
+                    9*data('node0Width')/10,
+                    9*data('node0Height')/10,
                     -Math.PI/2-Math.PI/6,
                     Math.PI-2*Math.PI/3
                 );
-            }
-
-            for(var currentNode in data('nodes')['root'][currentSide]) {
-                // set 1 pointers
-                nodesPointer = data('nodes')['root'][currentSide][currentNode];
-                layoutsPointer = data('layouts')['root'][currentSide][currentNode];
-                // skip simple nodes
-                if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
-                    continue;
-                }
-
-                // choose stroke
-                gP.strokeWeight(6);
-                if (data('views')['root'][currentSide][currentNode]['active']) {
-                    gP.stroke(127,0,0);
-                } else if (layoutsPointer['moused']) {
-                    gP.stroke(127,127,127);
-                } else {
-                    gP.noStroke();
-                }
-
-
-                // choose fill
-                switch (nodesPointer['color']) {
-                    case 'none':
-                        gP.fill(0,0,0);
-                        break;
-                    case 'red':
-                        gP.fill(255,0,0);
-                        break;
-                    case 'green':
-                        gP.fill(0,255,0);
-                        break;
-                    case 'blue':
-                        gP.fill(0,0,255);
-                        break;
-                }
-
-                // paint node
-                gP.ellipse(layoutsPointer['x'],
+            } else if (side == 'right') {
+                gP.fill(255);
+                gP.arc(layoutsPointer['x'],
                     layoutsPointer['y'],
-                    data('node0Width'),
-                    data('node0Height')
-                );
-                gP.strokeWeight(3);
-                gP.stroke(255,255,255);
-                // paint bisector
-                gP.line(layoutsPointer['x']-(data('node0Width')/2/2),
-                layoutsPointer['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
-                layoutsPointer['x']+(data('node0Width')/2/2),
-                layoutsPointer['y']+(data('node0Height')/2*Math.sqrt(3)/2)
+                    9*data('node0Width')/10,
+                    9*data('node0Height')/10,
+                    Math.PI/2-Math.PI/6,
+                    Math.PI+Math.PI/3
                 );
             }
+
+            gP.strokeWeight(1);
+            gP.stroke(255,255,255);
+            // paint bisector
+            gP.line(layoutsPointer['x']-(data('node0Width')/2/2),
+            layoutsPointer['y']-(data('node0Height')/2*Math.sqrt(3)/2), 
+            layoutsPointer['x']+(data('node0Width')/2/2),
+            layoutsPointer['y']+(data('node0Height')/2*Math.sqrt(3)/2)
+            );
         }
     }
 }
-function drawSmallNodes() {
-    gP.strokeWeight(3);
+function drawSmallNodes(side) {
+    gP.strokeWeight(1);
     gP.fill(255,255,255);
 
     with ($('#globalCanvas')) {
         var nodesPointer;
         var layoutsPointer;
-        for (var currentSide in data('nodes')['root']) {
-            for (var currentBranch in data('nodes')['root'][currentSide]) {
-                // set 1 pointers
-                nodesPointer = data('nodes')['root'][currentSide][currentBranch];
+
+        for (var currentBranch in data('nodes')['root'][side]) {
+            // set 1 pointers
+            nodesPointer = data('nodes')['root'][side][currentBranch];
+            // skip simple nodes
+            if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
+                continue;
+            }
+            layoutsPointer = data('layouts')['root'][side][currentBranch]['main'];
+
+            // paint left and right main nodes
+            if (side === 'left') {
+                gP.noStroke();
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width'),
+                    data('mainNode1Height'),
+                    (Math.PI/3)+(Math.PI/3/4),
+                    (2*Math.PI/3)-(Math.PI/3/4)
+                );
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width'),
+                    data('mainNode1Height'),
+                    (2*Math.PI/3)+(Math.PI/3/4),
+                    (3*Math.PI/3)-(Math.PI/3/4)
+                );
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width'),
+                    data('mainNode1Height'),
+                    (3*Math.PI/3)+(Math.PI/3/4),
+                    (4*Math.PI/3)-(Math.PI/3/4)
+                );
+
+                gP.noStroke();
+                gP.fill(0);
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width')/2,
+                    data('mainNode1Height')/2,
+                    2*Math.PI/3-Math.PI/3,
+                2*2*Math.PI/3);
+                gP.fill(255);
+            } else if (side === 'right') {
+                gP.noStroke();
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width'),
+                    data('mainNode1Height'),
+                    (4*Math.PI/3)+(Math.PI/3/4),
+                    (5*Math.PI/3)-(Math.PI/3/4)
+                );
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width'),
+                    data('mainNode1Height'),
+                    (5*Math.PI/3)+(Math.PI/3/4),
+                    (6*Math.PI/3)-(Math.PI/3/4)
+                );
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width'),
+                    data('mainNode1Height'),
+                    (6*Math.PI/3)+(Math.PI/3/4),
+                    (7*Math.PI/3)-(Math.PI/3/4)
+                );
+
+                gP.noStroke();
+                gP.fill(0);
+                gP.arc(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('mainNode1Width')/2,
+                    data('mainNode1Height')/2,
+                    -Math.PI/2-Math.PI/6,
+                Math.PI-2*Math.PI/3);
+                gP.fill(255);
+            }
+
+            for(var currentNode in data('nodes')['root'][side][currentBranch]) {
+                // set 2 pointers
+                nodesPointer = data('nodes')['root'][side][currentBranch][currentNode];
+                layoutsPointer = data('layouts')['root'][side][currentBranch][currentNode];
                 // skip simple nodes
                 if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
                     continue;
                 }
-                layoutsPointer = data('layouts')['root'][currentSide][currentBranch]['main'];
+                // paint node
+                gP.noStroke();
+                gP.ellipse(layoutsPointer['x'],
+                    layoutsPointer['y'],
+                    data('node1Width'),
+                    data('node1Height')
+                );
 
-                // paint left and right main nodes
-                if (currentSide === 'left') {
-                    gP.noStroke();
+                // half circle
+                if (side == 'left') {
+                    gP.fill(0);
                     gP.arc(layoutsPointer['x'],
                         layoutsPointer['y'],
-                        data('mainNode1Width'),
-                        data('mainNode1Height'),
-                        2*Math.PI/3-Math.PI/3,
-                    2*2*Math.PI/3);
-                } else if (currentSide === 'right') {
-                    gP.noStroke();
-                    gP.arc(layoutsPointer['x'],
-                        layoutsPointer['y'],
-                        data('mainNode1Width'),
-                        data('mainNode1Height'),
+                        9*data('node1Width')/10,
+                        9*data('node1Height')/10,
                         -Math.PI/2-Math.PI/6,
-                    Math.PI-2*Math.PI/3);
-                }
-
-                for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
-                    // set 2 pointers
-                    nodesPointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
-                    layoutsPointer = data('layouts')['root'][currentSide][currentBranch][currentNode];
-                    // skip simple nodes
-                    if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
-                        continue;
-                    }
-                    // paint node
-                    gP.noStroke();
-                    gP.ellipse(layoutsPointer['x'],
-                        layoutsPointer['y'],
-                        data('node1Width'),
-                        data('node1Height')
+                        Math.PI-2*Math.PI/3
                     );
-                    // paint bisector 
-                    gP.stroke(0,0,0);
-                    gP.line(layoutsPointer['x']-(data('node1Width')/2/2),
-                        layoutsPointer['y']-(data('node1Height')/2*Math.sqrt(3)/2), 
-                        layoutsPointer['x']+(data('node1Width')/2/2),
-                        layoutsPointer['y']+(data('node1Height')/2*Math.sqrt(3)/2));
+                } else if (side == 'right') {
+                    gP.fill(0);
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        9*data('node1Width')/10,
+                        9*data('node1Height')/10,
+                        Math.PI/2-Math.PI/6,
+                        Math.PI+Math.PI/3
+                    );
                 }
+                gP.fill(255);
+
+                // paint bisector 
+                gP.stroke(0,0,0);
+                gP.line(layoutsPointer['x']-(data('node1Width')/2/2),
+                layoutsPointer['y']-(data('node1Height')/2*Math.sqrt(3)/2), 
+                layoutsPointer['x']+(data('node1Width')/2/2),
+                layoutsPointer['y']+(data('node1Height')/2*Math.sqrt(3)/2));
             }
         }
     }
 }
-function drawSmallerNodes() {
+function drawSmallerNodes(side) {
     gP.noStroke();
     gP.fill(0,0,0);
 
     with ($('#globalCanvas')) {
         var nodesPointer;
         var layoutsPointer;
-        for (var currentSide in data('nodes')['root']) {
-            for (var currentBranch in data('nodes')['root'][currentSide]) {
-                // set 1 pointer
-                nodesPointer = data('nodes')['root'][currentSide][currentBranch];
+
+        for (var currentBranch in data('nodes')['root'][side]) {
+            // set 1 pointer
+            nodesPointer = data('nodes')['root'][side][currentBranch];
+            // skip simple nodes
+            if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
+                continue;
+            }
+
+            for (var currentNode in data('nodes')['root'][side][currentBranch]) {
+                // set 2 pointers
+                nodesPointer = data('nodes')['root'][side][currentBranch][currentNode];
                 // skip simple nodes
                 if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
                     continue;
                 }
+                layoutsPointer = data('layouts')['root'][side][currentBranch][currentNode]['main'];
 
-                for (var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
-                    // set 2 pointers
-                    nodesPointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
+                // left and right main nodes
+                if (side === 'left') {
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width'),
+                        data('mainNode2Height'),
+                        (Math.PI/3)+(Math.PI/3/4),
+                        (2*Math.PI/3)-(Math.PI/3/4)
+                    );
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width'),
+                        data('mainNode2Height'),
+                        (2*Math.PI/3)+(Math.PI/3/4),
+                        (3*Math.PI/3)-(Math.PI/3/4)
+                    );
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width'),
+                        data('mainNode2Height'),
+                        (3*Math.PI/3)+(Math.PI/3/4),
+                        (4*Math.PI/3)-(Math.PI/3/4)
+                    );
+
+                    gP.noStroke();
+                    gP.fill(255);
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width')/2,
+                        data('mainNode2Height')/2,
+                        2*Math.PI/3-Math.PI/3,
+                    2*2*Math.PI/3);
+                    gP.fill(0);
+                } else if (side === 'right') {
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width'),
+                        data('mainNode2Height'),
+                        (4*Math.PI/3)+(Math.PI/3/4),
+                        (5*Math.PI/3)-(Math.PI/3/4)
+                    );
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width'),
+                        data('mainNode2Height'),
+                        (5*Math.PI/3)+(Math.PI/3/4),
+                        (6*Math.PI/3)-(Math.PI/3/4)
+                    );
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width'),
+                        data('mainNode2Height'),
+                        (6*Math.PI/3)+(Math.PI/3/4),
+                        (7*Math.PI/3)-(Math.PI/3/4)
+                    );
+
+                    gP.noStroke();
+                    gP.fill(255);
+                    gP.arc(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('mainNode2Width')/2,
+                        data('mainNode2Height')/2,
+                        -Math.PI/2-Math.PI/6,
+                    Math.PI-2*Math.PI/3);
+                    gP.fill(0);
+                }
+
+                for (var currentPoint in data('nodes')['root'][side][currentBranch][currentNode]) {
+                    // set 3 pointers
+                    nodesPointer = data('nodes')['root'][side][currentBranch][currentNode][currentPoint];
+                    layoutsPointer = data('layouts')['root'][side][currentBranch][currentNode][currentPoint];
                     // skip simple nodes
                     if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
                         continue;
                     }
-                    layoutsPointer = data('layouts')['root'][currentSide][currentBranch][currentNode]['main'];
 
-                    // left and right main nodes
-                    if (currentSide === 'left') {
-                        gP.arc(layoutsPointer['x'],
-                            layoutsPointer['y'],
-                            data('mainNode2Width'),
-                            data('mainNode2Height'),
-                            2*Math.PI/3-Math.PI/3,
-                        2*2*Math.PI/3);
-                    } else if (currentSide === 'right') {
-                        gP.arc(layoutsPointer['x'],
-                            layoutsPointer['y'],
-                            data('mainNode2Width'),
-                            data('mainNode2Height'),
-                            -Math.PI/2-Math.PI/6,
-                        Math.PI-2*Math.PI/3);
-                    }
-
-                    for (var currentPoint in data('nodes')['root'][currentSide][currentBranch][currentNode]) {
-                        // set 3 pointers
-                        nodesPointer = data('nodes')['root'][currentSide][currentBranch][currentNode][currentPoint];
-                        layoutsPointer = data('layouts')['root'][currentSide][currentBranch][currentNode][currentPoint];
-                        // skip simple nodes
-                        if (nodesPointer['complex'] === undefined || nodesPointer['complex'] === false) {
-                            continue;
-                        }
-
-                        gP.ellipse(layoutsPointer['x'],
-                            layoutsPointer['y'],
-                            data('node2Width'),
-                            data('node2Height'));
-                    }
+                    gP.ellipse(layoutsPointer['x'],
+                        layoutsPointer['y'],
+                        data('node2Width'),
+                        data('node2Height'));
                 }
             }
         }
-
     }
 }
 
