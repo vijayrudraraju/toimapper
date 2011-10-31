@@ -279,23 +279,25 @@ function gP(p) {
 
         var pointer = $("#globalCanvas").data('views')['root']['left']['position'];
         if (pointer == 1) {
+            console.log('drawNodes start');
             drawNodes('left');
-            drawSmallNodes('left');
-            drawSmallerNodes('left');
+            console.log('drawNodes finish');
+            //drawSmallNodes('left');
+            //drawSmallerNodes('left');
         } else if (pointer == 2) {
             drawNodes('left');
-            drawSmallNodes('left');
+            //drawSmallNodes('left');
         } else {
             drawNodes('left');
         }
         pointer = $("#globalCanvas").data('views')['root']['right']['position'];
         if (pointer == 1) {
             drawNodes('right');
-            drawSmallNodes('right');
-            drawSmallerNodes('right');
+            //drawSmallNodes('right');
+            //drawSmallerNodes('right');
         } else if (pointer == 2) {
             drawNodes('right');
-            drawSmallNodes('right');
+            //drawSmallNodes('right');
         } else {
             drawNodes('right');
         }

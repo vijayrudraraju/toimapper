@@ -42,29 +42,45 @@ function layoutNodes() {
         pointer = data('layouts')['root']['left'];
         pointer['main']['x'] = data('graphCenterX');
         pointer['main']['y'] = data('graphCenterY');
+        pointer['main']['width'] = data('mainNode0Width');
+        pointer['main']['height'] = data('mainNode0Height');
 
         pointer['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
         pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')*0.32)+(data('node0Height')*0.5);
+        pointer['top']['width'] = data('node0Width');
+        pointer['top']['height'] = data('node0Height');
 
         pointer['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
         pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')*0.32)-(data('node0Height')*0.5);
+        pointer['middle']['width'] = data('node0Width');
+        pointer['middle']['height'] = data('node0Height');
 
         pointer['bottom']['x'] = data('graphCenterX');
         pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')*0.5)-(data('node0Height')*0.5);
+        pointer['bottom']['width'] = data('node0Width');
+        pointer['bottom']['height'] = data('node0Height');
 
         // set 0 pointer to right side
         pointer = data('layouts')['root']['right'];
         pointer['main']['x'] = data('graphCenterX');
         pointer['main']['y'] = data('graphCenterY');
+        pointer['main']['width'] = data('mainNode0Width');
+        pointer['main']['height'] = data('mainNode0Height');
 
         pointer['top']['x'] = data('graphCenterX');
         pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/2)+(data('node0Height')/2);
+        pointer['top']['width'] = data('node0Width');
+        pointer['top']['height'] = data('node0Height');
 
         pointer['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
         pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')*0.32)+(data('node0Height')*0.5);
+        pointer['middle']['width'] = data('node0Width');
+        pointer['middle']['height'] = data('node0Height');
 
         pointer['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
         pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')*0.32)-(data('node0Height')*0.5);
+        pointer['bottom']['width'] = data('node0Width');
+        pointer['bottom']['height'] = data('node0Height');
     }
 }
 function layoutSmallNodes() {
@@ -91,6 +107,8 @@ function layoutSmallNodes() {
                 if (currentSide === 'left') {
                     pointer['main']['x'] = pointer['x'];
                     pointer['main']['y'] = pointer['y'];
+                    pointer['main']['width'] = data('mainNode1Width');
+                    pointer['main']['height'] = data('mainNode1Height');
 
                     pointer['top']['x'] =
                     pointer['x']-
@@ -100,6 +118,8 @@ function layoutSmallNodes() {
                     pointer['y']-
                     data('node0Height')*0.32+
                         data('node1Height')*0.5;
+                    pointer['top']['width'] = data('node1Width');
+                    pointer['top']['height'] = data('node1Height');
 
                     pointer['middle']['x'] =
                     pointer['x']-
@@ -109,6 +129,8 @@ function layoutSmallNodes() {
                     pointer['y']+
                         data('node0Height')*0.32-
                     data('node1Height')*0.5;
+                    pointer['middle']['width'] = data('node1Width');
+                    pointer['middle']['height'] = data('node1Height');
 
                     pointer['bottom']['x'] =
                     pointer['x'];
@@ -116,9 +138,13 @@ function layoutSmallNodes() {
                     pointer['y']+
                         data('node0Height')/2-
                     data('node1Height')/2;
+                    pointer['bottom']['width'] = data('node1Width');
+                    pointer['bottom']['height'] = data('node1Height');
                 } else if (currentSide === 'right') {
                     pointer['main']['x'] = pointer['x'];
                     pointer['main']['y'] = pointer['y'];
+                    pointer['main']['width'] = data('mainNode1Width');
+                    pointer['main']['height'] = data('mainNode1Height');
 
                     pointer['top']['x'] =
                     pointer['x'];
@@ -126,6 +152,8 @@ function layoutSmallNodes() {
                     pointer['y']-
                     data('node0Height')/2+
                         data('node1Height')/2;
+                    pointer['top']['width'] = data('node1Width');
+                    pointer['top']['height'] = data('node1Height');
 
                     pointer['middle']['x'] =
                     pointer['x']+
@@ -135,6 +163,8 @@ function layoutSmallNodes() {
                     pointer['y']-
                     data('node0Height')*0.32+
                         data('node1Height')*0.5;
+                    pointer['middle']['width'] = data('node1Width');
+                    pointer['middle']['height'] = data('node1Height');
 
                     pointer['bottom']['x'] =
                     pointer['x']+
@@ -144,6 +174,8 @@ function layoutSmallNodes() {
                     pointer['y']+
                         data('node0Height')*0.32-
                     data('node1Height')*0.5;
+                    pointer['bottom']['width'] = data('node1Width');
+                    pointer['bottom']['height'] = data('node1Height');
                 }
             }
         }
@@ -182,6 +214,8 @@ function layoutSmallerNodes() {
                     if (currentSide === 'left') {
                         pointer['main']['x'] = pointer['x'];
                         pointer['main']['y'] = pointer['y'];
+                        pointer['main']['width'] = data('mainNode2Width');
+                        pointer['main']['height'] = data('mainNode2Height');
 
                         pointer['top']['x'] =
                         pointer['x']-
@@ -191,6 +225,8 @@ function layoutSmallerNodes() {
                         pointer['y']-
                         data('node1Height')*0.32+
                             data('node2Height')*0.5;
+                        pointer['top']['width'] = data('node2Width');
+                        pointer['top']['height'] = data('node2Height');
 
                         pointer['middle']['x'] =
                         pointer['x']-
@@ -200,6 +236,8 @@ function layoutSmallerNodes() {
                         pointer['y']+
                             data('node1Height')*0.32-
                         data('node2Height')*0.5;
+                        pointer['middle']['width'] = data('node2Width');
+                        pointer['middle']['height'] = data('node2Height');
 
                         pointer['bottom']['x'] =
                         pointer['x'];
@@ -207,10 +245,13 @@ function layoutSmallerNodes() {
                         pointer['y']+
                             data('node1Height')/2-
                         data('node2Height')/2;
-
+                        pointer['bottom']['width'] = data('node2Width');
+                        pointer['bottom']['height'] = data('node2Height');
                     } else if (currentSide === 'right') {
                         pointer['main']['x'] = pointer['x'];
                         pointer['main']['y'] = pointer['y'];
+                        pointer['main']['width'] = data('mainNode2Width');
+                        pointer['main']['height'] = data('mainNode2Height');
 
                         pointer['top']['x'] =
                         pointer['x'];
@@ -218,6 +259,8 @@ function layoutSmallerNodes() {
                         pointer['y']-
                         data('node1Height')/2+
                             data('node2Height')/2;
+                        pointer['top']['width'] = data('node2Width');
+                        pointer['top']['height'] = data('node2Height');
 
                         pointer['middle']['x'] =
                         pointer['x']+
@@ -227,6 +270,8 @@ function layoutSmallerNodes() {
                         pointer['y']-
                         data('node1Height')*0.32+
                             data('node2Height')*0.5;
+                        pointer['middle']['width'] = data('node2Width');
+                        pointer['middle']['height'] = data('node2Height');
 
                         pointer['bottom']['x'] =
                         pointer['x']+
@@ -236,6 +281,8 @@ function layoutSmallerNodes() {
                         pointer['y']+
                             data('node1Height')*0.32-
                         data('node2Height')*0.5;
+                        pointer['bottom']['width'] = data('node2Width');
+                        pointer['bottom']['height'] = data('node2Height');
                     }
                 }
             }

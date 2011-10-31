@@ -1,63 +1,84 @@
-function initializeLayoutBranches(pointer,terminal) {
-    if (!terminal) { 
-        pointer['main'] = {x:0,y:0,moused:false,complex:false,terminal:true};
-        pointer['top'] = {x:0,y:0,moused:false,complex:true,terminal:false};
-        pointer['middle'] = {x:0,y:0,moused:false,complex:true,terminal:false};
-        pointer['bottom'] = {x:0,y:0,moused:false,complex:true,terminal:false};
-    } else {
-        pointer['main'] = {x:0,y:0,moused:false,complex:false,terminal:true};
-        pointer['top'] = {x:0,y:0,moused:false,complex:true,terminal:true};
-        pointer['middle'] = {x:0,y:0,moused:false,complex:true,terminal:true};
-        pointer['bottom'] = {x:0,y:0,moused:false,complex:true,terminal:true};
-    }
+function initializeViewBranches(pointer,even,terminal) {
+    pointer['main'] = {active:false,even:even,complex:false,terminal:true};
+    pointer['top'] = {active:false,even:even,complex:true,terminal:terminal};
+    pointer['middle'] = {active:false,even:even,complex:true,terminal:terminal};
+    pointer['bottom'] = {active:false,even:even,complex:true,terminal:terminal};
 }
-function initializeNodeBranches(pointer,terminal) {
-    if (!terminal) {
-        pointer['main'] = {active:false,color:'none',signal:[0.0],complex:false,terminal:true};
-        pointer['top'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:false};
-        pointer['middle'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:false};
-        pointer['bottom'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:false};
-    } else {
-        pointer['main'] = {active:false,color:'none',signal:[0.0],complex:false,terminal:true};
-        pointer['top'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:true};
-        pointer['middle'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:true};
-        pointer['bottom'] = {active:false,color:'none',signal:[0.0],complex:true,terminal:true};
-    }
+function initializeLayoutBranches(pointer,terminal) {
+    pointer['main'] = {x:0,y:0,moused:false,complex:false,terminal:true};
+    pointer['top'] = {x:0,y:0,moused:false,complex:true,terminal:terminal};
+    pointer['middle'] = {x:0,y:0,moused:false,complex:true,terminal:terminal};
+    pointer['bottom'] = {x:0,y:0,moused:false,complex:true,terminal:terminal};
+}
+function initializeNodeBranches(pointer,side,terminal) {
+    pointer['main'] = {active:false,color:'none',side:side,signal:[0.0],complex:false,terminal:true};
+    pointer['top'] = {active:false,color:'none',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['middle'] = {active:false,color:'none',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['bottom'] = {active:false,color:'none',side:side,signal:[0.0],complex:true,terminal:terminal};
 }
 
+function applyFunctionToStructure(nodePointer,layoutPointer,viewPointer,operationPointer) {
+    var thisNode;
+    var thisLayout;
+    var thisView;
+    with ($('#globalCanvas')) {
+        for (var currentBranch in nodePointer) {
+            thisNode = nodePointer[currentBranch];
+            if (thisNode['complex'] === undefined) {
+                continue;
+            }
+            thisLayout = layoutPointer[currentBranch];
+            thisView = viewPointer[currentBranch];
+
+            if (thisNode['complex'] && !thisNode['terminal']) {
+                operationPointer(thisNode,thisLayout,thisView);
+                applyFunctionToStructure(thisNode,thisLayout,thisView,operationPointer); 
+            } else {
+                operationPointer(thisNode,thisLayout,thisView);
+            }
+        }
+    }
+}
 
 function initializeViewStructures() {
     // view data
-
     with ($('#globalCanvas')) {
         data('views',{});
-        data('views')['root'] = {};
+        data('views')['root'] = {left:{},right:{}};
 
-        data('views')['root']['left'] = {};
-        data('views')['root']['left']['position'] = 1;
-        data('views')['root']['left']['active'] = true;
+        var pointer;
+        for (var currentSide in data('views')['root']) {
+            // pointer
+            pointer = data('views')['root'][currentSide];
+            pointer['position'] = 1;
+            pointer['trace'] = '';
+            pointer['active'] = false;
+            pointer['complex'] = true;
+            pointer['terminal'] = false;
+            // skip simple layouts
+            if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                continue;
+            }
+            initializeViewBranches(pointer,true,false);
 
-        data('views')['root']['left']['main'] = {};
-        data('views')['root']['left']['main']['active'] = true; 
-        data('views')['root']['left']['top'] = {};
-        data('views')['root']['left']['top']['active'] = false; 
-        data('views')['root']['left']['middle'] = {};
-        data('views')['root']['left']['middle']['active'] = false; 
-        data('views')['root']['left']['bottom'] = {};
-        data('views')['root']['left']['bottom']['active'] = false; 
+            for(var currentBranch in data('views')['root'][currentSide]) {
+                // set 1 pointer
+                pointer = data('views')['root'][currentSide][currentBranch];
+                // skip simple layouts
+                if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                    continue;
+                }
+                initializeViewBranches(pointer,false,false);
 
-        data('views')['root']['right'] = {};
-        data('views')['root']['right']['position'] = 1;
-        data('views')['root']['right']['active'] = false;
-
-        data('views')['root']['right']['main'] = {};
-        data('views')['root']['right']['main']['active'] = false; 
-        data('views')['root']['right']['top'] = {};
-        data('views')['root']['right']['top']['active'] = false; 
-        data('views')['root']['right']['middle'] = {};
-        data('views')['root']['right']['middle']['active'] = false; 
-        data('views')['root']['right']['bottom'] = {};
-        data('views')['root']['right']['bottom']['active'] = false; 
+                for(var currentNode in data('views')['root'][currentSide][currentBranch]) {
+                    pointer = data('views')['root'][currentSide][currentBranch][currentNode];
+                    if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                        continue;
+                    }
+                    initializeViewBranches(pointer,true,true);
+                }
+            }
+        }
     }
 }
 function initializeLayoutStructures() {
@@ -120,7 +141,7 @@ function initializeNodeStructures() {
         for (var currentSide in data('nodes')['root']) {
             // set 0 pointer
             pointer = data('nodes')['root'][currentSide];
-            initializeNodeBranches(pointer,false);
+            initializeNodeBranches(pointer,currentSide,false);
 
             for(var currentBranch in data('nodes')['root'][currentSide]) {
                 // set 1 pointer
@@ -129,14 +150,14 @@ function initializeNodeStructures() {
                 if (pointer['complex'] === undefined || pointer['complex'] === false) {
                     continue;
                 }
-                initializeNodeBranches(pointer,false);
+                initializeNodeBranches(pointer,currentSide,false);
 
                 for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
                     pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
                     if (pointer['complex'] === undefined || pointer['complex'] === false) {
                         continue;
                     }
-                    initializeNodeBranches(pointer,true);
+                    initializeNodeBranches(pointer,currentSide,true);
                 }
             }
         }
