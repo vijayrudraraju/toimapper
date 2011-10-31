@@ -180,12 +180,6 @@ function drawBigNode() {
         gP.fill(255,255,255);
 
         // choose left stroke
-        /*
-        if (data('layouts')['root']['left']['moused']) {
-            gP.strokeWeight(6);
-            gP.stroke(127,127,127);
-        } 
-        */
         gP.strokeWeight(6);
         if (data('views')['root']['left']['active']) {
             gP.stroke(127,0,0);
@@ -202,12 +196,6 @@ function drawBigNode() {
         2*2*Math.PI/3);
 
         // choose right stroke
-        /*
-        if (data('layouts')['root']['right']['moused']) {
-            gP.strokeWeight(6);
-            gP.stroke(127,127,127);
-        } 
-        */
         if (data('views')['root']['right']['active']) {
             gP.stroke(127,0,0);
         } else {
@@ -248,6 +236,18 @@ function drawMain(nodePointer,layoutPointer,viewPointer) {
     }
 
     // choose fill
+    var fillValue = 0;
+    switch (nodePointer['level']) {
+        case 1:
+            fillValue = 150;
+            break;
+        case 2:
+            fillValue = 200;
+            break;
+        case 3:
+            fillValue = 255;
+            break;
+    }
     switch (nodePointer['color']) {
         case 'none':
             if (viewPointer['even']) {
@@ -257,13 +257,13 @@ function drawMain(nodePointer,layoutPointer,viewPointer) {
             }
             break;
         case 'red':
-            gP.fill(255,0,0);
+            gP.fill(fillValue,0,0);
             break;
         case 'green':
-            gP.fill(0,255,0);
+            gP.fill(0,fillValue,0);
             break;
         case 'blue':
-            gP.fill(0,0,255);
+            gP.fill(0,0,fillValue);
             break;
     }
 
@@ -292,11 +292,38 @@ function drawMain(nodePointer,layoutPointer,viewPointer) {
         );
 
         gP.noStroke();
-        if (viewPointer['even']) {
-            gP.fill(255);
-        } else {
-            gP.fill(0);
+        // choose fill
+        var fillValue = 0;
+        switch (nodePointer['level']) {
+            case 1:
+                fillValue = 150;
+                break;
+            case 2:
+                fillValue = 200;
+                break;
+            case 3:
+                fillValue = 255;
+                break;
         }
+        switch (nodePointer['color']) {
+            case 'none':
+                if (viewPointer['even']) {
+                    gP.fill(255);
+                } else {
+                    gP.fill(0);
+                }
+                break;
+            case 'red':
+                gP.fill(fillValue,0,0);
+                break;
+            case 'green':
+                gP.fill(0,fillValue,0);
+                break;
+            case 'blue':
+                gP.fill(0,0,fillValue);
+                break;
+        }
+
         gP.arc(layoutPointer['x'],
             layoutPointer['y'],
             layoutPointer['width']/2,
@@ -328,10 +355,35 @@ function drawMain(nodePointer,layoutPointer,viewPointer) {
         );
 
         gP.noStroke();
-        if (viewPointer['even']) {
-            gP.fill(255);
-        } else {
-            gP.fill(0);
+        var fillValue = 0;
+        switch (nodePointer['level']) {
+            case 1:
+                fillValue = 150;
+                break;
+            case 2:
+                fillValue = 200;
+                break;
+            case 3:
+                fillValue = 255;
+                break;
+        }
+        switch (nodePointer['color']) {
+            case 'none':
+                if (viewPointer['even']) {
+                    gP.fill(255);
+                } else {
+                    gP.fill(0);
+                }
+                break;
+            case 'red':
+                gP.fill(fillValue,0,0);
+                break;
+            case 'green':
+                gP.fill(0,fillValue,0);
+                break;
+            case 'blue':
+                gP.fill(0,0,fillValue);
+                break;
         }
         gP.arc(layoutPointer['x'],
             layoutPointer['y'],
@@ -355,6 +407,18 @@ function drawSatellite(nodePointer,layoutPointer,viewPointer) {
 
 
     // choose fill
+    var fillValue = 0;
+    switch (nodePointer['level']) {
+        case 1:
+            fillValue = 150;
+            break;
+        case 2:
+            fillValue = 200;
+            break;
+        case 3:
+            fillValue = 255;
+            break;
+    }
     switch (nodePointer['color']) {
         case 'none':
             if (viewPointer['even']) {
@@ -364,13 +428,13 @@ function drawSatellite(nodePointer,layoutPointer,viewPointer) {
             }
             break;
         case 'red':
-            gP.fill(255,0,0);
+            gP.fill(fillValue,0,0);
             break;
         case 'green':
-            gP.fill(0,255,0);
+            gP.fill(0,fillValue,0);
             break;
         case 'blue':
-            gP.fill(0,0,255);
+            gP.fill(0,0,fillValue);
             break;
     }
 

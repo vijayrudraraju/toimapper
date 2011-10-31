@@ -279,9 +279,7 @@ function gP(p) {
 
         var pointer = $("#globalCanvas").data('views')['root']['left']['position'];
         if (pointer == 1) {
-            console.log('drawNodes start');
             drawNodes('left');
-            console.log('drawNodes finish');
             //drawSmallNodes('left');
             //drawSmallerNodes('left');
         } else if (pointer == 2) {

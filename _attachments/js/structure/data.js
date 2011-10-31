@@ -10,11 +10,11 @@ function initializeLayoutBranches(pointer,terminal) {
     pointer['middle'] = {x:0,y:0,moused:false,complex:true,terminal:terminal};
     pointer['bottom'] = {x:0,y:0,moused:false,complex:true,terminal:terminal};
 }
-function initializeNodeBranches(pointer,side,terminal) {
-    pointer['main'] = {active:false,color:'none',side:side,signal:[0.0],complex:false,terminal:true};
-    pointer['top'] = {active:false,color:'none',side:side,signal:[0.0],complex:true,terminal:terminal};
-    pointer['middle'] = {active:false,color:'none',side:side,signal:[0.0],complex:true,terminal:terminal};
-    pointer['bottom'] = {active:false,color:'none',side:side,signal:[0.0],complex:true,terminal:terminal};
+function initializeNodeBranches(pointer,side,terminal,level) {
+    pointer['main'] = {level:level,active:false,color:'red',side:side,signal:[0.0],complex:false,terminal:true};
+    pointer['top'] = {level:level,active:false,color:'green',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['middle'] = {level:level,active:false,color:'blue',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['bottom'] = {level:level,active:false,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
 }
 
 function applyFunctionToStructure(nodePointer,layoutPointer,viewPointer,operationPointer) {
@@ -141,7 +141,7 @@ function initializeNodeStructures() {
         for (var currentSide in data('nodes')['root']) {
             // set 0 pointer
             pointer = data('nodes')['root'][currentSide];
-            initializeNodeBranches(pointer,currentSide,false);
+            initializeNodeBranches(pointer,currentSide,false,1);
 
             for(var currentBranch in data('nodes')['root'][currentSide]) {
                 // set 1 pointer
@@ -150,14 +150,14 @@ function initializeNodeStructures() {
                 if (pointer['complex'] === undefined || pointer['complex'] === false) {
                     continue;
                 }
-                initializeNodeBranches(pointer,currentSide,false);
+                initializeNodeBranches(pointer,currentSide,false,2);
 
                 for(var currentNode in data('nodes')['root'][currentSide][currentBranch]) {
                     pointer = data('nodes')['root'][currentSide][currentBranch][currentNode];
                     if (pointer['complex'] === undefined || pointer['complex'] === false) {
                         continue;
                     }
-                    initializeNodeBranches(pointer,currentSide,true);
+                    initializeNodeBranches(pointer,currentSide,true,3);
                 }
             }
         }
