@@ -12,8 +12,8 @@ function initializeLayoutBranches(pointer,terminal) {
 }
 function initializeNodeBranches(pointer,side,terminal,level) {
     pointer['main'] = {level:level,active:false,color:'red',side:side,signal:[0.0],complex:false,terminal:true};
-    pointer['top'] = {level:level,active:false,color:'green',side:side,signal:[0.0],complex:true,terminal:terminal};
-    pointer['middle'] = {level:level,active:false,color:'blue',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['top'] = {level:level,active:false,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['middle'] = {level:level,active:false,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
     pointer['bottom'] = {level:level,active:false,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
 }
 
