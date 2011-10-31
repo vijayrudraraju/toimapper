@@ -102,16 +102,16 @@ function drawAscendButton() {
         if (data('views')['root']['left']['active']) {
             gP.fill(255,0,0);
         } 
-        if (data('views')['root']['left']['position'] > 1) {
-            gP.text(data('views')['root']['left']['position']-1,pointer['x']+20,pointer['y']+50);
+        if (data('views')['root']['left']['level'] > 1) {
+            gP.text(data('views')['root']['left']['level']-1,pointer['x']+20,pointer['y']+50);
         }
 
         gP.fill(0);
         if (data('views')['root']['right']['active']) {
             gP.fill(255,0,0);
         }
-        if (data('views')['root']['right']['position'] > 1) {
-            gP.text(data('views')['root']['right']['position']-1,pointer['x']+70,pointer['y']+50);
+        if (data('views')['root']['right']['level'] > 1) {
+            gP.text(data('views')['root']['right']['level']-1,pointer['x']+70,pointer['y']+50);
         }
     }
 }
@@ -141,16 +141,16 @@ function drawDescendButton() {
         if (data('views')['root']['left']['active']) {
             gP.fill(255,0,0);
         } 
-        if (data('views')['root']['left']['position'] < 3) {
-            gP.text(data('views')['root']['left']['position']+1,pointer['x']+20,pointer['y']+pointer['height']-30);
+        if (data('views')['root']['left']['level'] < 3) {
+            gP.text(data('views')['root']['left']['level']+1,pointer['x']+20,pointer['y']+pointer['height']-30);
         }
 
         gP.fill(0);
         if (data('views')['root']['right']['active']) {
             gP.fill(255,0,0);
         }
-        if (data('views')['root']['right']['position'] < 3) {
-            gP.text(data('views')['root']['right']['position']+1,pointer['x']+70,pointer['y']+pointer['height']-30);
+        if (data('views')['root']['right']['level'] < 3) {
+            gP.text(data('views')['root']['right']['level']+1,pointer['x']+70,pointer['y']+pointer['height']-30);
         }
     }
 }
@@ -227,7 +227,7 @@ function drawBigBisect() {
 function drawMain(nodePointer,layoutPointer,viewPointer) {
     // choose stroke
     gP.strokeWeight(6);
-    if (nodePointer['active']) {
+    if (viewPointer['active']) {
         gP.stroke(127,0,0);
     } else if (layoutPointer['moused']) {
         gP.stroke(127,127,127);
@@ -397,7 +397,7 @@ function drawMain(nodePointer,layoutPointer,viewPointer) {
 function drawSatellite(nodePointer,layoutPointer,viewPointer) {
     // choose stroke
     gP.strokeWeight(6);
-    if (nodePointer['active']) {
+    if (viewPointer['active']) {
         gP.stroke(127,0,0);
     } else if (layoutPointer['moused']) {
         gP.stroke(127,127,127);

@@ -170,22 +170,22 @@ $(document).ready(function() {
                 $(this).trigger('redraw');
             },
             ascend: function() {
-                console.log('ascend');
-                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['position'] > 1) {
-                    $(this).data('views')['root']['left']['position']--;
-                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['position'] > 1) {
-                    $(this).data('views')['root']['right']['position']--;
+                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['level'] > 1) {
+                    $(this).data('views')['root']['left']['level']--;
+                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['level'] > 1) {
+                    $(this).data('views')['root']['right']['level']--;
                 }
+                console.log("levels: " + $(this).data('views')['root']['left']['level'] + ' ' + $(this).data('views')['root']['right']['level']);
 
                 $('#globalCanvas').trigger('redraw');
             },
             descend: function() {
-                console.log('descend');
-                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['position'] < 3) {
-                    $(this).data('views')['root']['left']['position']++;
-                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['position'] < 3) {
-                    $(this).data('views')['root']['right']['position']++;
+                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['level'] < 3) {
+                    $(this).data('views')['root']['left']['level']++;
+                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['level'] < 3) {
+                    $(this).data('views')['root']['right']['level']++;
                 }
+                console.log("levels: " + $(this).data('views')['root']['left']['level'] + ' ' + $(this).data('views')['root']['right']['level']);
 
                 $('#globalCanvas').trigger('redraw');
             }
@@ -277,7 +277,7 @@ function gP(p) {
 
         drawBigNode();
 
-        var pointer = $("#globalCanvas").data('views')['root']['left']['position'];
+        var pointer = $("#globalCanvas").data('views')['root']['left']['level'];
         if (pointer == 1) {
             drawNodes('left');
             //drawSmallNodes('left');
@@ -288,7 +288,7 @@ function gP(p) {
         } else {
             drawNodes('left');
         }
-        pointer = $("#globalCanvas").data('views')['root']['right']['position'];
+        pointer = $("#globalCanvas").data('views')['root']['right']['level'];
         if (pointer == 1) {
             drawNodes('right');
             //drawSmallNodes('right');

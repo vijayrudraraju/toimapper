@@ -56,65 +56,74 @@ function updateDescendButtonMouseState() {
 
 function updateNodeMouseStates() {
     with ($('#globalCanvas')) {
-        var pointer;
+        var thisNode;
+        var thisLayout;
+
         var canonX;
         var canonY;
         for (var currentSide in data('layouts')['root']) {
             canonX = gP.mouseX-data('graphCenterX');
             canonY = data('graphCenterY')-gP.mouseY;
-            // set 0 pointer
-            pointer = data('layouts')['root'][currentSide];
+
+            // set 0 thisLayout
+            thisNode = data('nodes')['root'][currentSide];
+            thisLayout = data('layouts')['root'][currentSide];
+            if (thisNode === undefined) {
+                continue;
+            }
             if (currentSide === 'left') {
                 if (canonY > canonX*-1*Math.sqrt(3)) {
-                    pointer['moused'] = false;
+                    thisLayout['moused'] = false;
                 } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('graphWidth')/2,2)) {
-                    pointer['moused'] = false;
+                    thisLayout['moused'] = false;
                 } else {
-                    pointer['moused'] = true;
+                    thisLayout['moused'] = true;
                 }
             } else if (currentSide === 'right') {
                 if (canonY < canonX*-1*Math.sqrt(3)) {
-                    pointer['moused'] = false;
+                    thisLayout['moused'] = false;
                 } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('graphWidth')/2,2)) {
-                    pointer['moused'] = false;
+                    thisLayout['moused'] = false;
                 } else {
-                    pointer['moused'] = true;
+                    thisLayout['moused'] = true;
                 }
             }
 
             for(var currentNode in data('layouts')['root'][currentSide]) {
-                // set 1 pointer
-                pointer = data('layouts')['root'][currentSide][currentNode];
+
+                // set 1 thisLayout
+                thisNode = data('nodes')['root'][currentSide][currentNode];
+                thisLayout = data('layouts')['root'][currentSide][currentNode];
                 // skip simple nodes
-                if (pointer['complex'] === undefined) {
+                if (thisNode === undefined || thisNode['complex'] === undefined) {
                     continue;
                 }
 
-                canonX = gP.mouseX-pointer['x'];
-                canonY = pointer['y']-gP.mouseY;
+                canonX = gP.mouseX-thisLayout['x'];
+                canonY = thisLayout['y']-gP.mouseY;
                 if (currentNode === 'main') {
                     if (currentSide === 'left') {
                         if (canonY > canonX*-1*Math.sqrt(3)) {
-                            pointer['moused'] = false;
+                            thisLayout['moused'] = false;
                         } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('mainNode0Width')/2,2)) {
-                            pointer['moused'] = false;
+                            thisLayout['moused'] = false;
                         } else {
-                            pointer['moused'] = true;
+                            thisLayout['moused'] = true;
                         }
                     } else if (currentSide === 'right') {
                         if (canonY < canonX*-1*Math.sqrt(3)) {
-                            pointer['moused'] = false;
+                            thisLayout['moused'] = false;
                         } else if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('mainNode0Width')/2,2)) {
-                            pointer['moused'] = false;
+                            thisLayout['moused'] = false;
                         } else {
-                            pointer['moused'] = true;
+                            thisLayout['moused'] = true;
                         }
                     }
                 } else {
                     if (Math.pow(canonX,2)+Math.pow(canonY,2) > Math.pow(data('node0Width')/2,2)) {
-                        pointer['moused'] = false;
+                        thisLayout['moused'] = false;
                     } else {
-                        pointer['moused'] = true;
+                        thisLayout['moused'] = true;
                     }
                 }
             }

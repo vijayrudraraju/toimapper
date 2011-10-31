@@ -1,31 +1,31 @@
 function layoutButtons() {
     with ($('#globalCanvas')) {
-        var pointer = data('layouts')['root']['buttons']; 
+        var thisLayout = data('layouts')['root']['buttons']; 
 
-        pointer['about']['x'] = data('canvasWidth')-162;
-        pointer['about']['y'] = 0;
-        pointer['about']['width'] = 80;
-        pointer['about']['height'] = 40;
+        thisLayout['about']['x'] = data('canvasWidth')-162;
+        thisLayout['about']['y'] = 0;
+        thisLayout['about']['width'] = 80;
+        thisLayout['about']['height'] = 40;
 
-        pointer['help']['x'] = data('canvasWidth')-80;
-        pointer['help']['y'] = 0;
-        pointer['help']['width'] = 80;
-        pointer['help']['height'] = 40;
+        thisLayout['help']['x'] = data('canvasWidth')-80;
+        thisLayout['help']['y'] = 0;
+        thisLayout['help']['width'] = 80;
+        thisLayout['help']['height'] = 40;
         
-        pointer['ascend']['x'] = 0;
-        pointer['ascend']['y'] = 0;
-        pointer['ascend']['width'] = 150;
-        pointer['ascend']['height'] = 150;
+        thisLayout['ascend']['x'] = 0;
+        thisLayout['ascend']['y'] = 0;
+        thisLayout['ascend']['width'] = 150;
+        thisLayout['ascend']['height'] = 150;
         
-        pointer['descend']['x'] = 0;
-        pointer['descend']['y'] = data('canvasHeight')-150;
-        pointer['descend']['width'] = 150;
-        pointer['descend']['height'] = 150;
+        thisLayout['descend']['x'] = 0;
+        thisLayout['descend']['y'] = data('canvasHeight')-150;
+        thisLayout['descend']['width'] = 150;
+        thisLayout['descend']['height'] = 150;
         
-        pointer['signal']['x'] = data('canvasWidth')-150;
-        pointer['signal']['y'] = data('canvasHeight')-150;
-        pointer['signal']['width'] = 150;
-        pointer['signal']['height'] = 150;
+        thisLayout['signal']['x'] = data('canvasWidth')-150;
+        thisLayout['signal']['y'] = data('canvasHeight')-150;
+        thisLayout['signal']['width'] = 150;
+        thisLayout['signal']['height'] = 150;
     }
 }
 
@@ -36,51 +36,51 @@ function layoutNodes() {
         data('mainNode0Width',data('node0Width')*1.0);
         data('mainNode0Height',data('node0Height')*1.0);
 
-        var pointer;
+        var thisLayout;
 
-        // set 0 pointer to left side
-        pointer = data('layouts')['root']['left'];
-        pointer['main']['x'] = data('graphCenterX');
-        pointer['main']['y'] = data('graphCenterY');
-        pointer['main']['width'] = data('mainNode0Width');
-        pointer['main']['height'] = data('mainNode0Height');
+        // set 0 thisLayout to left side
+        thisLayout = data('layouts')['root']['left'];
+        thisLayout['main']['x'] = data('graphCenterX');
+        thisLayout['main']['y'] = data('graphCenterY');
+        thisLayout['main']['width'] = data('mainNode0Width');
+        thisLayout['main']['height'] = data('mainNode0Height');
 
-        pointer['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-        pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')*0.32)+(data('node0Height')*0.5);
-        pointer['top']['width'] = data('node0Width');
-        pointer['top']['height'] = data('node0Height');
+        thisLayout['top']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
+        thisLayout['top']['y'] = data('graphCenterY')-(data('graphHeight')*0.32)+(data('node0Height')*0.5);
+        thisLayout['top']['width'] = data('node0Width');
+        thisLayout['top']['height'] = data('node0Height');
 
-        pointer['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
-        pointer['middle']['y'] = data('graphCenterY')+(data('graphHeight')*0.32)-(data('node0Height')*0.5);
-        pointer['middle']['width'] = data('node0Width');
-        pointer['middle']['height'] = data('node0Height');
+        thisLayout['middle']['x'] = data('graphCenterX')-(data('graphWidth')/2.2)+(data('node0Width')/2);
+        thisLayout['middle']['y'] = data('graphCenterY')+(data('graphHeight')*0.32)-(data('node0Height')*0.5);
+        thisLayout['middle']['width'] = data('node0Width');
+        thisLayout['middle']['height'] = data('node0Height');
 
-        pointer['bottom']['x'] = data('graphCenterX');
-        pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')*0.5)-(data('node0Height')*0.5);
-        pointer['bottom']['width'] = data('node0Width');
-        pointer['bottom']['height'] = data('node0Height');
+        thisLayout['bottom']['x'] = data('graphCenterX');
+        thisLayout['bottom']['y'] = data('graphCenterY')+(data('graphHeight')*0.5)-(data('node0Height')*0.5);
+        thisLayout['bottom']['width'] = data('node0Width');
+        thisLayout['bottom']['height'] = data('node0Height');
 
-        // set 0 pointer to right side
-        pointer = data('layouts')['root']['right'];
-        pointer['main']['x'] = data('graphCenterX');
-        pointer['main']['y'] = data('graphCenterY');
-        pointer['main']['width'] = data('mainNode0Width');
-        pointer['main']['height'] = data('mainNode0Height');
+        // set 0 thisLayout to right side
+        thisLayout = data('layouts')['root']['right'];
+        thisLayout['main']['x'] = data('graphCenterX');
+        thisLayout['main']['y'] = data('graphCenterY');
+        thisLayout['main']['width'] = data('mainNode0Width');
+        thisLayout['main']['height'] = data('mainNode0Height');
 
-        pointer['top']['x'] = data('graphCenterX');
-        pointer['top']['y'] = data('graphCenterY')-(data('graphHeight')/2)+(data('node0Height')/2);
-        pointer['top']['width'] = data('node0Width');
-        pointer['top']['height'] = data('node0Height');
+        thisLayout['top']['x'] = data('graphCenterX');
+        thisLayout['top']['y'] = data('graphCenterY')-(data('graphHeight')/2)+(data('node0Height')/2);
+        thisLayout['top']['width'] = data('node0Width');
+        thisLayout['top']['height'] = data('node0Height');
 
-        pointer['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-        pointer['middle']['y'] = data('graphCenterY')-(data('graphHeight')*0.32)+(data('node0Height')*0.5);
-        pointer['middle']['width'] = data('node0Width');
-        pointer['middle']['height'] = data('node0Height');
+        thisLayout['middle']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
+        thisLayout['middle']['y'] = data('graphCenterY')-(data('graphHeight')*0.32)+(data('node0Height')*0.5);
+        thisLayout['middle']['width'] = data('node0Width');
+        thisLayout['middle']['height'] = data('node0Height');
 
-        pointer['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
-        pointer['bottom']['y'] = data('graphCenterY')+(data('graphHeight')*0.32)-(data('node0Height')*0.5);
-        pointer['bottom']['width'] = data('node0Width');
-        pointer['bottom']['height'] = data('node0Height');
+        thisLayout['bottom']['x'] = data('graphCenterX')+(data('graphWidth')/2.2)-(data('node0Width')/2);
+        thisLayout['bottom']['y'] = data('graphCenterY')+(data('graphHeight')*0.32)-(data('node0Height')*0.5);
+        thisLayout['bottom']['width'] = data('node0Width');
+        thisLayout['bottom']['height'] = data('node0Height');
     }
 }
 function layoutSmallNodes() {
@@ -90,92 +90,95 @@ function layoutSmallNodes() {
         data('mainNode1Width',data('node1Width')*1);
         data('mainNode1Height',data('node1Height')*1);
 
-        var pointer;
+        var thisNode;
+        var thisLayout;
         for (var currentSide in data('layouts')['root']) {
-            pointer = data('layouts')['root'][currentSide];
+            thisNode = data('nodes')['root'][currentSide];
+            thisLayout = data('layouts')['root'][currentSide];
             // skip simple layouts
-            if (pointer['complex'] === undefined || pointer['complex'] === false) {
+            if (thisNode === undefined || thisNode['complex'] === undefined || thisNode['complex'] === false) {
                 continue;
             }
             for(var currentNode in data('layouts')['root'][currentSide]) {
-                // set 1 pointer
-                pointer = data('layouts')['root'][currentSide][currentNode];
+                // set 1 thisLayout
+                thisNode = data('nodes')['root'][currentSide][currentNode];
+                thisLayout = data('layouts')['root'][currentSide][currentNode];
                 // skip simple layouts
-                if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                if (thisNode === undefined || thisNode['complex'] === undefined || thisNode['complex'] === false) {
                     continue;
                 }
                 if (currentSide === 'left') {
-                    pointer['main']['x'] = pointer['x'];
-                    pointer['main']['y'] = pointer['y'];
-                    pointer['main']['width'] = data('mainNode1Width');
-                    pointer['main']['height'] = data('mainNode1Height');
+                    thisLayout['main']['x'] = thisLayout['x'];
+                    thisLayout['main']['y'] = thisLayout['y'];
+                    thisLayout['main']['width'] = data('mainNode1Width');
+                    thisLayout['main']['height'] = data('mainNode1Height');
 
-                    pointer['top']['x'] =
-                    pointer['x']-
+                    thisLayout['top']['x'] =
+                    thisLayout['x']-
                     data('node0Width')/2.2+
                         data('node1Width')/2;
-                    pointer['top']['y'] =
-                    pointer['y']-
+                    thisLayout['top']['y'] =
+                    thisLayout['y']-
                     data('node0Height')*0.32+
                         data('node1Height')*0.5;
-                    pointer['top']['width'] = data('node1Width');
-                    pointer['top']['height'] = data('node1Height');
+                    thisLayout['top']['width'] = data('node1Width');
+                    thisLayout['top']['height'] = data('node1Height');
 
-                    pointer['middle']['x'] =
-                    pointer['x']-
+                    thisLayout['middle']['x'] =
+                    thisLayout['x']-
                     data('node0Width')/2.2+
                         data('node1Width')/2;
-                    pointer['middle']['y'] =
-                    pointer['y']+
+                    thisLayout['middle']['y'] =
+                    thisLayout['y']+
                         data('node0Height')*0.32-
                     data('node1Height')*0.5;
-                    pointer['middle']['width'] = data('node1Width');
-                    pointer['middle']['height'] = data('node1Height');
+                    thisLayout['middle']['width'] = data('node1Width');
+                    thisLayout['middle']['height'] = data('node1Height');
 
-                    pointer['bottom']['x'] =
-                    pointer['x'];
-                    pointer['bottom']['y'] =
-                    pointer['y']+
+                    thisLayout['bottom']['x'] =
+                    thisLayout['x'];
+                    thisLayout['bottom']['y'] =
+                    thisLayout['y']+
                         data('node0Height')/2-
                     data('node1Height')/2;
-                    pointer['bottom']['width'] = data('node1Width');
-                    pointer['bottom']['height'] = data('node1Height');
+                    thisLayout['bottom']['width'] = data('node1Width');
+                    thisLayout['bottom']['height'] = data('node1Height');
                 } else if (currentSide === 'right') {
-                    pointer['main']['x'] = pointer['x'];
-                    pointer['main']['y'] = pointer['y'];
-                    pointer['main']['width'] = data('mainNode1Width');
-                    pointer['main']['height'] = data('mainNode1Height');
+                    thisLayout['main']['x'] = thisLayout['x'];
+                    thisLayout['main']['y'] = thisLayout['y'];
+                    thisLayout['main']['width'] = data('mainNode1Width');
+                    thisLayout['main']['height'] = data('mainNode1Height');
 
-                    pointer['top']['x'] =
-                    pointer['x'];
-                    pointer['top']['y'] =
-                    pointer['y']-
+                    thisLayout['top']['x'] =
+                    thisLayout['x'];
+                    thisLayout['top']['y'] =
+                    thisLayout['y']-
                     data('node0Height')/2+
                         data('node1Height')/2;
-                    pointer['top']['width'] = data('node1Width');
-                    pointer['top']['height'] = data('node1Height');
+                    thisLayout['top']['width'] = data('node1Width');
+                    thisLayout['top']['height'] = data('node1Height');
 
-                    pointer['middle']['x'] =
-                    pointer['x']+
+                    thisLayout['middle']['x'] =
+                    thisLayout['x']+
                         data('node0Width')/2.2-
                     data('node1Width')/2;
-                    pointer['middle']['y'] =
-                    pointer['y']-
+                    thisLayout['middle']['y'] =
+                    thisLayout['y']-
                     data('node0Height')*0.32+
                         data('node1Height')*0.5;
-                    pointer['middle']['width'] = data('node1Width');
-                    pointer['middle']['height'] = data('node1Height');
+                    thisLayout['middle']['width'] = data('node1Width');
+                    thisLayout['middle']['height'] = data('node1Height');
 
-                    pointer['bottom']['x'] =
-                    pointer['x']+
+                    thisLayout['bottom']['x'] =
+                    thisLayout['x']+
                         data('node0Width')/2.2-
                     data('node1Width')/2;
-                    pointer['bottom']['y'] =
-                    pointer['y']+
+                    thisLayout['bottom']['y'] =
+                    thisLayout['y']+
                         data('node0Height')*0.32-
                     data('node1Height')*0.5;
-                    pointer['bottom']['width'] = data('node1Width');
-                    pointer['bottom']['height'] = data('node1Height');
+                    thisLayout['bottom']['width'] = data('node1Width');
+                    thisLayout['bottom']['height'] = data('node1Height');
                 }
             }
         }
@@ -188,101 +191,105 @@ function layoutSmallerNodes() {
         data('mainNode2Width',data('node2Width')*1);
         data('mainNode2Height',data('node2Height')*1);
 
-        var pointer;
+        var thisNode;
+        var thisLayout;
         for (var currentSide in data('layouts')['root']) {
-            pointer = data('layouts')['root'][currentSide];
+            thisNode = data('nodes')['root'][currentSide];
+            thisLayout = data('layouts')['root'][currentSide];
             // skip simple layouts
-            if (pointer['complex'] === undefined || pointer['complex'] === false) {
+            if (thisNode === undefined || thisNode['complex'] === undefined || thisNode['complex'] === false) {
                 continue;
             }
             for(var currentBranch in data('layouts')['root'][currentSide]) {
-                // set 1 pointer
-                pointer = data('layouts')['root'][currentSide][currentBranch];
+                // set 1 thisLayout
+                thisNode = data('nodes')['root'][currentSide][currentBranch];
+                thisLayout = data('layouts')['root'][currentSide][currentBranch];
                 // skip simple layouts
-                if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                if (thisNode === undefined || thisNode['complex'] === undefined || thisNode['complex'] === false) {
                     continue;
                 }
 
                 for(var currentNode in data('layouts')['root'][currentSide][currentBranch]) {
-                    // set 2 pointer
-                    pointer = data('layouts')['root'][currentSide][currentBranch][currentNode];
+                    // set 2 thisLayout
+                    thisNode = data('nodes')['root'][currentSide][currentBranch][currentNode];
+                    thisLayout = data('layouts')['root'][currentSide][currentBranch][currentNode];
                     // skip simple layouts
-                    if (pointer['complex'] === undefined || pointer['complex'] === false) {
+                    if (thisNode === undefined || thisNode['complex'] === undefined || thisNode['complex'] === false) {
                         continue;
                     }
 
                     if (currentSide === 'left') {
-                        pointer['main']['x'] = pointer['x'];
-                        pointer['main']['y'] = pointer['y'];
-                        pointer['main']['width'] = data('mainNode2Width');
-                        pointer['main']['height'] = data('mainNode2Height');
+                        thisLayout['main']['x'] = thisLayout['x'];
+                        thisLayout['main']['y'] = thisLayout['y'];
+                        thisLayout['main']['width'] = data('mainNode2Width');
+                        thisLayout['main']['height'] = data('mainNode2Height');
 
-                        pointer['top']['x'] =
-                        pointer['x']-
+                        thisLayout['top']['x'] =
+                        thisLayout['x']-
                         data('node1Width')/2.2+
                             data('node2Width')/2;
-                        pointer['top']['y'] =
-                        pointer['y']-
+                        thisLayout['top']['y'] =
+                        thisLayout['y']-
                         data('node1Height')*0.32+
                             data('node2Height')*0.5;
-                        pointer['top']['width'] = data('node2Width');
-                        pointer['top']['height'] = data('node2Height');
+                        thisLayout['top']['width'] = data('node2Width');
+                        thisLayout['top']['height'] = data('node2Height');
 
-                        pointer['middle']['x'] =
-                        pointer['x']-
+                        thisLayout['middle']['x'] =
+                        thisLayout['x']-
                         data('node1Width')/2.2+
                             data('node2Width')/2;
-                        pointer['middle']['y'] =
-                        pointer['y']+
+                        thisLayout['middle']['y'] =
+                        thisLayout['y']+
                             data('node1Height')*0.32-
                         data('node2Height')*0.5;
-                        pointer['middle']['width'] = data('node2Width');
-                        pointer['middle']['height'] = data('node2Height');
+                        thisLayout['middle']['width'] = data('node2Width');
+                        thisLayout['middle']['height'] = data('node2Height');
 
-                        pointer['bottom']['x'] =
-                        pointer['x'];
-                        pointer['bottom']['y'] =
-                        pointer['y']+
+                        thisLayout['bottom']['x'] =
+                        thisLayout['x'];
+                        thisLayout['bottom']['y'] =
+                        thisLayout['y']+
                             data('node1Height')/2-
                         data('node2Height')/2;
-                        pointer['bottom']['width'] = data('node2Width');
-                        pointer['bottom']['height'] = data('node2Height');
+                        thisLayout['bottom']['width'] = data('node2Width');
+                        thisLayout['bottom']['height'] = data('node2Height');
                     } else if (currentSide === 'right') {
-                        pointer['main']['x'] = pointer['x'];
-                        pointer['main']['y'] = pointer['y'];
-                        pointer['main']['width'] = data('mainNode2Width');
-                        pointer['main']['height'] = data('mainNode2Height');
+                        thisLayout['main']['x'] = thisLayout['x'];
+                        thisLayout['main']['y'] = thisLayout['y'];
+                        thisLayout['main']['width'] = data('mainNode2Width');
+                        thisLayout['main']['height'] = data('mainNode2Height');
 
-                        pointer['top']['x'] =
-                        pointer['x'];
-                        pointer['top']['y'] =
-                        pointer['y']-
+                        thisLayout['top']['x'] =
+                        thisLayout['x'];
+                        thisLayout['top']['y'] =
+                        thisLayout['y']-
                         data('node1Height')/2+
                             data('node2Height')/2;
-                        pointer['top']['width'] = data('node2Width');
-                        pointer['top']['height'] = data('node2Height');
+                        thisLayout['top']['width'] = data('node2Width');
+                        thisLayout['top']['height'] = data('node2Height');
 
-                        pointer['middle']['x'] =
-                        pointer['x']+
+                        thisLayout['middle']['x'] =
+                        thisLayout['x']+
                             data('node1Width')/2.2-
                         data('node2Width')/2;
-                        pointer['middle']['y'] =
-                        pointer['y']-
+                        thisLayout['middle']['y'] =
+                        thisLayout['y']-
                         data('node1Height')*0.32+
                             data('node2Height')*0.5;
-                        pointer['middle']['width'] = data('node2Width');
-                        pointer['middle']['height'] = data('node2Height');
+                        thisLayout['middle']['width'] = data('node2Width');
+                        thisLayout['middle']['height'] = data('node2Height');
 
-                        pointer['bottom']['x'] =
-                        pointer['x']+
+                        thisLayout['bottom']['x'] =
+                        thisLayout['x']+
                             data('node1Width')/2.2-
                         data('node2Width')/2;
-                        pointer['bottom']['y'] =
-                        pointer['y']+
+                        thisLayout['bottom']['y'] =
+                        thisLayout['y']+
                             data('node1Height')*0.32-
                         data('node2Height')*0.5;
-                        pointer['bottom']['width'] = data('node2Width');
-                        pointer['bottom']['height'] = data('node2Height');
+                        thisLayout['bottom']['width'] = data('node2Width');
+                        thisLayout['bottom']['height'] = data('node2Height');
                     }
                 }
             }
