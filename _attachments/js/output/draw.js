@@ -181,7 +181,7 @@ function drawBigNode() {
 
         // choose left stroke
         gP.strokeWeight(6);
-        if (data('views')['root']['left']['active']) {
+        if (data('views')['root']['side'] === 'left') {
             gP.stroke(127,0,0);
         } else {
             gP.noStroke();
@@ -196,7 +196,7 @@ function drawBigNode() {
         2*2*Math.PI/3);
 
         // choose right stroke
-        if (data('views')['root']['right']['active']) {
+        if (data('views')['root']['side'] === 'right') {
             gP.stroke(127,0,0);
         } else {
             gP.noStroke();
@@ -223,11 +223,81 @@ function drawBigBisect() {
     }
 }
 
+function drawBack(nodePointer,layoutPointer,viewPointer) {
+    with ($('#globalCanvas')) {
+        // choose fill
+        var fillValue = 0;
+        switch (nodePointer['level']) {
+            case 0:
+                fillValue = 100;
+                break;
+            case 1:
+                fillValue = 150;
+                break;
+            case 2:
+                fillValue = 200;
+                break;
+            case 3:
+                fillValue = 255;
+                break;
+        }
+        switch (nodePointer['color']) {
+            case 'none':
+                if (viewPointer['even']) {
+                    gP.fill(0);
+                } else {
+                    gP.fill(255);
+                }
+                break;
+            case 'red':
+                gP.fill(fillValue,0,0);
+                break;
+            case 'green':
+                gP.fill(0,fillValue,0);
+                break;
+            case 'blue':
+                gP.fill(0,0,fillValue);
+                break;
+        }
 
+        gP.strokeWeight(6);
+        if (nodePointer['side'] === 'left') { 
+            // choose left stroke
+            if (data('views')['root']['side'] === 'left') {
+                gP.stroke(127,0,0);
+            } else {
+                gP.noStroke();
+            }
+
+            // paint left arc
+            gP.arc(layoutPointer['x'],
+            layoutPointer['y'],
+            layoutPointer['width'],
+            layoutPointer['height'],
+            2*Math.PI/3-Math.PI/3,
+            2*2*Math.PI/3);
+        } else if (nodePointer['side'] === 'right') {
+            // choose right stroke
+            if (data('views')['root']['side'] === 'right') {
+                gP.stroke(127,0,0);
+            } else {
+                gP.noStroke();
+            }
+
+            // paint right arc
+            gP.arc(layoutPointer['x'],
+            layoutPointer['y'],
+            layoutPointer['width'],
+            layoutPointer['height'],
+            -Math.PI/2-Math.PI/6,
+            Math.PI-2*Math.PI/3);
+        }
+    }
+}
 function drawMain(nodePointer,layoutPointer,viewPointer) {
     // choose stroke
     gP.strokeWeight(6);
-    if (viewPointer['active']) {
+    if ($('#globalCanvas').data('views')['root'][nodePointer['side']]['position'] === nodePointer['position']) {
         gP.stroke(127,0,0);
     } else if (layoutPointer['moused']) {
         gP.stroke(127,127,127);
@@ -397,8 +467,8 @@ function drawMain(nodePointer,layoutPointer,viewPointer) {
 function drawSatellite(nodePointer,layoutPointer,viewPointer) {
     // choose stroke
     gP.strokeWeight(6);
-    if (viewPointer['active']) {
-        gP.stroke(127,0,0);
+    if ($('#globalCanvas').data('views')['root'][nodePointer['side']]['position'] === nodePointer['position']) {
+        gP.stroke(127,127,0);
     } else if (layoutPointer['moused']) {
         gP.stroke(127,127,127);
     } else {
@@ -494,17 +564,19 @@ function drawSatellite(nodePointer,layoutPointer,viewPointer) {
 function drawNode(nodePointer,layoutPointer,viewPointer) {
     if (nodePointer['complex']) {
         drawSatellite(nodePointer,layoutPointer,viewPointer);
-    } else {
+    } else if (nodePointer['position'] === 0) {
         drawMain(nodePointer,layoutPointer,viewPointer);
+    } else if (nodePointer['level'] === 0) {
+        drawBack(nodePointer,layoutPointer,viewPointer);
     }
 }
 
-function drawNodes(side) {
+function drawNodes(side,trace) {
     with ($('#globalCanvas')) {
         var thisNode = data('nodes')['root'][side];
         var thisLayout = data('layouts')['root'][side];
         var thisView = data('views')['root'][side];
 
-        applyFunctionToStructure(thisNode,thisLayout,thisView,drawNode);
+        applyFunctionToStructure(thisNode,thisLayout,thisView,trace,drawNode);
     }
 }

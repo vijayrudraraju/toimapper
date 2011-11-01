@@ -34,59 +34,49 @@ function detectNodesClick() {
         var thisLayout;
         var thisView;
         for (var currentSide in data('nodes')['root']) {
-            // set 0 pointer
+            // pointers
             thisNode = data('nodes')['root'][currentSide];
             thisLayout = data('layouts')['root'][currentSide];
             thisView = data('views')['root'][currentSide];
 
-            // skip simple layouts
+            // skip property nodes
             if (thisNode['complex'] === undefined || thisNode['complex'] === false) {
                 continue;
             }
 
             if (currentSide === 'left') {
                 if (thisLayout['moused']) {
-                    if (thisView['active']) {
-                        flipNodeColor(thisNode);
+                    data('views')['root']['side'] = 'left';
+                    if (!(thisLayout['top']['moused'] || thisLayout['middle']['moused'] || thisLayout['bottom']['moused'] || thisLayout['main']['moused'])) {
+                        flipNodeColor(thisNode['back']);
+                        data('views')['root'][currentSide]['position'] = thisNode['position'];
                     }
-                    //thisNode['active'] = true;
-                    thisView['active'] = true;
-                } else {
-                    //thisNode['active'] = false;
-                    thisView['active'] = false;
-                }
+                } 
             } else if (currentSide === 'right') {
                 if (thisLayout['moused']) {
-                    if (thisView['active']) {
-                        flipNodeColor(thisNode);
+                    data('views')['root']['side'] = 'right';
+                    if (!(thisLayout['top']['moused'] || thisLayout['middle']['moused'] || thisLayout['bottom']['moused'] || thisLayout['main']['moused'])) {
+                        flipNodeColor(thisNode['back']);
+                        data('views')['root'][currentSide]['position'] = thisNode['position'];
                     }
-                    //thisNode['active'] = true;
-                    thisView['active'] = true;
-                } else {
-                    //thisNode['active'] = false;
-                    thisView['active'] = false;
                 }
             }
 
             for(var currentNode in data('nodes')['root'][currentSide]) {
-                // set 1 pointer
+                // pointers
                 thisNode = data('nodes')['root'][currentSide][currentNode];
                 thisLayout = data('layouts')['root'][currentSide][currentNode];
                 thisView = data('views')['root'][currentSide][currentNode];
 
                 // skip property nodes
-                if (thisNode['complex'] === undefined) {
+                if (thisNode['complex'] === undefined || thisNode['position'] === -1) {
                     continue;
                 }
                 if (thisLayout['moused']) {
-                    if (thisView['active']) {
+                    if (data('views')['root'][currentSide]['position'] === thisNode['position']) {
                         flipNodeColor(thisNode);
                     }
-                    //thisNode['active'] = true;
-                    thisView['active'] = true;
-                } else {
-                    //thisNode['active'] = false;
-                    thisView['active'] = false;
+                    data('views')['root'][currentSide]['position'] = thisNode['position'];
                 }
             }
         }

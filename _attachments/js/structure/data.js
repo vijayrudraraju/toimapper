@@ -1,40 +1,81 @@
 function initializeViewBranches(pointer,even,terminal) {
-    pointer['main'] = {active:false,even:even};
-    pointer['top'] = {active:false,even:even};
-    pointer['middle'] = {active:false,even:even};
-    pointer['bottom'] = {active:false,even:even};
+    pointer['back'] = {even:even};
+    pointer['main'] = {even:even};
+    pointer['top'] = {even:even};
+    pointer['middle'] = {even:even};
+    pointer['bottom'] = {even:even};
 }
 function initializeLayoutBranches(pointer,terminal) {
-    pointer['main'] = {x:0,y:0,moused:false};
-    pointer['top'] = {x:0,y:0,moused:false};
-    pointer['middle'] = {x:0,y:0,moused:false};
-    pointer['bottom'] = {x:0,y:0,moused:false};
+    pointer['back'] = {x:0,y:0,width:0,height:0,moused:false};
+    pointer['main'] = {x:0,y:0,width:0,height:0,moused:false};
+    pointer['top'] = {x:0,y:0,width:0,height:0,moused:false};
+    pointer['middle'] = {x:0,y:0,width:0,height:0,moused:false};
+    pointer['bottom'] = {x:0,y:0,width:0,height:0,moused:false};
 }
 function initializeNodeBranches(pointer,side,terminal,level) {
-    pointer['main'] = {level:level,color:'red',side:side,signal:[0.0],complex:false,terminal:true};
-    pointer['top'] = {level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
-    pointer['middle'] = {level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
-    pointer['bottom'] = {level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['back'] = {position:-1,level:level-1,color:'blue',side:side,signal:[0.0],complex:false,terminal:true};
+    pointer['main'] = {position:0,level:level,color:'red',side:side,signal:[0.0],complex:false,terminal:true};
+    pointer['top'] = {position:1,level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['middle'] = {position:2,level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
+    pointer['bottom'] = {position:3,level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
 }
 
-function applyFunctionToStructure(nodePointer,layoutPointer,viewPointer,operationPointer) {
+function applyFunctionToStructure(nodePointer,layoutPointer,viewPointer,trace,operationPointer) {
     var thisNode;
     var thisLayout;
     var thisView;
     with ($('#globalCanvas')) {
-        for (var currentBranch in nodePointer) {
-            thisNode = nodePointer[currentBranch];
-            if (thisNode['complex'] === undefined) {
-                continue;
-            }
-            thisLayout = layoutPointer[currentBranch];
-            thisView = viewPointer[currentBranch];
+        if (trace.length === 0) {
+            for (var currentBranch in nodePointer) {
+                thisNode = nodePointer[currentBranch];
+                if (thisNode['complex'] === undefined) {
+                    continue;
+                }
+                thisLayout = layoutPointer[currentBranch];
+                thisView = viewPointer[currentBranch];
 
-            if (thisNode['complex'] && !thisNode['terminal']) {
-                operationPointer(thisNode,thisLayout,thisView);
-                applyFunctionToStructure(thisNode,thisLayout,thisView,operationPointer); 
-            } else {
-                operationPointer(thisNode,thisLayout,thisView);
+                if (thisNode['complex'] && !thisNode['terminal']) {
+                    operationPointer(thisNode,thisLayout,thisView);
+                    //applyFunctionToStructure(thisNode,thisLayout,thisView,trace,operationPointer); 
+                } else {
+                    operationPointer(thisNode,thisLayout,thisView);
+                }
+            }
+        } else if (trace.length === 1) {
+            for (var currentBranch in nodePointer) {
+                thisNode = nodePointer[currentBranch];
+                if (thisNode['position'] === trace[0]) {
+                    if (thisNode['complex'] === undefined) {
+                        continue;
+                    }
+                    thisLayout = layoutPointer;
+                    thisView = viewPointer;
+
+                    if (thisNode['complex'] && !thisNode['terminal']) {
+                        operationPointer(thisNode,thisLayout,thisView);
+                        applyFunctionToStructure(thisNode,thisLayout,thisView,trace.slice(1),operationPointer); 
+                    } else {
+                        operationPointer(thisNode,thisLayout,thisView);
+                    }
+                }
+            }
+        } else if (trace.length === 2) {
+            for (var currentBranch in nodePointer) {
+                thisNode = nodePointer[currentBranch];
+                if (thisNode['position'] === trace[1]) {
+                    if (thisNode['complex'] === undefined) {
+                        continue;
+                    }
+                    thisLayout = layoutPointer;
+                    thisView = viewPointer;
+
+                    if (thisNode['complex'] && !thisNode['terminal']) {
+                        operationPointer(thisNode,thisLayout,thisView);
+                        applyFunctionToStructure(thisNode,thisLayout,thisView,trace.slice(1),operationPointer); 
+                    } else {
+                        operationPointer(thisNode,thisLayout,thisView);
+                    }
+                }
             }
         }
     }
@@ -44,7 +85,7 @@ function initializeViewStructures() {
     // view data
     with ($('#globalCanvas')) {
         data('views',{});
-        data('views')['root'] = {left:{},right:{}};
+        data('views')['root'] = {left:{},right:{},side:'left'};
 
         var pointer;
         var thisNode;
@@ -54,10 +95,7 @@ function initializeViewStructures() {
             pointer = data('views')['root'][currentSide];
             pointer['position'] = 1;
             pointer['level'] = 1;
-            pointer['trace'] = '';
-            pointer['active'] = false;
-            pointer['complex'] = true;
-            pointer['terminal'] = false;
+            pointer['trace'] = [];
 
             // skip simple layouts
             if (thisNode === undefined || thisNode['complex'] === undefined || thisNode['complex'] === false) {
@@ -147,8 +185,8 @@ function initializeNodeStructures() {
     with ($('#globalCanvas')) {
         data('nodes',{});
         data('nodes')['root'] = {};
-        data('nodes')['root']['left'] = {active:false,complex:true,terminal:false};
-        data('nodes')['root']['right'] = {active:false,complex:true,terminal:false};
+        data('nodes')['root']['left'] = {complex:true,terminal:false};
+        data('nodes')['root']['right'] = {complex:true,terminal:false};
 
         var pointer;
         for (var currentSide in data('nodes')['root']) {

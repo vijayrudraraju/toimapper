@@ -170,22 +170,30 @@ $(document).ready(function() {
                 $(this).trigger('redraw');
             },
             ascend: function() {
-                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['level'] > 1) {
-                    $(this).data('views')['root']['left']['level']--;
-                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['level'] > 1) {
-                    $(this).data('views')['root']['right']['level']--;
+                var thisView = $(this).data('views')['root'];
+                if (thisView['side'] === 'left' && thisView['left']['level'] > 1) {
+                    thisView['left']['level']--;
+                    thisView['left']['trace'].pop();
+                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
+                } else if (thisView['side'] === 'right' && thisView['right']['level'] > 1) {
+                    thisView['right']['level']--;
+                    thisView['right']['trace'].pop();
+                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
                 }
-                console.log("levels: " + $(this).data('views')['root']['left']['level'] + ' ' + $(this).data('views')['root']['right']['level']);
 
                 $('#globalCanvas').trigger('redraw');
             },
             descend: function() {
-                if ($(this).data('views')['root']['left']['active'] && $(this).data('views')['root']['left']['level'] < 3) {
-                    $(this).data('views')['root']['left']['level']++;
-                } else if ($(this).data('views')['root']['right']['active'] && $(this).data('views')['root']['right']['level'] < 3) {
-                    $(this).data('views')['root']['right']['level']++;
+                var thisView = $(this).data('views')['root'];
+                if (thisView['side'] === 'left' && thisView['left']['level'] < 3) {
+                    thisView['left']['level']++;
+                    thisView['left']['trace'].push(thisView['left']['position']);
+                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
+                } else if (thisView['side'] === 'right' && thisView['right']['level'] < 3) {
+                    thisView['right']['level']++;
+                    thisView['right']['trace'].push(thisView['right']['position']);
+                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
                 }
-                console.log("levels: " + $(this).data('views')['root']['left']['level'] + ' ' + $(this).data('views')['root']['right']['level']);
 
                 $('#globalCanvas').trigger('redraw');
             }
@@ -275,32 +283,14 @@ function gP(p) {
 
         drawLogo();
 
-        drawBigNode();
+        //drawBigNode();
 
-        var pointer = $("#globalCanvas").data('views')['root']['left']['level'];
-        if (pointer == 1) {
-            drawNodes('left');
-            //drawSmallNodes('left');
-            //drawSmallerNodes('left');
-        } else if (pointer == 2) {
-            drawNodes('left');
-            //drawSmallNodes('left');
-        } else {
-            drawNodes('left');
-        }
-        pointer = $("#globalCanvas").data('views')['root']['right']['level'];
-        if (pointer == 1) {
-            drawNodes('right');
-            //drawSmallNodes('right');
-            //drawSmallerNodes('right');
-        } else if (pointer == 2) {
-            drawNodes('right');
-            //drawSmallNodes('right');
-        } else {
-            drawNodes('right');
-        }
+        var trace = $("#globalCanvas").data('views')['root']['left']['trace'];
+        drawNodes('left',trace);
+        trace = $("#globalCanvas").data('views')['root']['right']['trace'];
+        drawNodes('right',trace);
 
-        drawBigBisect();
+        //drawBigBisect();
 
         drawAscendButton();
         drawDescendButton();

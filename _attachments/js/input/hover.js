@@ -90,7 +90,6 @@ function updateNodeMouseStates() {
             }
 
             for(var currentNode in data('layouts')['root'][currentSide]) {
-
                 // set 1 thisLayout
                 thisNode = data('nodes')['root'][currentSide][currentNode];
                 thisLayout = data('layouts')['root'][currentSide][currentNode];
