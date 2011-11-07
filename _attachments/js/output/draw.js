@@ -37,12 +37,14 @@ function drawLogo() {
         gP.arc(x,y,width-20,width-40,0,gP.PI);
 
         // teeth
-        gP.stroke(102,85,119);
-        gP.line(x,y+19,x,y+30);
-        gP.line(x-8,y+14,x-8,y+21);
-        gP.line(x+8,y+14,x+8,y+21);
+        //gP.stroke(102,85,119);
+        //gP.line(x,y+19,x,y+30);
+        //gP.line(x-8,y+14,x-8,y+21);
+        //gP.line(x+8,y+14,x+8,y+21);
     }
 }
+
+
 
 function drawAboutButton() {
     with ($('#globalCanvas')) {
@@ -78,6 +80,7 @@ function drawHelpButton() {
 }
 
 
+
 function drawAscendButton() {
     with ($('#globalCanvas')) {
         // set pointer
@@ -99,7 +102,7 @@ function drawAscendButton() {
         gP.textFont(data('font'),24);
 
         gP.fill(0);
-        if (data('views')['root']['left']['active']) {
+        if (data('views')['root']['side'] === 'left') {
             gP.fill(255,0,0);
         } 
         if (data('views')['root']['left']['level'] > 1) {
@@ -107,7 +110,7 @@ function drawAscendButton() {
         }
 
         gP.fill(0);
-        if (data('views')['root']['right']['active']) {
+        if (data('views')['root']['side'] === 'right') {
             gP.fill(255,0,0);
         }
         if (data('views')['root']['right']['level'] > 1) {
@@ -138,7 +141,7 @@ function drawDescendButton() {
         gP.textFont(data('font'),24);
 
         gP.fill(0);
-        if (data('views')['root']['left']['active']) {
+        if (data('views')['root']['side'] === 'left') {
             gP.fill(255,0,0);
         } 
         if (data('views')['root']['left']['level'] < 3) {
@@ -146,7 +149,7 @@ function drawDescendButton() {
         }
 
         gP.fill(0);
-        if (data('views')['root']['right']['active']) {
+        if (data('views')['root']['side'] === 'right') {
             gP.fill(255,0,0);
         }
         if (data('views')['root']['right']['level'] < 3) {
@@ -173,6 +176,7 @@ function drawSignalButton() {
 
 
 
+/*
 function drawBigNode() {
     with ($('#globalCanvas')) {
 
@@ -222,6 +226,9 @@ function drawBigBisect() {
         data('graphCenterY')+(data('graphHeight')/2*Math.sqrt(3)/2));
     }
 }
+*/
+
+
 
 function drawBack(nodePointer,layoutPointer,viewPointer) {
     with ($('#globalCanvas')) {
@@ -260,7 +267,7 @@ function drawBack(nodePointer,layoutPointer,viewPointer) {
                 break;
         }
 
-        gP.strokeWeight(6);
+        gP.strokeWeight(3);
         if (nodePointer['side'] === 'left') { 
             // choose left stroke
             if (data('views')['root']['side'] === 'left') {
@@ -465,6 +472,7 @@ function drawMain(nodePointer,layoutPointer,viewPointer) {
     }
 }
 function drawSatellite(nodePointer,layoutPointer,viewPointer) {
+    /*
     // choose stroke
     gP.strokeWeight(6);
     if ($('#globalCanvas').data('views')['root'][nodePointer['side']]['position'] === nodePointer['position']) {
@@ -507,15 +515,19 @@ function drawSatellite(nodePointer,layoutPointer,viewPointer) {
             gP.fill(0,0,fillValue);
             break;
     }
+    */
 
     // paint node
     //console.log('paint node ' + viewPointer['even'] + ' ' + layoutPointer['x'] + ' ' + layoutPointer['y'] + ' ' + layoutPointer['width'] + ' ' + layoutPointer['height']);
+    /*
     gP.ellipse(layoutPointer['x'],
         layoutPointer['y'],
         layoutPointer['width'],
         layoutPointer['height']
     );
+    */
 
+    /*
     // hollow half
     if (!nodePointer['terminal']) {
         if (nodePointer['side'] == 'left') {
@@ -546,7 +558,9 @@ function drawSatellite(nodePointer,layoutPointer,viewPointer) {
             );
         }
     }
+    */
 
+    /*
     gP.strokeWeight(1);
     if (viewPointer['even']) {
         gP.stroke(255);
@@ -559,15 +573,17 @@ function drawSatellite(nodePointer,layoutPointer,viewPointer) {
     layoutPointer['x']+(layoutPointer['width']/2/2),
     layoutPointer['y']+(layoutPointer['height']/2*Math.sqrt(3)/2)
     );
+    */
 
 }
 function drawNode(nodePointer,layoutPointer,viewPointer) {
     if (nodePointer['complex']) {
-        drawSatellite(nodePointer,layoutPointer,viewPointer);
-    } else if (nodePointer['position'] === 0) {
-        drawMain(nodePointer,layoutPointer,viewPointer);
-    } else if (nodePointer['level'] === 0) {
+        //drawSatellite(nodePointer,layoutPointer,viewPointer);
         drawBack(nodePointer,layoutPointer,viewPointer);
+    } else if (nodePointer['position'] === 0) {
+        //drawMain(nodePointer,layoutPointer,viewPointer);
+    } else if (nodePointer['position'] === -1) {
+        //drawBack(nodePointer,layoutPointer,viewPointer);
     }
 }
 

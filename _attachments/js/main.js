@@ -1,58 +1,4 @@
-//TODO
-// stop incessant looping from burning cpu
-
-//libmapper info
-
-//Device
-//	name
-//  host
-//	port
-//	user_data
-
-//Signal
-//	is_output (is_source)
-// 	type
-//  length
-//	name
-//  device_name
-//	unit
-//	minimum
-//	maximum
-//	extra
-//	user_data
-
-//Mapping
-//	src_name
-//	dest_name
-//	src_type
-//	dest_type
-//	src_length
-//	dest_length
-//	CLIP_MAX
-//		none
-//		mute
-//		clamp
-//		fold
-//		wrap
-//	CLIP_MIN
-//	RANGE
-// 		src_min
-//		src_max
-//		dest_min
-//		dest_max
-//		known
-//	expression
-//	MODE
-//		undefined
-//		bypass
-//		linear
-//		expression
-//		calibrate
-//	muted
-
-//Link
-//	src_name
-//	dest_name
+// vijay rudraraju
 
 var gP;
 $(document).ready(function() {
@@ -92,18 +38,57 @@ $(document).ready(function() {
                 $(this).data('graphCenterX',320);
                 $(this).data('graphCenterY',320);
 
-                initializeNodeStructures();
-                initializeLayoutStructures();
-                initializeViewStructures();
+                //initializeNodeStructures();
+                //initializeLayoutStructures();
+                //initializeViewStructures();
             
                 gP = new Processing($('#globalCanvas')[0],gP);
                 $(this).trigger('redraw');
                 gP.noLoop();
             },
+            setup: function() {
+                //layoutButtons(); 
+                //layoutNodes();
+                //layoutSmallNodes();
+                //layoutSmallerNodes();
+            },
+            draw: function() {
+                drawLogo();
+
+                var trace = $("#globalCanvas").data('views')['root']['left']['trace'];
+                drawNodes('left',trace);
+                trace = $("#globalCanvas").data('views')['root']['right']['trace'];
+                drawNodes('right',trace);
+
+                drawAscendButton();
+                drawDescendButton();
+                drawSignalButton();
+
+                drawAboutButton();
+                drawHelpButton();
+            },
+            mousemoved: function() {
+                updateNodeMouseStates();
+
+                updateAboutButtonMouseState();
+                updateHelpButtonMouseState();
+
+                updateAscendButtonMouseState();
+                updateDescendButtonMouseState();
+            },
+            mouseclicked: function() {
+                detectNodesClick();
+
+                detectAboutButtonClick();
+                detectHelpButtonClick();
+
+                detectAscendButtonClick();
+                detectDescendButtonClick();
+            },
             updatebackground: function() {
             },
             updategraph: function() {
-                console.log('updategraph triggered');
+                //console.log('updategraph triggered');
             },
             redraw: function() {
                 gP.redraw();
@@ -117,57 +102,6 @@ $(document).ready(function() {
                 } else if($('#objectMenu').val()==1) {
                     $('#createSinkButton').trigger('click');
                 }
-            },
-            enableview: function() {
-                $(this).data('currentTab','view');    
-
-                $('#filterForm').toggle(false);
-                $('#addObjectForm').toggle(false);
-
-                $('#viewTab').toggleClass('active',true);
-                $('#viewTab').toggleClass('inactive',false);
-                $('#editTab').toggleClass('active',false);
-                $('#editTab').toggleClass('inactive',true);
-                $('#filterTab').toggleClass('active',false);
-                $('#filterTab').toggleClass('inactive',true);
-
-                $(this).trigger('updatebackground');
-                $(this).trigger('updategraph');
-                $(this).trigger('redraw');
-            },
-            enableedit: function() {
-                $(this).data('currentTab','edit');    
-
-                $('#filterForm').toggle(false);
-                $('#addObjectForm').toggle(true);
-
-                $('#viewTab').toggleClass('active',false);
-                $('#viewTab').toggleClass('inactive',true);
-                $('#editTab').toggleClass('active',true);
-                $('#editTab').toggleClass('inactive',false);
-                $('#filterTab').toggleClass('active',false);
-                $('#filterTab').toggleClass('inactive',true);
-
-                $(this).trigger('updatebackground');
-                $(this).trigger('updategraph');
-                $(this).trigger('redraw');
-            },
-            enablefilter: function() {
-                $(this).data('currentTab','filter');
-
-                $('#filterForm').toggle(true);
-                $('#addObjectForm').toggle(false);
-
-                $('#viewTab').toggleClass('active',false);
-                $('#viewTab').toggleClass('inactive',true);
-                $('#editTab').toggleClass('active',false);
-                $('#editTab').toggleClass('inactive',true);
-                $('#filterTab').toggleClass('active',true);
-                $('#filterTab').toggleClass('inactive',false);
-
-                $(this).trigger('updatebackground');
-                $(this).trigger('updategraph');
-                $(this).trigger('redraw');
             },
             ascend: function() {
                 var thisView = $(this).data('views')['root'];
@@ -199,104 +133,48 @@ $(document).ready(function() {
             }
         });
 
-        $('#updateConnection').evently({
-            click: function() {
-                if (selectedSource != "none" &&
-                    selectedDestination != "none") {
-                    if (selectedEdge == null) {
-                        doConnect();
-                    } else {
-                        doModifyConnection();
-                    }
-                }
-                $('#globalCanvas').trigger("redraw");
-            }
-        });
-        $('#removeConnection').evently({
-            click: function() {
-                if (selectedSource != "none" &&
-                    selectedDestination != "none") {
-                    doDisconnect();
-                }
-                $('#globalCanvas').trigger("redraw");
-            }
-        });
-
-		$('#filterInput').evently({
-            click: function(event) {
-                event.preventDefault();
-                $('#globalCanvas').trigger("redraw");
-            }
-		});
-
         addHelpHandlers();
         addEditObjectHandlers();
-        $('#globalCanvas').trigger('enableview');
+        $(this).data('currentTab','view');    
+
+        $('#filterForm').toggle(false);
+        $('#addObjectForm').toggle(false);
+
+        $('#viewTab').toggleClass('active',true);
+        $('#viewTab').toggleClass('inactive',false);
+        $('#editTab').toggleClass('active',false);
+        $('#editTab').toggleClass('inactive',true);
+        $('#filterTab').toggleClass('active',false);
+        $('#filterTab').toggleClass('inactive',true);
+
+        $(this).trigger('updatebackground');
+        $(this).trigger('updategraph');
+        $(this).trigger('redraw');
 });
-
-// output labels, input labels
-var traversalGlyphMap = [[],[]];
-
 function gP(p) {
 	p.mouseMoved = function() {
-        updateNodeMouseStates();
-
-        updateAboutButtonMouseState();
-        updateHelpButtonMouseState();
-
-        updateAscendButtonMouseState();
-        updateDescendButtonMouseState();
-
+        $('#globalCanvas').trigger('mousemoved');
         $('#globalCanvas').trigger('redraw');
 	};
 
 	p.mouseClicked = function() {
-        detectNodesClick();
-
-        detectAboutButtonClick();
-        detectHelpButtonClick();
-
-        detectAscendButtonClick();
-        detectDescendButtonClick();
-
+        $('#globalCanvas').trigger('mouseclicked');
         $('#globalCanvas').trigger('updategraph');
         $('#globalCanvas').trigger('redraw');
 	};
 
 	p.setup = function() {
 		console.log(p.PFont.list());
-
 		p.size($('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight'));
 		$('#globalCanvas').data('font',p.loadFont('sans-serif'));
 
-        layoutButtons(); 
-
-        layoutNodes();
-        layoutSmallNodes();
-        layoutSmallerNodes();
+        $('#globalCanvas').trigger('setup');
 	};
 
 	p.draw = function() {
         p.textSize(24);
-    
         p.background(0*16+11,0*16+9,0*16+11);
 
-        drawLogo();
-
-        //drawBigNode();
-
-        var trace = $("#globalCanvas").data('views')['root']['left']['trace'];
-        drawNodes('left',trace);
-        trace = $("#globalCanvas").data('views')['root']['right']['trace'];
-        drawNodes('right',trace);
-
-        //drawBigBisect();
-
-        drawAscendButton();
-        drawDescendButton();
-        drawSignalButton();
-
-        drawAboutButton();
-        drawHelpButton();
+        $('#globalCanvas').trigger('draw');
 	};
 }

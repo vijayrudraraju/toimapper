@@ -48,7 +48,9 @@ function detectNodesClick() {
                 if (thisLayout['moused']) {
                     data('views')['root']['side'] = 'left';
                     if (!(thisLayout['top']['moused'] || thisLayout['middle']['moused'] || thisLayout['bottom']['moused'] || thisLayout['main']['moused'])) {
-                        flipNodeColor(thisNode['back']);
+                        if (data('views')['root'][currentSide]['position'] == thisNode['position']) {
+                            flipNodeColor(thisNode['back']);
+                        }
                         data('views')['root'][currentSide]['position'] = thisNode['position'];
                     }
                 } 
@@ -56,7 +58,9 @@ function detectNodesClick() {
                 if (thisLayout['moused']) {
                     data('views')['root']['side'] = 'right';
                     if (!(thisLayout['top']['moused'] || thisLayout['middle']['moused'] || thisLayout['bottom']['moused'] || thisLayout['main']['moused'])) {
-                        flipNodeColor(thisNode['back']);
+                        if (data('views')['root'][currentSide]['position'] == thisNode['position']) {
+                            flipNodeColor(thisNode['back']);
+                        }
                         data('views')['root'][currentSide]['position'] = thisNode['position'];
                     }
                 }

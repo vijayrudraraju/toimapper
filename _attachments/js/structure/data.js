@@ -1,19 +1,17 @@
+/*
 function initializeViewBranches(pointer,even,terminal) {
-    pointer['back'] = {even:even};
     pointer['main'] = {even:even};
     pointer['top'] = {even:even};
     pointer['middle'] = {even:even};
     pointer['bottom'] = {even:even};
 }
 function initializeLayoutBranches(pointer,terminal) {
-    pointer['back'] = {x:0,y:0,width:0,height:0,moused:false};
     pointer['main'] = {x:0,y:0,width:0,height:0,moused:false};
     pointer['top'] = {x:0,y:0,width:0,height:0,moused:false};
     pointer['middle'] = {x:0,y:0,width:0,height:0,moused:false};
     pointer['bottom'] = {x:0,y:0,width:0,height:0,moused:false};
 }
 function initializeNodeBranches(pointer,side,terminal,level) {
-    pointer['back'] = {position:-1,level:level-1,color:'blue',side:side,signal:[0.0],complex:false,terminal:true};
     pointer['main'] = {position:0,level:level,color:'red',side:side,signal:[0.0],complex:false,terminal:true};
     pointer['top'] = {position:1,level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
     pointer['middle'] = {position:2,level:level,color:'red',side:side,signal:[0.0],complex:true,terminal:terminal};
@@ -36,7 +34,7 @@ function applyFunctionToStructure(nodePointer,layoutPointer,viewPointer,trace,op
 
                 if (thisNode['complex'] && !thisNode['terminal']) {
                     operationPointer(thisNode,thisLayout,thisView);
-                    //applyFunctionToStructure(thisNode,thisLayout,thisView,trace,operationPointer); 
+                    applyFunctionToStructure(thisNode,thisLayout,thisView,trace,operationPointer); 
                 } else {
                     operationPointer(thisNode,thisLayout,thisView);
                 }
@@ -179,6 +177,156 @@ function initializeLayoutStructures() {
         }
     }
 }
+*/
+
+
+
+function sproutTouchTree() {
+    // create seed
+    $('#globalCanvas').data('touch',{});
+    $('#globalCanvas').data('touch')['root'] = {left:{},right:{}};
+
+    var startingDepth = 1;
+    var endingDepth = 1;
+    recursiveBranchSprouter(
+        ['center','top','middle','bottom'],
+        {
+            moused:false
+        }, 
+        ['touch','root'],
+        ['properties','clone'],
+        startingDepth,
+        endingDepth
+    );
+}
+function sproutPaintTree() {
+    // create seed
+    $('#globalCanvas').data('paint',{});
+    $('#globalCanvas').data('paint')['root'] = {left:{},right:{}};
+
+    var startingDepth = 1;
+    var endingDepth = 3;
+    recursiveBranchSprouter(
+        ['center','top','middle','bottom'],
+        {
+            x:0,
+            y:0,
+            width:0,
+            height:0
+        }, 
+        ['paint','root'],
+        ['properties','clone'],
+        startingDepth,
+        endingDepth
+    );
+}
+function sproutMainTree() {
+    // create seed
+    $('#globalCanvas').data('main',{});
+    $('#globalCanvas').data('main')['root'] = {left:{},right:{}};
+
+    var startingDepth = 1;
+    var endingDepth = 3;
+    recursiveBranchSprouter(
+        ['center','top','middle','bottom'],
+        {
+            ordinal:0,
+            color:'red',
+            level:0,
+            signal:[]
+        }, 
+        ['main','root'],
+        ['properties','clone'],
+        startingDepth,
+        endingDepth
+    );
+}
+function sproutBranches(newBranches,newProperties,thisPointer,thisTrace,thisLevel) {
+    for (var i=0;i<newBranches.length;i++) {
+        var finalTrace = thisTrace.slice(0);
+        finalTrace.push(newBranches[i]);
+        console.log("finalTrace:"+finalTrace);
+
+        thisPointer[newBranches[i]] = 
+        {
+            properties:newProperties.clone()
+        };
+        thisPointer[newBranches[i]]['properties']['level'] = thisLevel;
+        thisPointer[newBranches[i]]['properties']['trace'] = finalTrace.slice(0);
+        console.log('thisPointer['+newBranches[i]+'][\'properties\'][\'trace\']:'+thisPointer[newBranches[i]]['properties']['trace']);
+    }
+}
+function recursiveBranchSprouter(newBranches,newProperties,thisStartTrace,ignoredBranches,startDepth,endDepth) {
+    var thisStartBranch;
+    for (var i=0;i<thisStartTrace.length;i++) {
+        if (i == 0) {
+            thisStartBranch = $('#globalCanvas').data(thisStartTrace[i]);
+        } else {
+            thisStartBranch = thisStartBranch[thisStartTrace[i]];
+        }
+    }
+    console.log("thisStartTrace:"+thisStartTrace);
+
+    var thisPointer;
+    o: for (var thisSubBranch in thisStartBranch) {
+        // skip ignored branches
+        for (var i=0;i<ignoredBranches.length;i++) {
+            if (thisSubBranch === ignoredBranches[i]) {
+                continue o;
+            }
+        }
+        // set pointer
+        thisPointer = thisStartBranch[thisSubBranch]; 
+
+        // sprout nodes
+        var thisEndTrace = thisStartTrace.slice(0);
+        thisEndTrace.push(thisSubBranch);
+        console.log("thisEndTrace:"+thisEndTrace);
+        sproutBranches(newBranches,newProperties,thisPointer,thisEndTrace,startDepth);
+
+        // continue recursive branching
+        if (startDepth < endDepth) {
+            recursiveBranchSprouter(newBranches,newProperties,thisEndTrace,ignoredBranches,startDepth+1,endDepth);
+        }
+    }
+}
+
+function treeRecursionFunctionApplier(treePointer,treeFunction,thisStartTrace,ignoredBranches,startDepth,endDepth) {
+    var thisStartBranch;
+    for (var i=0;i<thisStartTrace.length;i++) {
+        if (i == 0) {
+            thisStartBranch = $('#globalCanvas').data(thisStartTrace[i]);
+        } else {
+            thisStartBranch = thisStartBranch[thisStartTrace[i]];
+        }
+    }
+    console.log("thisStartTrace:"+thisStartTrace);
+
+    var thisPointer;
+    o: for (var thisSubBranch in thisStartBranch) {
+        // skip ignored branches
+        for (var i=0;i<ignoredBranches.length;i++) {
+            if (thisSubBranch === ignoredBranches[i]) {
+                continue o;
+            }
+        }
+        // set pointer
+        thisPointer = thisStartBranch[thisSubBranch]; 
+
+        // sprout nodes
+        var thisEndTrace = thisStartTrace.slice(0);
+        thisEndTrace.push(thisSubBranch);
+        console.log("thisEndTrace:"+thisEndTrace);
+        sproutBranches(newBranches,newProperties,thisPointer,thisEndTrace,startDepth);
+
+        // continue recursive branching
+        if (startDepth < endDepth) {
+            recursiveBranchSprouter(newBranches,newProperties,thisEndTrace,ignoredBranches,startDepth+1,endDepth);
+        }
+    }
+}
+
+/*
 function initializeNodeStructures() {
     // persistent data
 
@@ -214,6 +362,7 @@ function initializeNodeStructures() {
         }
     }
 }
+*/
 
 
 function flipNodeColor(node) {
@@ -228,7 +377,7 @@ function flipNodeColor(node) {
             node['color'] = 'blue';
             break;
         case 'blue':
-            node['color'] = 'none';
+            node['color'] = 'red';
             break;
     }
 }

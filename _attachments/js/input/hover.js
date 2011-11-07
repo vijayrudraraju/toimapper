@@ -54,6 +54,7 @@ function updateDescendButtonMouseState() {
 }
 
 
+
 function updateNodeMouseStates() {
     with ($('#globalCanvas')) {
         var thisNode;

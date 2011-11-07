@@ -40,10 +40,12 @@ function layoutNodes() {
 
         // set 0 thisLayout to left side
         thisLayout = data('layouts')['root']['left'];
+        /*
         thisLayout['back']['x'] = data('graphCenterX');
         thisLayout['back']['y'] = data('graphCenterY');
         thisLayout['back']['width'] = data('graphWidth');
         thisLayout['back']['height'] = data('graphHeight');
+        */
 
         thisLayout['main']['x'] = data('graphCenterX');
         thisLayout['main']['y'] = data('graphCenterY');
@@ -67,10 +69,12 @@ function layoutNodes() {
 
         // set 0 thisLayout to right side
         thisLayout = data('layouts')['root']['right'];
+        /*
         thisLayout['back']['x'] = data('graphCenterX');
         thisLayout['back']['y'] = data('graphCenterY');
         thisLayout['back']['width'] = data('graphWidth');
         thisLayout['back']['height'] = data('graphHeight');
+        */
 
         thisLayout['main']['x'] = data('graphCenterX');
         thisLayout['main']['y'] = data('graphCenterY');
@@ -118,10 +122,12 @@ function layoutSmallNodes() {
                     continue;
                 }
                 if (currentSide === 'left') {
+                /*
                     thisLayout['back']['x'] = thisLayout['x'];
                     thisLayout['back']['y'] = thisLayout['y'];
                     thisLayout['back']['width'] = data('node0Width');
                     thisLayout['back']['height'] = data('node0Height');
+                    */
 
                     thisLayout['main']['x'] = thisLayout['x'];
                     thisLayout['main']['y'] = thisLayout['y'];
@@ -159,10 +165,12 @@ function layoutSmallNodes() {
                     thisLayout['bottom']['width'] = data('node1Width');
                     thisLayout['bottom']['height'] = data('node1Height');
                 } else if (currentSide === 'right') {
+                /*
                     thisLayout['back']['x'] = thisLayout['x'];
                     thisLayout['back']['y'] = thisLayout['y'];
                     thisLayout['back']['width'] = data('node0Width');
                     thisLayout['back']['height'] = data('node0Height');
+                    */
 
                     thisLayout['main']['x'] = thisLayout['x'];
                     thisLayout['main']['y'] = thisLayout['y'];
@@ -239,10 +247,12 @@ function layoutSmallerNodes() {
                     }
 
                     if (currentSide === 'left') {
+                    /*
                         thisLayout['back']['x'] = thisLayout['x'];
                         thisLayout['back']['y'] = thisLayout['y'];
                         thisLayout['back']['width'] = data('node1Width');
                         thisLayout['back']['height'] = data('node1Height');
+                        */
 
                         thisLayout['main']['x'] = thisLayout['x'];
                         thisLayout['main']['y'] = thisLayout['y'];
@@ -280,10 +290,12 @@ function layoutSmallerNodes() {
                         thisLayout['bottom']['width'] = data('node2Width');
                         thisLayout['bottom']['height'] = data('node2Height');
                     } else if (currentSide === 'right') {
+                    /*
                         thisLayout['back']['x'] = thisLayout['x'];
                         thisLayout['back']['y'] = thisLayout['y'];
                         thisLayout['back']['width'] = data('node1Width');
                         thisLayout['back']['height'] = data('node1Height');
+                        */
 
                         thisLayout['main']['x'] = thisLayout['x'];
                         thisLayout['main']['y'] = thisLayout['y'];
