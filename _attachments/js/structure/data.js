@@ -179,7 +179,119 @@ function initializeLayoutStructures() {
 }
 */
 
+// toimawb properties
+// _toi_functions:
+//  _toi_type:
+//      bag
+//      seed
+//      sprout
+//      branch
+//      root
+// _toi_properties:
+//  _toi_type:
+//      bag
+//      seed
+//      sprout
+//      branch
+//      root
+//  _toi_nominal:
+//      (trace)
+//  _toi_ordinal:
+//      (level)
+//      (inter-level)
+//  _toi_cardinal:
+//      (branch distribution per level)
+//      (leaf distribution per level)
+// instance
+// data('toimawbBag')['preludeSeed']
+// data('toimawbBag')['preludeSeed']['_toi_propertyBranch']
+// data('toimawbBag')['preludeSeed']['_toi_functionBranch']
+// data('toimawbBag')['preludeSeed']['oneSprout']['touchBranch']['_toi_propertyBranch']
+// data('toimawbBag')['preludeSeed']['oneSprout']['touchBranch']['_toi_functionBranch']
+// data('toimawbBag')['preludeSeed']['oneSprout']['touchBranch']['leaf']
+// data('toimawbBag')['preludeSeed']['oneSprout']['touchBranch']['_toi_propertyBranch']['_toi_typeLeaf']
+// data('toimawbBag')['preludeSeed']['oneSprout']['paintBranch']['_toi_propertyBranch']['_toi_nominalLeaf']
+// data('toimawbBag')['preludeSeed']['oneSprout']['soundBranch']['_toi_propertyBranch']['_toi_ordinalLeaf']
+// data('toimawbBag')['preludeSeed']['oneSprout']['dataRoot']['oneTip']
+// model
+// data('bag')['seed']['sprout']['branch']
+// data('bag')['seed']['sprout']['branch']['leaf']
+// data('bag')['seed']['sprout']['root']
+// data('bag')['seed']['sprout']['root']['tip']
 
+// what defines a tree?
+// words that are simultaneously nouns and verbs
+//           
+//                      branches -> branches...
+//                      branches -> leafs
+// seeds -> sprouts ->
+//                      roots -> tips
+//                      roots -> roots... 
+
+
+function sproutSeed(oldSeed) {
+    var newSprouts = {};
+    for (var thisPrimarySproutKey in oldSeed['sprouts']) {
+        if (oldSeed['sprouts'].hasOwnProperty(thisPrimarySproutKey)) {
+            console.log(thisPrimarySproutKey);
+            newSprouts[thisPrimarySproutKey] = {};
+            for (var thisSecondarySproutKey in oldSeed['sprouts'][thisPrimarySproutKey]) {
+                if (oldSeed['sprouts'][thisPrimarySproutKey].hasOwnProperty(thisSecondarySproutKey)) {
+                    console.log(thisSecondarySproutKey);
+                    newSprouts[thisPrimarySproutKey][thisSecondarySproutKey] = 
+                    branchSprout(
+                        oldSeed['sprouts'][thisPrimarySproutKey][thisSecondarySproutKey],
+                        oldSeed['branches'][thisPrimarySproutKey],
+                        oldSeed['leaves'][thisPrimarySproutKey]
+                    );
+                }
+            }
+        }
+    }
+    return newSprouts;
+}
+
+function branchSprout(level,branchSchema,leafSchema) {
+    var newBranches = {};
+    for (var thisBranchKey in branchSchema) {
+        if (branchSchema.hasOwnProperty(thisBranchKey)) {
+            console.log(thisBranchKey);
+            if (level > 0) {
+                newBranches[thisBranchKey] = branchSprout(level-1,branchSchema,leafSchema);
+                newBranches[thisBranchKey]['_leaves'] = leafBranch(leafSchema);
+            }
+        }
+    }
+    return newBranches;
+}
+
+function leafBranch(leafSchema) {
+    return leafSchema.clone();
+}
+
+/*
+function branchBranch(oldBranch) {
+    var newBranches;
+    return newBranches;
+}
+
+function leafBranch(oldBranch) {
+    var newLeaves;
+    return newLeaves;
+}
+*/
+
+// input: seed
+// output: sprout
+function seedSprout() {
+}
+// input: sprout
+// output: branch
+function sproutBranch() {
+}
+function sproutRoot() {
+
+}
 
 function sproutTouchTree() {
     // create seed

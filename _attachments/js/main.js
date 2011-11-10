@@ -29,6 +29,81 @@ $(document).ready(function() {
             }
         });
 
+        $('#canvas').evently({
+            _init: function() {
+                $('#canvas').data('toimawbBag',{});
+                $('#canvas').data('toimawbBag')['seeds'] = {};
+                $('#canvas').data('toimawbBag')['seeds']['testSeed'] = {
+                    leaves:{
+                        touch:{
+                            moused:false
+                        },
+                        paint:{
+                            x:0,
+                            y:0,
+                            width:0,
+                            height:0
+                        },
+                        sound:{
+                        },
+                        data:{
+                            ordinal:0,
+                            color:'red',
+                            level:0,
+                            signal:[]
+                        }
+                    },
+                    branches:{
+                        touch:{
+                            center:true,
+                            top:true,
+                            middle:true,
+                            bottom:true
+                        },
+                        paint:{
+                            center:true,
+                            top:true,
+                            middle:true,
+                            bottom:true
+                        },
+                        sound:{
+                            center:true,
+                            top:true,
+                            middle:true,
+                            bottom:true
+                        },
+                        data:{
+                            center:true,
+                            top:true,
+                            middle:true,
+                            bottom:true
+                        }
+                    },
+                    sprouts:{
+                        touch:{
+                            left:1,
+                            right:1
+                        },
+                        paint:{
+                            left:3,
+                            right:3
+                        },
+                        sound:{
+                            left:3,
+                            right:3
+                        },
+                        data:{
+                            left:3,
+                            right:3
+                        }
+                    }
+                };
+                $('#canvas').data('toimawbBag')['sprouts'] = {};
+                $('#canvas').data('toimawbBag')['sprouts']['testSprout'] = 
+                sproutSeed($('#canvas').data('toimawbBag')['seeds']['testSeed']);
+            }
+        });
+
         $('#globalCanvas').evently({
             _init: function() {
                 $(this).data('canvasWidth',640);
@@ -55,26 +130,26 @@ $(document).ready(function() {
             draw: function() {
                 drawLogo();
 
-                var trace = $("#globalCanvas").data('views')['root']['left']['trace'];
-                drawNodes('left',trace);
-                trace = $("#globalCanvas").data('views')['root']['right']['trace'];
-                drawNodes('right',trace);
+                //var trace = $("#globalCanvas").data('views')['root']['left']['trace'];
+                //drawNodes('left',trace);
+                //trace = $("#globalCanvas").data('views')['root']['right']['trace'];
+                //drawNodes('right',trace);
 
-                drawAscendButton();
-                drawDescendButton();
-                drawSignalButton();
+                //drawAscendButton();
+                //drawDescendButton();
+                //drawSignalButton();
 
-                drawAboutButton();
-                drawHelpButton();
+                //drawAboutButton();
+                //drawHelpButton();
             },
             mousemoved: function() {
-                updateNodeMouseStates();
+                //updateNodeMouseStates();
 
-                updateAboutButtonMouseState();
-                updateHelpButtonMouseState();
+                //updateAboutButtonMouseState();
+                //updateHelpButtonMouseState();
 
-                updateAscendButtonMouseState();
-                updateDescendButtonMouseState();
+                //updateAscendButtonMouseState();
+                //updateDescendButtonMouseState();
             },
             mouseclicked: function() {
                 detectNodesClick();
