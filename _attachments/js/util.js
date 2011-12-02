@@ -123,5 +123,17 @@ Object.prototype.clone = function() {
         if (this[i] && typeof this[i] == "object") {
             newObj[i] = this[i].clone();
         } else newObj[i] = this[i]
-    } return newObj;
+    } 
+    return newObj;
 };
+/*
+Object.prototype.nodeCount = function() {
+    var count = 0;
+    for (i in this) {
+        if (this.hasOwnProperty(i)) {
+            count++;
+        }
+    } 
+    return count;
+};
+*/

@@ -32,75 +32,116 @@ $(document).ready(function() {
         $('#canvas').evently({
             _init: function() {
                 $('#canvas').data('toimawbBag',{});
+                $('#canvas').data('toimawbBag')['symbiotes'] = {};
+                $('#canvas').data('toimawbBag')['symbiotes']['paintSymbiote'] = {
+                    
+                };
+                $('#canvas').data('toimawbBag')['symbiotes']['colorFlipperSymbiote'] = {
+                };
                 $('#canvas').data('toimawbBag')['seeds'] = {};
-                $('#canvas').data('toimawbBag')['seeds']['testSeed'] = {
+                $('#canvas').data('toimawbBag')['seeds']['dataSeed'] = {
+                    label:'data',
                     leaves:{
-                        touch:{
-                            moused:false
+                        data:{
+                            signal:'',
+                            color:'red'
                         },
-                        paint:{
+                    },
+                    branches:{
+                        center:1,
+                        top:1,
+                        middle:1,
+                        bottom:1
+                    },
+                    stems:{
+                        left:3,
+                        right:3
+                    },
+                    roots:{
+                    }
+                };
+                $('#canvas').data('toimawbBag')['seeds']['paintSeed'] = {
+                    label:'paint',
+                    leaves:{
+                        data:{
+                            shapeType:0,
                             x:0,
                             y:0,
                             width:0,
                             height:0
                         },
-                        sound:{
-                        },
-                        data:{
-                            ordinal:0,
-                            color:'red',
-                            level:0,
-                            signal:[]
+                        func:{
+                            arrange: function(thisX,thisY,thisWidth,thisHeight) {
+                            },
+                            returnSelf: function() {
+                                return this;
+                            }
                         }
                     },
                     branches:{
-                        touch:{
-                            center:true,
-                            top:true,
-                            middle:true,
-                            bottom:true
-                        },
-                        paint:{
-                            center:true,
-                            top:true,
-                            middle:true,
-                            bottom:true
-                        },
-                        sound:{
-                            center:true,
-                            top:true,
-                            middle:true,
-                            bottom:true
-                        },
-                        data:{
-                            center:true,
-                            top:true,
-                            middle:true,
-                            bottom:true
-                        }
+                        topMiddle:1,
+                        top:1,
+                        bottomMiddle:1,
+                        bottom:1
                     },
-                    sprouts:{
-                        touch:{
-                            left:1,
-                            right:1
-                        },
-                        paint:{
-                            left:3,
-                            right:3
-                        },
-                        sound:{
-                            left:3,
-                            right:3
-                        },
+                    stems:{
+                        left:3,
+                        right:3
+                    },
+                    roots:{
                         data:{
-                            left:3,
-                            right:3
+                            mapWidth:640,
+                            mapHeight:640,
+                            mapCenterX:320,
+                            mapCenterY:320,
+                            rootNodeWidth:50,
+                            rootNodeHeight:50
                         }
                     }
                 };
+                $('#canvas').data('toimawbBag')['seeds']['soundSeed'] = {
+                    label:'sound',
+                    leaves:{
+                    },
+                    branches:{
+                    },
+                    stems:{
+                    },
+                    roots:{
+                    }
+                };
+                $('#canvas').data('toimawbBag')['seeds']['touchSeed'] = {
+                    label:'touch',
+                    leaves:{
+                        data:{
+                            moused:false
+                        },
+                    },
+                    branches:{
+                        center:1,
+                        top:1,
+                        middle:1,
+                        bottom:1
+                    },
+                    stems:{
+                        left:3,
+                        right:3
+                    },
+                    roots:{
+                    }
+                };
+
                 $('#canvas').data('toimawbBag')['sprouts'] = {};
-                $('#canvas').data('toimawbBag')['sprouts']['testSprout'] = 
-                sproutSeed($('#canvas').data('toimawbBag')['seeds']['testSeed']);
+                $('#canvas').data('toimawbBag')['sprouts']['dataSprout'] = 
+                sproutSeed($('#canvas').data('toimawbBag')['seeds']['dataSeed']);
+                $('#canvas').data('toimawbBag')['sprouts']['paintSprout'] = 
+                sproutSeed($('#canvas').data('toimawbBag')['seeds']['paintSeed']);
+                $('#canvas').data('toimawbBag')['sprouts']['soundSprout'] = 
+                sproutSeed($('#canvas').data('toimawbBag')['seeds']['soundSeed']);
+                $('#canvas').data('toimawbBag')['sprouts']['touchSprout'] = 
+                sproutSeed($('#canvas').data('toimawbBag')['seeds']['touchSeed']);
+
+                arrangePaintSprout($('#canvas').data('toimawbBag')['sprouts']['paintSprout']);
             }
         });
 
@@ -117,7 +158,7 @@ $(document).ready(function() {
                 //initializeLayoutStructures();
                 //initializeViewStructures();
             
-                gP = new Processing($('#globalCanvas')[0],gP);
+                gP = new Processing($('#globalCanvas')[0],gPFunc);
                 $(this).trigger('redraw');
                 gP.noLoop();
             },
@@ -129,6 +170,7 @@ $(document).ready(function() {
             },
             draw: function() {
                 drawLogo();
+                paintPaintSprout($('#canvas').data('toimawbBag')['sprouts']['paintSprout']);
 
                 //var trace = $("#globalCanvas").data('views')['root']['left']['trace'];
                 //drawNodes('left',trace);
@@ -226,7 +268,7 @@ $(document).ready(function() {
         $(this).trigger('updategraph');
         $(this).trigger('redraw');
 });
-function gP(p) {
+function gPFunc(p) {
 	p.mouseMoved = function() {
         $('#globalCanvas').trigger('mousemoved');
         $('#globalCanvas').trigger('redraw');

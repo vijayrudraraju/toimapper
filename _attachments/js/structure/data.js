@@ -228,16 +228,203 @@ function initializeLayoutStructures() {
 //                      roots -> tips
 //                      roots -> roots... 
 
+function sproutSeed(seedSchema) {
+    var newSprout = {};
 
+    newSprout = stemSeed([seedSchema['label']],seedSchema);
+    return newSprout;
+}
+function stemSeed(trace,seedSchema) {
+    var newStems = {};
+    var newTrace = [];
+
+    newStems['_trace'] = trace.slice(0);
+    newStems['_stems'] = {};
+    newStems['_roots'] = seedSchema['roots'].clone();
+
+    for (var thisStemKey in seedSchema['stems']) {
+        if (seedSchema['stems'].hasOwnProperty(thisStemKey)) {
+            newTrace = trace.slice(0);
+
+            newStems['_stems'][thisStemKey] = {};
+
+            newTrace.push(thisStemKey);
+            newStems['_stems'][thisStemKey]['_trace'] = newTrace.slice(0);
+            newStems['_stems'][thisStemKey]['_leaves'] = leafBranch(seedSchema['leaves']);
+            newStems['_stems'][thisStemKey]['_branches'] = 
+            branchStem(
+                newTrace,
+                seedSchema['stems'][thisStemKey],
+                seedSchema['stems'],
+                seedSchema['branches'],
+                seedSchema['leaves']
+            );
+        }
+    }
+    return newStems;
+}
+function branchStem(trace,count,stemSchema,branchSchema,leafSchema) {
+    var newBranches = {};
+    var newTrace = [];
+
+    for (var thisBranchKey in branchSchema) {
+        if (branchSchema.hasOwnProperty(thisBranchKey)) {
+            newTrace = trace.slice(0);
+            if (count > 0) {
+                newBranches[thisBranchKey] = {};
+
+                newTrace.push(thisBranchKey);
+                newBranches[thisBranchKey]['_trace'] = newTrace.slice(0);
+                newBranches[thisBranchKey]['_leaves'] = leafBranch(leafSchema);
+                newBranches[thisBranchKey]['_branches'] = branchStem(newTrace,count-1,stemSchema,branchSchema,leafSchema);
+            }
+        }
+    }
+    return newBranches;
+}
+function leafBranch(leafSchema) {
+    return leafSchema.clone();
+}
+
+// initial shot of an arrange function for the paint sprout with a specific arrangement system
+function arrangePaintSprout(sproutSchema) {
+    var thisX = sproutSchema['_roots']['data']['mapCenterX'];
+    var thisY = sproutSchema['_roots']['data']['mapCenterY'];
+    var thisWidth = sproutSchema['_roots']['data']['mapWidth'];
+    var thisHeight = sproutSchema['_roots']['data']['mapHeight'];
+
+    for (var thisStemKey in sproutSchema['_stems']) {
+        if (sproutSchema['_stems'].hasOwnProperty(thisStemKey)) {
+            switch (thisStemKey) {
+                case 'left':
+                    sproutSchema['_stems'][thisStemKey]['_leaves']['data']['shapeType'] = 0;
+                    break;
+                case 'right':
+                    sproutSchema['_stems'][thisStemKey]['_leaves']['data']['shapeType'] = 1;
+                    break;
+            }
+            sproutSchema['_stems'][thisStemKey]['_leaves']['data']['x'] = thisX;
+            sproutSchema['_stems'][thisStemKey]['_leaves']['data']['y'] = thisY;
+            sproutSchema['_stems'][thisStemKey]['_leaves']['data']['width'] = thisWidth;
+            sproutSchema['_stems'][thisStemKey]['_leaves']['data']['height'] = thisHeight;
+
+            arrangeSprout(sproutSchema['_stems'][thisStemKey],
+                thisX,thisY,thisWidth,thisHeight
+            );
+        }
+    }
+}
+function arrangeSprout(sproutSchema,lastX,lastY,lastWidth,lastHeight) {
+    var newTrace = [];
+    for (var thisBranchKey in sproutSchema['_branches']) {
+        if (sproutSchema['_branches'].hasOwnProperty(thisBranchKey)) {
+            var newX = 0;
+            var newY = 0;
+            var newWidth = 0;
+            var newHeight = 0;
+            switch (trace[1]) {
+                case 'left':
+                    switch (thisBranchKey) {
+                        case 'top':
+                            break;
+                        case 'topMiddle':
+                            break;
+                        case 'bottomMiddle':
+                            break;
+                        case 'bottom':
+                            break;
+                    }
+                    break;
+                case 'right':
+                    switch (thisBranchKey) {
+                        case 'bottom':
+                            break;
+                        case 'bottomMiddle':
+                            break;
+                        case 'top':
+                            break;
+                        case 'topMiddle':
+                            break;
+                    }
+                    break;
+            }
+            
+            sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['x'] = newX;
+            sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['y'] = newY;
+            sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['width'] = newWidth;
+            sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['height'] = newHeight;
+
+            if (sproutSchema['_branches'][thisBranchKey]['_trace'].length < 6) {
+                arrangeSprout(
+                    sproutSchema['_branches'][thisBranchKey],
+                    lastX,lastY,lastWidth,lastHeight
+                );
+            }
+        }
+    }
+}
+
+// initial shot of an arrange function for the paint sprout with a specific arrangement system
+function paintPaintSprout(sproutSchema) {
+    for (var thisStemKey in sproutSchema['_stems']) {
+        if (sproutSchema['_stems'].hasOwnProperty(thisStemKey)) {
+            console.log(sproutSchema['_stems'][thisStemKey]['_trace']);
+
+            // start painting
+            var thisX = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['x'];
+            var thisY = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['y'];
+            var thisWidth = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['width'];
+            var thisHeight = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['height'];
+
+            switch (sproutSchema['_stems'][thisStemKey]['_leaves']['data']['shapeType']) {
+                case 0:
+                    gP.fill(255,255,255);
+                    gP.arc(thisX,thisY,thisWidth,thisHeight,0,gP.PI);
+                    break;
+                case 1:
+                    gP.fill(0,255,255);
+                    gP.arc(thisX,thisY,thisWidth,thisHeight,gP.PI,2*gP.PI);
+                    break;
+            }
+            // stop painting
+
+            paintSprout(sproutSchema['_stems'][thisStemKey]);
+        }
+    }
+}
+function paintSprout(sproutSchema) {
+    for (var thisBranchKey in sproutSchema['_branches']) {
+        if (sproutSchema['_branches'].hasOwnProperty(thisBranchKey)) {
+            console.log(sproutSchema['_branches'][thisBranchKey]['_trace']);
+
+            // start painting
+            with ($('#globalCanvas')) {
+                switch (sproutSchema['_branches'][thisBranchKey]['_leaves']['shapeType']) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                }
+            }
+            // stop painting
+
+            if (sproutSchema['_branches'][thisBranchKey]['_trace'].length < 6) {
+                paintSprout(sproutSchema['_branches'][thisBranchKey]);
+            }
+        }
+    }
+}
+
+/*
 function sproutSeed(oldSeed) {
     var newSprouts = {};
     for (var thisPrimarySproutKey in oldSeed['sprouts']) {
         if (oldSeed['sprouts'].hasOwnProperty(thisPrimarySproutKey)) {
-            console.log(thisPrimarySproutKey);
+            //console.log(thisPrimarySproutKey);
             newSprouts[thisPrimarySproutKey] = {};
             for (var thisSecondarySproutKey in oldSeed['sprouts'][thisPrimarySproutKey]) {
                 if (oldSeed['sprouts'][thisPrimarySproutKey].hasOwnProperty(thisSecondarySproutKey)) {
-                    console.log(thisSecondarySproutKey);
+                    //console.log(thisSecondarySproutKey);
                     newSprouts[thisPrimarySproutKey][thisSecondarySproutKey] = 
                     branchSprout(
                         oldSeed['sprouts'][thisPrimarySproutKey][thisSecondarySproutKey],
@@ -255,7 +442,7 @@ function branchSprout(level,branchSchema,leafSchema) {
     var newBranches = {};
     for (var thisBranchKey in branchSchema) {
         if (branchSchema.hasOwnProperty(thisBranchKey)) {
-            console.log(thisBranchKey);
+            //console.log(thisBranchKey);
             if (level > 0) {
                 newBranches[thisBranchKey] = branchSprout(level-1,branchSchema,leafSchema);
                 newBranches[thisBranchKey]['_leaves'] = leafBranch(leafSchema);
@@ -268,6 +455,7 @@ function branchSprout(level,branchSchema,leafSchema) {
 function leafBranch(leafSchema) {
     return leafSchema.clone();
 }
+*/
 
 /*
 function branchBranch(oldBranch) {
@@ -281,6 +469,7 @@ function leafBranch(oldBranch) {
 }
 */
 
+/*
 // input: seed
 // output: sprout
 function seedSprout() {
@@ -402,6 +591,7 @@ function recursiveBranchSprouter(newBranches,newProperties,thisStartTrace,ignore
         }
     }
 }
+*/
 
 function treeRecursionFunctionApplier(treePointer,treeFunction,thisStartTrace,ignoredBranches,startDepth,endDepth) {
     var thisStartBranch;
