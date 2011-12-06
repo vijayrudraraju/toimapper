@@ -68,7 +68,10 @@ $(document).ready(function() {
                             x:0,
                             y:0,
                             width:0,
-                            height:0
+                            height:0,
+                            r:0,
+                            g:0,
+                            b:0
                         },
                         func:{
                             arrange: function(thisX,thisY,thisWidth,thisHeight) {
@@ -79,10 +82,10 @@ $(document).ready(function() {
                         }
                     },
                     branches:{
-                        topMiddle:1,
-                        top:1,
-                        bottomMiddle:1,
-                        bottom:1
+                        one:1,
+                        two:1,
+                        three:1,
+                        four:1,
                     },
                     stems:{
                         left:3,
@@ -94,8 +97,9 @@ $(document).ready(function() {
                             mapHeight:640,
                             mapCenterX:320,
                             mapCenterY:320,
-                            rootNodeWidth:50,
-                            rootNodeHeight:50
+                            mapR:255,
+                            mapG:255,
+                            mapB:255,
                         }
                     }
                 };

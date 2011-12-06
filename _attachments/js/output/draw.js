@@ -1,11 +1,13 @@
 function drawLogo() {
     with ($('#globalCanvas')) {
+    /*
         gP.fill(102,85,119);
         gP.textFont(data('font'),24);
-        gP.text('toimawb',data('canvasWidth')-120,74);
+        gP.text('toimawb',data('canvasWidth')-115,24);
+        */
 
-        var x = data('canvasWidth')-50;
-        var y = 120;
+        var x = data('canvasWidth')-45;
+        var y = 60;
 
         var width = 70;
         var smallWidth = 13;
