@@ -4,9 +4,9 @@ var gP;
 $(document).ready(function() {
         $(document).evently({
             _init: function() {
-                $('#viewTab').toggle(false);
-                $('#editTab').toggle(false);
-                $('#filterTab').toggle(false);
+                $('#feedback1').text('hello1');
+                $('#feedback2').text('hello2');
+                $('#feedback3').text('hello3');
             },
             keypress: function(e) {
                 //e.preventDefault();
@@ -23,7 +23,7 @@ $(document).ready(function() {
                     //e.preventDefault();
                 } else if(e.which=='13') {
                     e.preventDefault();
-                    $('#globalCanvas').trigger("enter");
+                    $('#canvas').trigger("enter");
                 }
                 console.log('keyup: '+e.which);
             }
@@ -65,6 +65,7 @@ $(document).ready(function() {
                     leaves:{
                         data:{
                             shapeType:0,
+                            value:0,
                             x:0,
                             y:0,
                             width:0,
@@ -88,8 +89,8 @@ $(document).ready(function() {
                         four:1,
                     },
                     stems:{
-                        left:3,
-                        right:3
+                        one:3,
+                        two:3
                     },
                     roots:{
                         data:{
@@ -149,62 +150,28 @@ $(document).ready(function() {
             }
         });
 
-        $('#globalCanvas').evently({
+        $('#canvas').evently({
             _init: function() {
                 $(this).data('canvasWidth',640);
                 $(this).data('canvasHeight',640);
-                $(this).data('graphWidth',560);
-                $(this).data('graphHeight',560);
-                $(this).data('graphCenterX',320);
-                $(this).data('graphCenterY',320);
-
-                //initializeNodeStructures();
-                //initializeLayoutStructures();
-                //initializeViewStructures();
             
-                gP = new Processing($('#globalCanvas')[0],gPFunc);
+                gP = new Processing($('#canvas')[0],gPFunc);
                 $(this).trigger('redraw');
                 gP.noLoop();
             },
             setup: function() {
-                //layoutButtons(); 
-                //layoutNodes();
-                //layoutSmallNodes();
-                //layoutSmallerNodes();
             },
             draw: function() {
+                gP.textSize(24);
+                gP.background(0*16+11,0*16+9,0*16+11);
                 drawLogo();
                 paintPaintSprout($('#canvas').data('toimawbBag')['sprouts']['paintSprout']);
-
-                //var trace = $("#globalCanvas").data('views')['root']['left']['trace'];
-                //drawNodes('left',trace);
-                //trace = $("#globalCanvas").data('views')['root']['right']['trace'];
-                //drawNodes('right',trace);
-
-                //drawAscendButton();
-                //drawDescendButton();
-                //drawSignalButton();
-
-                //drawAboutButton();
-                //drawHelpButton();
             },
             mousemoved: function() {
-                //updateNodeMouseStates();
-
-                //updateAboutButtonMouseState();
-                //updateHelpButtonMouseState();
-
-                //updateAscendButtonMouseState();
-                //updateDescendButtonMouseState();
             },
-            mouseclicked: function() {
-                detectNodesClick();
-
-                detectAboutButtonClick();
-                detectHelpButtonClick();
-
-                detectAscendButtonClick();
-                detectDescendButtonClick();
+            mouseclicked: function(thisEvent,thisX,thisY) {
+                $('#feedback1').text('touchstart: ' + thisX + ' ' + thisY);
+                monitorPaintSprout($('#canvas').data('toimawbBag')['sprouts']['paintSprout'],thisX,thisY);
             },
             updatebackground: function() {
             },
@@ -213,60 +180,12 @@ $(document).ready(function() {
             },
             redraw: function() {
                 gP.redraw();
-                console.log('redraw triggered');
             },
             tab: function() {
             },
             enter: function() {
-                if($('#objectMenu').val()==0) {
-                    $('#createSourceButton').trigger('click');
-                } else if($('#objectMenu').val()==1) {
-                    $('#createSinkButton').trigger('click');
-                }
-            },
-            ascend: function() {
-                var thisView = $(this).data('views')['root'];
-                if (thisView['side'] === 'left' && thisView['left']['level'] > 1) {
-                    thisView['left']['level']--;
-                    thisView['left']['trace'].pop();
-                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
-                } else if (thisView['side'] === 'right' && thisView['right']['level'] > 1) {
-                    thisView['right']['level']--;
-                    thisView['right']['trace'].pop();
-                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
-                }
-
-                $('#globalCanvas').trigger('redraw');
-            },
-            descend: function() {
-                var thisView = $(this).data('views')['root'];
-                if (thisView['side'] === 'left' && thisView['left']['level'] < 3) {
-                    thisView['left']['level']++;
-                    thisView['left']['trace'].push(thisView['left']['position']);
-                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
-                } else if (thisView['side'] === 'right' && thisView['right']['level'] < 3) {
-                    thisView['right']['level']++;
-                    thisView['right']['trace'].push(thisView['right']['position']);
-                    console.log("levels: " + thisView['left']['level'] + ' ' + thisView['right']['level'] + ' ' + thisView['right']['trace']);
-                }
-
-                $('#globalCanvas').trigger('redraw');
             }
         });
-
-        addHelpHandlers();
-        addEditObjectHandlers();
-        $(this).data('currentTab','view');    
-
-        $('#filterForm').toggle(false);
-        $('#addObjectForm').toggle(false);
-
-        $('#viewTab').toggleClass('active',true);
-        $('#viewTab').toggleClass('inactive',false);
-        $('#editTab').toggleClass('active',false);
-        $('#editTab').toggleClass('inactive',true);
-        $('#filterTab').toggleClass('active',false);
-        $('#filterTab').toggleClass('inactive',true);
 
         $(this).trigger('updatebackground');
         $(this).trigger('updategraph');
@@ -274,28 +193,36 @@ $(document).ready(function() {
 });
 function gPFunc(p) {
 	p.mouseMoved = function() {
-        $('#globalCanvas').trigger('mousemoved');
-        $('#globalCanvas').trigger('redraw');
+        //$('#canvas').trigger('mousemoved');
+        //$('#canvas').trigger('redraw');
 	};
 
 	p.mouseClicked = function() {
-        $('#globalCanvas').trigger('mouseclicked');
-        $('#globalCanvas').trigger('updategraph');
-        $('#globalCanvas').trigger('redraw');
+        $('#canvas').trigger('mouseclicked',[gP.mouseX,gP.mouseY]);
+        $('#canvas').trigger('redraw');
 	};
+
+    p.touchStart = function(touchEvent) {
+        $('#canvas').trigger('mouseclicked',[touchEvent.touches[0].offsetX,touchEvent.touches[0].offsetY]);
+        //touchEvent.preventDefault();
+        $('#canvas').trigger('redraw');
+    }
+
+    p.touchEnd = function(touchEvent) {
+        //$('#canvas').trigger('mouseclicked');
+        //$('#canvas').trigger('draw');
+        $('#feedback1').text('touchend: ' + touchEvent.changedTouches.length);
+    }
 
 	p.setup = function() {
 		console.log(p.PFont.list());
-		p.size($('#globalCanvas').data('canvasWidth'),$('#globalCanvas').data('canvasHeight'));
-		$('#globalCanvas').data('font',p.loadFont('sans-serif'));
+		p.size($('#canvas').data('canvasWidth'),$('#canvas').data('canvasHeight'));
+		$('#canvas').data('font',p.loadFont('sans-serif'));
 
-        $('#globalCanvas').trigger('setup');
+        $('#canvas').trigger('setup');
 	};
 
 	p.draw = function() {
-        p.textSize(24);
-        p.background(0*16+11,0*16+9,0*16+11);
-
-        $('#globalCanvas').trigger('draw');
+        $('#canvas').trigger('draw');
 	};
 }

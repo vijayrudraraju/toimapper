@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" class="graphColor">
-<head>
-<title>toimapper</title>
+    <head>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="viewport" content="user-scalable=no,width=640"/>
 
-<link rel="stylesheet" href="css/reset.css" type="text/css">
-<link rel="stylesheet" href="css/main.css" type="text/css">
+        <title>toimapper</title>
 
-<script src="vendor/couchapp/loader.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/reset.css" type="text/css">
+        <link rel="stylesheet" href="css/main.css" type="text/css">
 
-<script src="js/util.js" type="text/javascript"></script>
+        <script src="vendor/couchapp/loader.js" type="text/javascript"></script>
 
-<script src="js/input/hover.js" type="text/javascript"></script>
-<script src="js/input/click.js" type="text/javascript"></script>
+        <script src="js/util.js" type="text/javascript"></script>
 
-<script src="js/output/draw.js" type="text/javascript"></script>
-<script src="js/output/help.js" type="text/javascript"></script>
-<script src="js/output/layout.js" type="text/javascript"></script>
+        <script src="js/input/hover.js" type="text/javascript"></script>
+        <script src="js/input/click.js" type="text/javascript"></script>
 
-<script src="js/structure/map.js" type="text/javascript"></script>
-<script src="js/structure/filter.js" type="text/javascript"></script>
-<script src="js/structure/cluster.js" type="text/javascript"></script>
-<script src="js/structure/data.js" type="text/javascript"></script>
+        <script src="js/output/draw.js" type="text/javascript"></script>
+        <script src="js/output/help.js" type="text/javascript"></script>
+        <script src="js/output/layout.js" type="text/javascript"></script>
 
-<script src="js/time/signal.js" type="text/javascript"></script>
+        <script src="js/structure/map.js" type="text/javascript"></script>
+        <script src="js/structure/filter.js" type="text/javascript"></script>
+        <script src="js/structure/cluster.js" type="text/javascript"></script>
+        <script src="js/structure/data.js" type="text/javascript"></script>
 
-<script src="js/main.js" type="text/javascript"></script>
-</head>
+        <script src="js/time/signal.js" type="text/javascript"></script>
+
+        <script src="js/main.js" type="text/javascript"></script>
+    </head>
 
 <body>
-	<canvas id="globalCanvas"></canvas>
 	<canvas id="canvas"></canvas>
+    <h2 id="feedback1"></h2>
+    <h2 id="feedback2"></h2>
+    <h2 id="feedback3"></h2>
 </body>
 </html>

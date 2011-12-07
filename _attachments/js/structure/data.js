@@ -118,10 +118,10 @@ function arrangePaintSprout(sproutSchema) {
     for (var thisStemKey in sproutSchema['_stems']) {
         if (sproutSchema['_stems'].hasOwnProperty(thisStemKey)) {
             switch (thisStemKey) {
-                case 'left':
+                case 'one':
                     sproutSchema['_stems'][thisStemKey]['_leaves']['data']['shapeType'] = 0;
                     break;
-                case 'right':
+                case 'two':
                     sproutSchema['_stems'][thisStemKey]['_leaves']['data']['shapeType'] = 1;
                     break;
             }
@@ -152,7 +152,7 @@ function arrangeSprout(sproutSchema,lastX,lastY,lastWidth,lastHeight,lastR,lastG
             var newHeight = lastHeight*0.25;
             var newShapeType = 0;
             switch (sproutSchema['_branches'][thisBranchKey]['_trace'][1]) {
-                case 'left':
+                case 'one':
                     newShapeType = 0;
                     switch (thisBranchKey) {
                         case 'one':
@@ -173,7 +173,7 @@ function arrangeSprout(sproutSchema,lastX,lastY,lastWidth,lastHeight,lastR,lastG
                             break;
                     }
                     break;
-                case 'right':
+                case 'two':
                     newShapeType = 1;
                     switch (thisBranchKey) {
                         case 'one':
@@ -219,7 +219,7 @@ function arrangeSprout(sproutSchema,lastX,lastY,lastWidth,lastHeight,lastR,lastG
 function paintPaintSprout(sproutSchema) {
     for (var thisStemKey in sproutSchema['_stems']) {
         if (sproutSchema['_stems'].hasOwnProperty(thisStemKey)) {
-            console.log(sproutSchema['_stems'][thisStemKey]['_trace']);
+            //console.log(sproutSchema['_stems'][thisStemKey]['_trace']);
 
             // start painting
             var thisR = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['r'];
@@ -229,14 +229,18 @@ function paintPaintSprout(sproutSchema) {
             var thisY = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['y'];
             var thisWidth = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['width'];
             var thisHeight = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['height'];
+            var thisValue = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['value'];
 
+            if (thisValue == 0) {
+                gP.fill(thisR,thisG,thisB);
+            } else {
+                gP.fill(thisR,0,0);
+            }
             switch (sproutSchema['_stems'][thisStemKey]['_leaves']['data']['shapeType']) {
                 case 0:
-                    gP.fill(thisR,thisG,thisB);
                     gP.arc(thisX,thisY,thisWidth,thisHeight,gP.PI/2,3*gP.PI/2);
                     break;
                 case 1:
-                    gP.fill(thisR,thisG,thisB);
                     gP.arc(thisX,thisY,thisWidth,thisHeight,-gP.PI/2,gP.PI/2);
                     break;
             }
@@ -249,8 +253,6 @@ function paintPaintSprout(sproutSchema) {
 function paintSprout(sproutSchema) {
     for (var thisBranchKey in sproutSchema['_branches']) {
         if (sproutSchema['_branches'].hasOwnProperty(thisBranchKey)) {
-            console.log(sproutSchema['_branches'][thisBranchKey]['_trace']);
-
             // start painting
             var thisR = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['r'];
             var thisG = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['g'];
@@ -260,75 +262,81 @@ function paintSprout(sproutSchema) {
             var thisWidth = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['width'];
             var thisHeight = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['height'];
 
+            gP.fill(thisR,thisG,thisB);
             switch (sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['shapeType']) {
                 case 0:
-                    gP.fill(thisR,thisG,thisB);
                     gP.arc(thisX,thisY,thisWidth,thisHeight,gP.PI/2,3*gP.PI/2);
                     break;
                 case 1:
-                    gP.fill(thisR,thisG,thisB);
                     gP.arc(thisX,thisY,thisWidth,thisHeight,-gP.PI/2,gP.PI/2);
                     break;
             }
             // stop painting
 
-            if (sproutSchema['_branches'][thisBranchKey]['_trace'].length < 6) {
+            if (sproutSchema['_branches'][thisBranchKey]['_trace'].length < 3) {
                 paintSprout(sproutSchema['_branches'][thisBranchKey]);
             }
         }
     }
 }
 
+function monitorPaintSprout(sproutSchema,lastInputX,lastInputY) {
+    for (var thisStemKey in sproutSchema['_stems']) {
+        if (sproutSchema['_stems'].hasOwnProperty(thisStemKey)) {
+            // start monitoring 
+            var thisX = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['x'];
+            var thisY = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['y'];
+            var thisWidth = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['width'];
+            var thisHeight = sproutSchema['_stems'][thisStemKey]['_leaves']['data']['height'];
+            var thisContinue = false;
 
-
-function treeRecursionFunctionApplier(treePointer,treeFunction,thisStartTrace,ignoredBranches,startDepth,endDepth) {
-    var thisStartBranch;
-    for (var i=0;i<thisStartTrace.length;i++) {
-        if (i == 0) {
-            thisStartBranch = $('#globalCanvas').data(thisStartTrace[i]);
-        } else {
-            thisStartBranch = thisStartBranch[thisStartTrace[i]];
-        }
-    }
-    console.log("thisStartTrace:"+thisStartTrace);
-
-    var thisPointer;
-    o: for (var thisSubBranch in thisStartBranch) {
-        // skip ignored branches
-        for (var i=0;i<ignoredBranches.length;i++) {
-            if (thisSubBranch === ignoredBranches[i]) {
-                continue o;
+            switch (sproutSchema['_stems'][thisStemKey]['_leaves']['data']['shapeType']) {
+                case 0:
+                    if (lastInputX < thisX) {
+                        thisContinue = true;
+                        sproutSchema['_stems'][thisStemKey]['_leaves']['data']['value'] = 1;
+                        $('#feedback2').text('left');
+                    } else {
+                        sproutSchema['_stems'][thisStemKey]['_leaves']['data']['value'] = 0;
+                    }
+                    break;
+                case 1:
+                    if (lastInputX > thisX) {
+                        thisContinue = true;
+                        sproutSchema['_stems'][thisStemKey]['_leaves']['data']['value'] = 1;
+                        $('#feedback2').text('right');
+                    } else {
+                        sproutSchema['_stems'][thisStemKey]['_leaves']['data']['value'] = 0;
+                    }
+                    break;
             }
-        }
-        // set pointer
-        thisPointer = thisStartBranch[thisSubBranch]; 
+            // stop monitoring
 
-        // sprout nodes
-        var thisEndTrace = thisStartTrace.slice(0);
-        thisEndTrace.push(thisSubBranch);
-        console.log("thisEndTrace:"+thisEndTrace);
-        sproutBranches(newBranches,newProperties,thisPointer,thisEndTrace,startDepth);
-
-        // continue recursive branching
-        if (startDepth < endDepth) {
-            recursiveBranchSprouter(newBranches,newProperties,thisEndTrace,ignoredBranches,startDepth+1,endDepth);
+            //monitorSprout(sproutSchema['_stems'][thisStemKey],lastInputX,lastInputY);
         }
     }
 }
+function monitorSprout(sproutSchema,lastInputX,lastInputY) {
+    for (var thisBranchKey in sproutSchema['_branches']) {
+        if (sproutSchema['_branches'].hasOwnProperty(thisBranchKey)) {
+            // start monitoring
+            var thisX = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['x'];
+            var thisY = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['y'];
+            var thisWidth = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['width'];
+            var thisHeight = sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['height'];
+            var thisContinue = false;
 
-function flipNodeColor(node) {
-    switch (node['color']) {
-        case 'none':
-            node['color'] = 'red';
-            break;
-        case 'red':
-            node['color'] = 'green';
-            break;
-        case 'green':
-            node['color'] = 'blue';
-            break;
-        case 'blue':
-            node['color'] = 'red';
-            break;
+            switch (sproutSchema['_branches'][thisBranchKey]['_leaves']['data']['shapeType']) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+            }
+            // stop monitoring 
+
+            if (sproutSchema['_branches'][thisBranchKey]['_trace'].length < 6) {
+                monitorSprout(sproutSchema['_branches'][thisBranchKey],lastInputX,lastInputY);
+            }
+        }
     }
 }

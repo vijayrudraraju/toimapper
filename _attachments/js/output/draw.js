@@ -1,11 +1,5 @@
 function drawLogo() {
-    with ($('#globalCanvas')) {
-    /*
-        gP.fill(102,85,119);
-        gP.textFont(data('font'),24);
-        gP.text('toimawb',data('canvasWidth')-115,24);
-        */
-
+    with ($('#canvas')) {
         var x = data('canvasWidth')-45;
         var y = 60;
 
@@ -37,12 +31,6 @@ function drawLogo() {
         gP.arc(x,y,width-20,width-20,0,gP.PI);
         gP.fill(102,85,119);
         gP.arc(x,y,width-20,width-40,0,gP.PI);
-
-        // teeth
-        //gP.stroke(102,85,119);
-        //gP.line(x,y+19,x,y+30);
-        //gP.line(x-8,y+14,x-8,y+21);
-        //gP.line(x+8,y+14,x+8,y+21);
     }
 }
 
