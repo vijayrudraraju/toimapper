@@ -137,3 +137,43 @@ Object.prototype.nodeCount = function() {
     return count;
 };
 */
+
+function calcLevenshteinDistance(firstWord,secondWord) {
+    var matrixWidth = firstWord.length+1;
+    var matrixHeight = secondWord.length+1;
+    var distMatrix = new Array(matrixWidth);
+    for(var j=0;j<matrixWidth;j++) {
+        distMatrix[j] = new Array(matrixHeight);
+    }
+
+    for (var i=0;i<matrixWidth;i++) {
+        distMatrix[i][0] = i;
+    }
+    for (var j=0;j<matrixHeight;j++) {
+        distMatrix[0][j] = j;
+    }
+
+    for (var j=1;j<matrixHeight;j++) {
+        for (var i=1;i<matrixWidth;i++) {
+            var firstWordIndex = i-1;
+            var secondWordIndex = j-1;
+
+            if (firstWord[firstWordIndex] == secondWord[secondWordIndex]) {
+                distMatrix[i][j] = distMatrix[i-1][j-1];
+            } else {
+                // find best operation
+                var minValue = distMatrix[i-1][j]+1; // deletion
+                if (distMatrix[i][j-1]+1 < minValue) {
+                    minValue = distMatrix[i][j-1]+1; // insertion
+                }
+                if (distMatrix[i-1][j-1] < minValue) {
+                    minValue = distMatrix[i-1][j-1]+1; // substitution 
+                }
+
+                distMatrix[i][j] = minValue;
+            }
+        }
+    }
+
+    return distMatrix[matrixWidth-1][matrixHeight-1];
+}

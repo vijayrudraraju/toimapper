@@ -15,17 +15,53 @@ $(document).ready(function() {
                 if(e.which=='9') {
                     //e.preventDefault();
                 } else if(e.which=='13') {
-                    e.preventDefault();
+                    //e.preventDefault();
                 }
             },
             keyup: function(e) {
                 if(e.which=='9') {
                     //e.preventDefault();
                 } else if(e.which=='13') {
-                    e.preventDefault();
-                    $('#canvas').trigger("enter");
+                    //e.preventDefault();
+                    //$('#canvas').trigger("enter");
                 }
-                console.log('keyup: '+e.which);
+            }
+        });
+
+        $('#input').evently({
+            _init: function() {
+                $(this).data('input',[]);
+            },
+            keyup: function(e) {
+                var lines = $(this).val().split('\n');
+                var words = [];
+                for (var i=0;i<lines.length;i++) {
+                    words.push(lines[i].split(/ +/)); 
+                }
+                $(this).data('input').push([$.now(),words]);
+                $('#feedback3').text($(this).val());
+            }
+        });
+        
+        $('#filter').evently({
+            keyup: function(e) {
+                console.log('keyup');
+                var input = $('#input').data('input');
+                var results = [];
+                //console.log(words);
+                for (var i=0;i<input.length;i++) {
+                    //console.log(words[i]);
+                    for (var j=0;j<input[i][1].length;j++) {
+                        for (var k=0;k<input[i][1][j].length;k++) {
+                            if (input[i][1][j][k].search($('#filter').val()) != -1) {
+                                //console.log($('#filter').val());
+                                //console.log(input[i][1][j][k]);
+                                results.push(input[i][1][j][k]);
+                            }
+                        }
+                    }
+                }
+                console.log(results);
             }
         });
 
@@ -39,27 +75,6 @@ $(document).ready(function() {
                 $('#canvas').data('toimawbBag')['symbiotes']['colorFlipperSymbiote'] = {
                 };
                 $('#canvas').data('toimawbBag')['seeds'] = {};
-                $('#canvas').data('toimawbBag')['seeds']['dataSeed'] = {
-                    label:'data',
-                    leaves:{
-                        data:{
-                            signal:'',
-                            color:'red'
-                        },
-                    },
-                    branches:{
-                        center:1,
-                        top:1,
-                        middle:1,
-                        bottom:1
-                    },
-                    stems:{
-                        left:3,
-                        right:3
-                    },
-                    roots:{
-                    }
-                };
                 $('#canvas').data('toimawbBag')['seeds']['paintSeed'] = {
                     label:'paint',
                     leaves:{
@@ -104,54 +119,12 @@ $(document).ready(function() {
                         }
                     }
                 };
-                $('#canvas').data('toimawbBag')['seeds']['soundSeed'] = {
-                    label:'sound',
-                    leaves:{
-                    },
-                    branches:{
-                    },
-                    stems:{
-                    },
-                    roots:{
-                    }
-                };
-                $('#canvas').data('toimawbBag')['seeds']['touchSeed'] = {
-                    label:'touch',
-                    leaves:{
-                        data:{
-                            moused:false
-                        },
-                    },
-                    branches:{
-                        center:1,
-                        top:1,
-                        middle:1,
-                        bottom:1
-                    },
-                    stems:{
-                        left:3,
-                        right:3
-                    },
-                    roots:{
-                    }
-                };
 
                 $('#canvas').data('toimawbBag')['sprouts'] = {};
-                $('#canvas').data('toimawbBag')['sprouts']['dataSprout'] = 
-                sproutSeed($('#canvas').data('toimawbBag')['seeds']['dataSeed']);
                 $('#canvas').data('toimawbBag')['sprouts']['paintSprout'] = 
                 sproutSeed($('#canvas').data('toimawbBag')['seeds']['paintSeed']);
-                $('#canvas').data('toimawbBag')['sprouts']['soundSprout'] = 
-                sproutSeed($('#canvas').data('toimawbBag')['seeds']['soundSeed']);
-                $('#canvas').data('toimawbBag')['sprouts']['touchSprout'] = 
-                sproutSeed($('#canvas').data('toimawbBag')['seeds']['touchSeed']);
-
                 arrangePaintSprout($('#canvas').data('toimawbBag')['sprouts']['paintSprout']);
-            }
-        });
 
-        $('#canvas').evently({
-            _init: function() {
                 $(this).data('canvasWidth',640);
                 $(this).data('canvasHeight',640);
             
@@ -166,8 +139,6 @@ $(document).ready(function() {
                 gP.background(0*16+11,0*16+9,0*16+11);
                 drawLogo();
                 paintPaintSprout($('#canvas').data('toimawbBag')['sprouts']['paintSprout']);
-            },
-            mousemoved: function() {
             },
             mouseclicked: function(thisEvent,thisX,thisY) {
                 $('#feedback1').text('touchstart: ' + thisX + ' ' + thisY);
@@ -187,16 +158,11 @@ $(document).ready(function() {
             }
         });
 
-        $(this).trigger('updatebackground');
-        $(this).trigger('updategraph');
+        //$(this).trigger('updatebackground');
+        //$(this).trigger('updategraph');
         $(this).trigger('redraw');
 });
 function gPFunc(p) {
-	p.mouseMoved = function() {
-        //$('#canvas').trigger('mousemoved');
-        //$('#canvas').trigger('redraw');
-	};
-
 	p.mouseClicked = function() {
         $('#canvas').trigger('mouseclicked',[gP.mouseX,gP.mouseY]);
         $('#canvas').trigger('redraw');
@@ -204,13 +170,11 @@ function gPFunc(p) {
 
     p.touchStart = function(touchEvent) {
         $('#canvas').trigger('mouseclicked',[touchEvent.touches[0].offsetX,touchEvent.touches[0].offsetY]);
-        //touchEvent.preventDefault();
         $('#canvas').trigger('redraw');
+        //touchEvent.preventDefault();
     }
 
     p.touchEnd = function(touchEvent) {
-        //$('#canvas').trigger('mouseclicked');
-        //$('#canvas').trigger('draw');
         $('#feedback1').text('touchend: ' + touchEvent.changedTouches.length);
     }
 
@@ -218,7 +182,6 @@ function gPFunc(p) {
 		console.log(p.PFont.list());
 		p.size($('#canvas').data('canvasWidth'),$('#canvas').data('canvasHeight'));
 		$('#canvas').data('font',p.loadFont('sans-serif'));
-
         $('#canvas').trigger('setup');
 	};
 
